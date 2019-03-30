@@ -1,5 +1,6 @@
 package br.edu.opi.manager.exceptions;
 
+import br.edu.opi.manager.conventions.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.exceptions.security.AuthenticationRuntimeException;
 import org.modelmapper.MappingException;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

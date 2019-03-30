@@ -1,5 +1,6 @@
 package br.edu.opi.manager.security;
 
+import br.edu.opi.manager.exceptions.ErrorCodes;
 import br.edu.opi.manager.exceptions.security.AuthenticationRuntimeException;
 import br.edu.opi.manager.utils.ErrorMessagesConstants;
 import com.google.gson.Gson;
@@ -82,6 +83,7 @@ public class SecurityFilter extends GenericFilterBean {
 			res.setContentType("application/json; charset=utf-8");
 			final JsonObject error = new JsonObject();
 			error.addProperty("message", ErrorMessagesConstants.AUTHENTICATION_GENERIC_ERROR);
+			error.addProperty("errorCode", ErrorCodes.AUTHENTICATION_ERROR);
 			res.getWriter().write(error.toString());
 		}
 

@@ -1,4 +1,7 @@
-package br.edu.opi.manager.exceptions;
+package br.edu.opi.manager.conventions.exceptions;
+
+import br.edu.opi.manager.exceptions.ErrorCodes;
+import br.edu.opi.manager.exceptions.ExceptionWithErrorCode;
 
 public class NotFoundRuntimeException extends RuntimeException implements ExceptionWithErrorCode {
 
