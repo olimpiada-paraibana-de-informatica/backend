@@ -3,7 +3,7 @@ package br.edu.opi.manager.conventions.services;
 import br.edu.opi.manager.conventions.exceptions.CreateConflictRuntimeException;
 import br.edu.opi.manager.conventions.exceptions.DeleteConflictRuntimeException;
 import br.edu.opi.manager.conventions.exceptions.NotFoundRuntimeException;
-import br.edu.opi.manager.conventions.exceptions.UpdataConflictRuntimeException;
+import br.edu.opi.manager.conventions.exceptions.UpdateConflictRuntimeException;
 import br.edu.opi.manager.conventions.models.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
@@ -24,7 +24,7 @@ import java.util.List;
  * @param <REPOSITORY> type of repository layer that is the focus of the target
  *                     service.
  */
-public abstract class Service<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
+public abstract class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
 
 	protected static final int DEFAULT_PAGE = 0;
 	protected static final int DEFAULT_SIZE = 10;
@@ -118,7 +118,7 @@ public abstract class Service<ID, MODEL extends Model<ID>, REPOSITORY extends Jp
 			model.setId(id);
 			return repository.save(model);
 		} catch (Exception e) {
-			throw new UpdataConflictRuntimeException(e.getMessage());
+			throw new UpdateConflictRuntimeException(e.getMessage());
 		}
 	}
 

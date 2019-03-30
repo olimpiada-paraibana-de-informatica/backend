@@ -1,7 +1,6 @@
-package br.edu.opi.manager.user;
+package br.edu.opi.manager.conventions.models;
 
-import br.edu.opi.manager.conventions.models.Model;
-import br.edu.opi.manager.history.Auditing;
+import br.edu.opi.manager.history.model.Auditing;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;

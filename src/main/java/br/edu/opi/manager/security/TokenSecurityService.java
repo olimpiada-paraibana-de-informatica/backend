@@ -15,7 +15,7 @@ import java.util.Base64;
 import java.util.Date;
 
 /**
- * Service for Token Authentication.
+ * GenericService for Token Authentication.
  */
 @Service
 public class TokenSecurityService {

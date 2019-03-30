@@ -1,4 +1,4 @@
-package br.edu.opi.manager.user;
+package br.edu.opi.manager.user.model;
 
 import br.edu.opi.manager.exceptions.security.PasswordNotHashRuntimeException;
 import br.edu.opi.manager.utils.BeanUtil;
@@ -9,7 +9,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 /**
- * Listener to Simple User.
+ * Listener to Simple UserModel.
  */
 public class UserListener {
 
@@ -17,7 +17,7 @@ public class UserListener {
 	CryptoUtil cryptoUtil;
 
 	@PrePersist
-	public void methodExecuteBeforeCreate(final User user) {
+	public void methodExecuteBeforeCreate(final UserModel user) {
 		BeanUtil.autowire(this, this.cryptoUtil);
 		if (this.cryptoUtil.isNotHashPassword(user.getPassword())) {
 			user.setPassword(cryptoUtil.hashPassword(user.getPassword()));
@@ -27,7 +27,7 @@ public class UserListener {
 	}
 
 	@PreUpdate
-	public void methodExecuteBeforeUpdate(final User user) {
+	public void methodExecuteBeforeUpdate(final UserModel user) {
 		BeanUtil.autowire(this, this.cryptoUtil);
 		if (this.cryptoUtil.isNotHashPassword(user.getPassword())) {
 			user.setPassword(cryptoUtil.hashPassword(user.getPassword()));

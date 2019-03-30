@@ -1,7 +1,10 @@
-package br.edu.opi.manager.user;
+package br.edu.opi.manager.user.model;
 
 import br.edu.opi.manager.conventions.models.Model;
-import br.edu.opi.manager.history.Auditing;
+import br.edu.opi.manager.conventions.models.Privilege;
+import br.edu.opi.manager.conventions.models.Profile;
+import br.edu.opi.manager.conventions.models.User;
+import br.edu.opi.manager.history.model.Auditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import springfox.documentation.annotations.ApiIgnore;
@@ -16,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Simple User.
+ * Simple UserModel.
  */
 // @formatter:off
 @ApiIgnore
@@ -24,7 +27,7 @@ import java.util.Set;
 @Table(name = "tb_user")
 @EntityListeners({UserListener.class})
 //@formatter:on
-public class User extends Auditing implements Serializable, Model<Long> {
+public class UserModel extends Auditing implements Serializable, User, Model<Long> {
 
 	private static final long serialVersionUID = 2967515815580857179L;
 
@@ -71,10 +74,10 @@ public class User extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "need_change_password", nullable = false)
 	private boolean needChangePassword = true;
 
-	protected User() {
+	protected UserModel() {
 	}
 
-	public User(String username, String password, String firstName, String lastName, String cpf, Profile profile) {
+	public UserModel(String username, String password, String firstName, String lastName, String cpf, Profile profile) {
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -83,13 +86,13 @@ public class User extends Auditing implements Serializable, Model<Long> {
 		this.profile = profile;
 	}
 
-	protected User(Long id, Profile profile) {
+	protected UserModel(Long id, Profile profile) {
 		this();
 		this.id = id;
 		this.profile = profile;
 	}
 
-	protected User(Profile profile) {
+	protected UserModel(Profile profile) {
 		this();
 		this.profile = profile;
 	}
@@ -204,7 +207,7 @@ public class User extends Auditing implements Serializable, Model<Long> {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		User user = (User) o;
+		UserModel user = (UserModel) o;
 		return Objects.equals(username, user.username);
 	}
 

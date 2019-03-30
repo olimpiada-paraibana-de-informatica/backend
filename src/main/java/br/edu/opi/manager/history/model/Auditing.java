@@ -1,4 +1,4 @@
-package br.edu.opi.manager.history;
+package br.edu.opi.manager.history.model;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;

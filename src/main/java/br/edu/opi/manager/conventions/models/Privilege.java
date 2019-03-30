@@ -1,4 +1,4 @@
-package br.edu.opi.manager.user;
+package br.edu.opi.manager.conventions.models;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * - U_ to Update feature;<br>
  * - D_ to Delete feature.<br>
  * <p>
- * For the component User, use US sufix.
+ * For the component UserModel, use US sufix.
  */
 @ApiIgnore
 public enum Privilege implements Serializable {
@@ -30,7 +30,7 @@ public enum Privilege implements Serializable {
 
 	private static final long serialVersionUID = 8974689912995859383L;
 
-	// User
+	// UserModel
 	public static final String CREATE_USER = PrivilegeUtils.C_US;
 	public static final String INDEX_USER = PrivilegeUtils.I_US;
 	public static final String SHOW_USER = PrivilegeUtils.S_US;
@@ -73,7 +73,7 @@ class PrivilegeUtils {
 
 	static final String US = "Usuário";
 
-	// User
+	// UserModel
 	static final String C_US = "C_US";
 	static final String I_US = "I_US";
 	static final String S_US = "S_US";
