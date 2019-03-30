@@ -2,7 +2,7 @@ package br.edu.opi.manager.user.service;
 
 import br.edu.opi.manager.conventions.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.conventions.exceptions.UpdateConflictRuntimeException;
-import br.edu.opi.manager.conventions.models.Profile;
+import br.edu.opi.manager.conventions.models.user.Profile;
 import br.edu.opi.manager.conventions.services.GenericService;
 import br.edu.opi.manager.exceptions.security.SamePasswordRuntimeException;
 import br.edu.opi.manager.security.Payload;

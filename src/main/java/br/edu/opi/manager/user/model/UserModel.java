@@ -1,9 +1,9 @@
 package br.edu.opi.manager.user.model;
 
 import br.edu.opi.manager.conventions.models.Model;
-import br.edu.opi.manager.conventions.models.Privilege;
-import br.edu.opi.manager.conventions.models.Profile;
-import br.edu.opi.manager.conventions.models.User;
+import br.edu.opi.manager.conventions.models.user.Privilege;
+import br.edu.opi.manager.conventions.models.user.Profile;
+import br.edu.opi.manager.conventions.models.user.User;
 import br.edu.opi.manager.history.model.Auditing;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

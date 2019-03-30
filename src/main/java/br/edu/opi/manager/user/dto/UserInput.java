@@ -1,6 +1,6 @@
 package br.edu.opi.manager.user.dto;
 
-import br.edu.opi.manager.conventions.models.ValidPassword;
+import br.edu.opi.manager.conventions.models.user.ValidPassword;
 import br.edu.opi.manager.utils.ErrorMessagesConstants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
