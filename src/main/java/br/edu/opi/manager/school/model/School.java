@@ -1,13 +1,12 @@
 package br.edu.opi.manager.school.model;
 
-import br.edu.opi.manager.conventions.models.Model;
 import br.edu.opi.manager.delegate.model.Delegate;
-import br.edu.opi.manager.history.model.Auditing;
+import br.edu.opi.manager.project_patterns.models.Model;
+import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "school")
@@ -39,10 +38,16 @@ public class School extends Auditing implements Serializable, Model<Long>{
 	private String phone;
 
 	@Column(name = "enabled", nullable = false)
-	private boolean enabled = true;
+	private boolean enabled = false;
 
 	public School(){
+	}
 
+	public School(String name, Delegate delegate, @CNPJ String cnpj, String phone) {
+		this.name = name;
+		this.delegate = delegate;
+		this.cnpj = cnpj;
+		this.phone = phone;
 	}
 
 	@Override

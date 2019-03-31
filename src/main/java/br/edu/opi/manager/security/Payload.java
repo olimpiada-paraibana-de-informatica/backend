@@ -1,6 +1,6 @@
 package br.edu.opi.manager.security;
 
-import br.edu.opi.manager.conventions.models.user.Privilege;
+import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

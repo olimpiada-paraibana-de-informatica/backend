@@ -1,6 +1,6 @@
 package br.edu.opi.manager.delegate.dto;
 
-import br.edu.opi.manager.conventions.models.user.ValidPassword;
+import br.edu.opi.manager.project_patterns.models.user.ValidPassword;
 import br.edu.opi.manager.utils.ErrorMessagesConstants;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,11 +9,10 @@ import org.hibernate.validator.constraints.br.CPF;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-@ApiModel(value = "UserInput")
+@ApiModel(value = "delegateInput")
 public class DelegateInput {
 
-	@ApiModelProperty(example = "Jose", required = true)
-	@NotEmpty
+	@ApiModelProperty(example = "Jose")
 	private String name;
 
 	@ApiModelProperty(example = "user@user.com", required = true)
@@ -21,19 +20,19 @@ public class DelegateInput {
 	@Email(message = ErrorMessagesConstants.EMAIL_INVALID)
 	private String username;
 
-	@ApiModelProperty(example = "P@ssw0rd", required = true)
+	@ApiModelProperty(example = "P@ssw0rd")
 	@NotEmpty
 	@ValidPassword(message = ErrorMessagesConstants.PASSWORD_INVALID)
 	private String password;
 
 	@CPF(message = ErrorMessagesConstants.CPF_INVALID)
-	@ApiModelProperty(example = "950.213.940-29", required = true)
+	@ApiModelProperty(example = "950.213.940-29")
 	private String cpf;
 
 	@ApiModelProperty(example = "83-88888888")
 	private String phone;
 
-	@ApiModelProperty(example = "1", required = true)
+	@ApiModelProperty(example = "1")
 	private Long profileId;
 
 	public String getName() {
@@ -83,4 +82,5 @@ public class DelegateInput {
 	public void setProfileId(Long profileId) {
 		this.profileId = profileId;
 	}
+
 }

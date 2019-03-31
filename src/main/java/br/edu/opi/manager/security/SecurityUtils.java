@@ -4,6 +4,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,17 @@ public class SecurityUtils {
 		}
 
 		return headers;
+	}
+
+	public static String generateFriendlyPassword() {
+		int DEFAULT_LENGTH_PASSWORD = 8;
+		char[] ch = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
+		char[] c = new char[DEFAULT_LENGTH_PASSWORD];
+		SecureRandom random = new SecureRandom();
+		for (int i = 0; i < DEFAULT_LENGTH_PASSWORD; i++) {
+			c[i] = ch[random.nextInt(ch.length)];
+		}
+		return new String(c);
 	}
 
 }

@@ -1,21 +1,20 @@
 package br.edu.opi.manager.user.service;
 
-import br.edu.opi.manager.conventions.exceptions.NotFoundRuntimeException;
-import br.edu.opi.manager.conventions.exceptions.UpdateConflictRuntimeException;
-import br.edu.opi.manager.conventions.models.user.Profile;
-import br.edu.opi.manager.conventions.services.GenericService;
-import br.edu.opi.manager.exceptions.security.SamePasswordRuntimeException;
+import br.edu.opi.manager.user.model.UserFactory;
+import br.edu.opi.manager.user.repository.UserRepository;
+import br.edu.opi.manager.project_patterns.exceptions.NotFoundRuntimeException;
+import br.edu.opi.manager.project_patterns.exceptions.UpdateConflictRuntimeException;
+import br.edu.opi.manager.project_patterns.models.user.Profile;
+import br.edu.opi.manager.project_patterns.services.GenericService;
+import br.edu.opi.manager.security.exception.SamePasswordRuntimeException;
 import br.edu.opi.manager.security.Payload;
 import br.edu.opi.manager.security.SecurityFilter;
 import br.edu.opi.manager.security.TokenSecurityService;
-import br.edu.opi.manager.user.model.UserFactory;
 import br.edu.opi.manager.user.model.UserModel;
-import br.edu.opi.manager.user.repository.UserRepository;
 import br.edu.opi.manager.utils.CryptoUtil;
 import br.edu.opi.manager.utils.ErrorMessagesConstants;
 import br.edu.opi.manager.utils.RestConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

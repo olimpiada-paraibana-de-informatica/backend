@@ -1,12 +1,12 @@
 package br.edu.opi.manager.security;
 
-import br.edu.opi.manager.utils.JsonUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -28,11 +28,10 @@ public class TokenSecurityService {
 	private static final String TOKEN_PREFIX = "Bearer";
 	public static final String HEADER = "Authorization";
 
-	private JsonUtil jSonUtil;
+	private Gson gson;
 
-	@Autowired
-	public TokenSecurityService(JsonUtil jSonUtil) {
-		this.jSonUtil = jSonUtil;
+	public TokenSecurityService() {
+		gson = new GsonBuilder().create();
 	}
 
 	/**
@@ -45,21 +44,19 @@ public class TokenSecurityService {
 		String token = request.getHeader(HEADER);
 		if (token != null) {
 			token = token.replace(TOKEN_PREFIX, "").trim();
-			// @formatter:off
 			Claims claims = Jwts
 					.parser()
 					.setSigningKey(SECRET_KEY)
 					.parseClaimsJws(token)
 					.getBody();
 			String user = claims.getSubject();
-			Payload userDetails = jSonUtil.fromJSon(user, Payload.class);
+			Payload userDetails = gson.fromJson(user, Payload.class);
 			LOGGER.info("trying connect user " + userDetails.getUsername());
 			LOGGER.info("user connected " + userDetails.getUsername());
 			return new UsernamePasswordAuthenticationToken(
 					userDetails.getUsername(),
 					null,
 					userDetails.getAuthorities());
-			// @formatter:on
 		} else {
 			return null;
 		}
@@ -72,14 +69,12 @@ public class TokenSecurityService {
 	 * @return token
 	 */
 	public final String generateToken(final Payload payload) {
-		// @formatter:off
 		return Jwts
 				.builder()
-				.setSubject(jSonUtil.toJSon(payload))
+				.setSubject(gson.toJson(payload))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
 				.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
 				.compact();
-		// @formatter:on
 	}
 
 }

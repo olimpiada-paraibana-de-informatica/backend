@@ -1,8 +1,7 @@
 package br.edu.opi.manager.user.dto;
 
-import br.edu.opi.manager.conventions.dto.user.ProfileUserOutput;
-import br.edu.opi.manager.history.dto.AuditingOutput;
-import br.edu.opi.manager.*;
+import br.edu.opi.manager.project_patterns.dto.history.AuditingOutput;
+import br.edu.opi.manager.project_patterns.dto.user.ProfileUserOutput;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Email;

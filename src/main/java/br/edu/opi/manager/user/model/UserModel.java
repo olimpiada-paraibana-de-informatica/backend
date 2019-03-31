@@ -1,10 +1,10 @@
 package br.edu.opi.manager.user.model;
 
-import br.edu.opi.manager.conventions.models.Model;
-import br.edu.opi.manager.conventions.models.user.Privilege;
-import br.edu.opi.manager.conventions.models.user.Profile;
-import br.edu.opi.manager.conventions.models.user.User;
-import br.edu.opi.manager.history.model.Auditing;
+import br.edu.opi.manager.project_patterns.models.history.Auditing;
+import br.edu.opi.manager.project_patterns.models.user.Privilege;
+import br.edu.opi.manager.project_patterns.models.user.Profile;
+import br.edu.opi.manager.project_patterns.models.user.User;
+import br.edu.opi.manager.project_patterns.models.Model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import springfox.documentation.annotations.ApiIgnore;
@@ -26,6 +26,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_user")
 @EntityListeners({UserListener.class})
+@Inheritance(strategy = InheritanceType.JOINED)
 //@formatter:on
 public class UserModel extends Auditing implements Serializable, User, Model<Long> {
 
@@ -49,14 +50,14 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "first_name")
 	private String firstName;
 
 	@Column(name = "last_name")
 	private String lastName;
 
 	@OneToOne
-	@JoinColumn(name = "profile_id", foreignKey = @ForeignKey(name = FK_PROFILE_USER))
+	@JoinColumn(name = "profile_id", nullable = false, foreignKey = @ForeignKey(name = FK_PROFILE_USER))
 	private Profile profile;
 
 	@Column(name = "locked", nullable = false)
@@ -95,6 +96,11 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 	protected UserModel(Profile profile) {
 		this();
 		this.profile = profile;
+	}
+
+	public UserModel(Long id) {
+		this();
+		this.id = id;
 	}
 
 	@Override

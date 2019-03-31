@@ -1,6 +1,6 @@
 package br.edu.opi.manager.user.model;
 
-import br.edu.opi.manager.exceptions.security.PasswordNotHashRuntimeException;
+import br.edu.opi.manager.security.exception.PasswordNotHashRuntimeException;
 import br.edu.opi.manager.utils.BeanUtil;
 import br.edu.opi.manager.utils.CryptoUtil;
 import org.springframework.beans.factory.annotation.Autowired;

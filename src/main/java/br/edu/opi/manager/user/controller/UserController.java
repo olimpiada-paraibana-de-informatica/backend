@@ -1,18 +1,18 @@
 package br.edu.opi.manager.user.controller;
 
-import br.edu.opi.manager.conventions.dto.AppControllerBase;
-import br.edu.opi.manager.conventions.models.user.Privilege;
-import br.edu.opi.manager.security.AccountCredentials;
+import br.edu.opi.manager.project_patterns.dto.AppControllerBase;
 import br.edu.opi.manager.security.SecurityUtils;
-import br.edu.opi.manager.security.TokenSecurityService;
 import br.edu.opi.manager.security.dto.PasswordInput;
 import br.edu.opi.manager.user.dto.UserIO;
 import br.edu.opi.manager.user.dto.UserInput;
 import br.edu.opi.manager.user.dto.UserOutput;
 import br.edu.opi.manager.user.dto.UserProfileInput;
-import br.edu.opi.manager.user.model.UserModel;
 import br.edu.opi.manager.user.service.UserService;
 import br.edu.opi.manager.utils.RestConstants;
+import br.edu.opi.manager.project_patterns.models.user.Privilege;
+import br.edu.opi.manager.security.dto.AccountCredentials;
+import br.edu.opi.manager.security.TokenSecurityService;
+import br.edu.opi.manager.user.model.UserModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.TypeToken;
@@ -39,6 +39,7 @@ import java.util.List;
 @Api(tags = "Users")
 @CrossOrigin
 public class UserController {
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class.getSimpleName());
 
 	private UserService userService;
@@ -48,7 +49,10 @@ public class UserController {
 	private UserIO userIO;
 
 	@Autowired
-	public UserController(UserService userService, AppControllerBase appControllerBase, UserIO userIO) {
+	public UserController(
+			UserService userService,
+			AppControllerBase appControllerBase,
+			UserIO userIO) {
 		this.userService = userService;
 		this.appControllerBase = appControllerBase;
 		this.userIO = userIO;

@@ -1,11 +1,12 @@
 package br.edu.opi.manager.config;
 
-import br.edu.opi.manager.conventions.models.user.Privilege;
-import br.edu.opi.manager.conventions.models.user.Profile;
-import br.edu.opi.manager.conventions.models.user.ProfileRepository;
+import br.edu.opi.manager.project_patterns.models.user.ProfileFactory;
 import br.edu.opi.manager.user.model.UserFactory;
-import br.edu.opi.manager.user.model.UserModel;
 import br.edu.opi.manager.user.repository.UserRepository;
+import br.edu.opi.manager.project_patterns.models.user.Privilege;
+import br.edu.opi.manager.project_patterns.models.user.Profile;
+import br.edu.opi.manager.project_patterns.repository.ProfileRepository;
+import br.edu.opi.manager.user.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -48,6 +49,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			}
 		});
 
+		// Profile Delegate
+		createProfileIfNotFound(ProfileFactory.delegateUser());
+
 		// Profile Test
 		final Profile profile_teste = createProfileIfNotFound("Usuário Padrão", new HashSet<Privilege>() {
 			private static final long serialVersionUID = -4532748588777883116L;
@@ -57,8 +61,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 				add(Privilege.S_US);
 				add(Privilege.I_US);
 				add(Privilege.U_US);
-				add(Privilege.D_US);
-				add(Privilege.R_US);
 			}
 		});
 
@@ -71,7 +73,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		// User Test
 		UserModel userTest = UserFactory.createUserObject("test@email.com", "P@ssw0rd", "Test", "Geral",
 				"986.863.610-80", profile_teste);
-		userTest.setNeedChangePassword(false);
+		userTest.setNeedChangePassword(true);
 		userTest = createUserIfNotFound(userTest);
 
 	}
@@ -83,6 +85,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			profile = profileRepository.save(profile);
 		}
 		return profile;
+	}
+
+	private Profile createProfileIfNotFound(Profile profile) {
+		return createProfileIfNotFound(profile.getName(), profile.getPrivileges());
 	}
 
 	private UserModel createUserIfNotFound(final UserModel userModel) {
