@@ -26,6 +26,7 @@ import java.util.List;
  */
 public class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
 
+
 	protected static final int DEFAULT_PAGE = 0;
 	protected static final int DEFAULT_SIZE = 10;
 	protected static final Sort DEFAULT_SORT = Sort.by(Order.desc("createdAt"));
@@ -74,11 +75,11 @@ public class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaR
 		this.deleteTransaction(id);
 	}
 
-	public abstract void validateBeforeCreate(MODEL model);
+	public void validateBeforeCreate(MODEL model){}
 
-	public abstract void validateBeforeUpdate(MODEL model);
+	public void validateBeforeUpdate(MODEL model){}
 
-	public abstract void validateBeforeDelete(ID id);
+	public void validateBeforeDelete(ID id){}
 
 	// @formatter:off
 	/*

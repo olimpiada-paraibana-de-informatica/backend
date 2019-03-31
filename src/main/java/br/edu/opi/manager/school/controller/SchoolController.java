@@ -1,7 +1,7 @@
 package br.edu.opi.manager.school.controller;
 
 import br.edu.opi.manager.conventions.dto.AppControllerBase;
-import br.edu.opi.manager.conventions.models.Privilege;
+import br.edu.opi.manager.conventions.models.user.Privilege;
 import br.edu.opi.manager.delegate.dto.DelegateInput;
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.delegate.service.DelegateService;

@@ -13,15 +13,6 @@ import br.edu.opi.manager.user.dto.UserProfileInput;
 import br.edu.opi.manager.user.model.UserModel;
 import br.edu.opi.manager.user.service.UserService;
 import br.edu.opi.manager.utils.RestConstants;
-import br.edu.ufcg.dto.inputs.PasswordInput;
-import br.edu.ufcg.dto.inputs.UserInput;
-import br.edu.ufcg.dto.inputs.UserProfileInput;
-import br.edu.ufcg.dto.outputs.users.UserOutput;
-import br.edu.ufcg.models.Privilege;
-import br.edu.ufcg.models.users.UserModel;
-import br.edu.ufcg.security.AccountCredentials;
-import br.edu.ufcg.security.SecurityUtils;
-import br.edu.ufcg.security.TokenAuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.TypeToken;
@@ -48,7 +39,6 @@ import java.util.List;
 @Api(tags = "Users")
 @CrossOrigin
 public class UserController {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class.getSimpleName());
 
 	private UserService userService;
@@ -58,10 +48,7 @@ public class UserController {
 	private UserIO userIO;
 
 	@Autowired
-	public UserController(
-			UserService userService,
-			AppControllerBase appControllerBase,
-			UserIO userIO) {
+	public UserController(UserService userService, AppControllerBase appControllerBase, UserIO userIO) {
 		this.userService = userService;
 		this.appControllerBase = appControllerBase;
 		this.userIO = userIO;

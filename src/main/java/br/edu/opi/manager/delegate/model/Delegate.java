@@ -1,11 +1,11 @@
 package br.edu.opi.manager.delegate.model;
 
 import br.edu.opi.manager.conventions.models.Model;
-import br.edu.opi.manager.conventions.models.Privilege;
-import br.edu.opi.manager.conventions.models.Profile;
-import br.edu.opi.manager.conventions.models.User;
-import br.edu.opi.manager.history.model.Auditing;
+import br.edu.opi.manager.conventions.models.user.Privilege;
+import br.edu.opi.manager.conventions.models.user.Profile;
+import br.edu.opi.manager.conventions.models.user.User;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import springfox.documentation.annotations.ApiIgnore;
@@ -67,7 +67,7 @@ public class Delegate implements Serializable, User, Model<Long> {
 	@Column(name = "need_change_password", nullable = false)
 	private boolean needChangePassword = true;
 
-
+	@Autowired
 	public Delegate() {
 	}
 

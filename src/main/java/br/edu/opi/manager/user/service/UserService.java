@@ -33,8 +33,6 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
 
 	private TokenSecurityService tokenSecurityService;
 
-//	BlacklistService blackListService;
-
 	@Autowired
 	public UserService(
 			CryptoUtil cryptoUtil,
@@ -49,7 +47,6 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
 		UserModel user = repository.findByUsername(login);
 		if (user != null && cryptoUtil.matches(credentials, user.getPassword())) {
 			user.setPassword(null);
-//			blackListService.changeTokenValidationDate(user.getUsername());
 			return user;
 		}
 		return null;
@@ -92,9 +89,9 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
 			model.setLocked(!user.isAccountNonLocked());
 			model.setEnabled(user.isEnabled());
 			model.setNeedChangePassword(user.isNeedChangePassword());
-			UserModel userDB = repository.save(model);
+			//UserModel userDB = repository.save(model);
 //			blackListService.blockUser(userDB.getUsername());
-			return userDB;
+			return model;
 		} catch (Exception e) {
 			throw new UpdateConflictRuntimeException(e.getLocalizedMessage());
 		}
@@ -144,7 +141,7 @@ public class UserService extends GenericService<Long, UserModel, UserRepository>
 //		blackListService.blockUser(user.getUsername());
 	}
 
-	public Page<UserModel> index(Profile profile) {
+	public List<UserModel> index(Profile profile) {
 		return repository.findAllByProfileId(profile.getId());
 	}
 

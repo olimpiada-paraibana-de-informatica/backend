@@ -1,30 +1,23 @@
 package br.edu.opi.manager.delegate.controller;
 
 import br.edu.opi.manager.conventions.dto.AppControllerBase;
-import br.edu.opi.manager.conventions.models.Privilege;
+import br.edu.opi.manager.conventions.models.user.Privilege;
 import br.edu.opi.manager.delegate.dto.DelegateInput;
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.delegate.service.DelegateService;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import java.lang.reflect.Type;
 import java.net.URI;
-import java.security.Principal;
-import java.util.List;
 
 @RestController
 @RequestMapping(RestConstants.DELEGATE_URI)
@@ -40,23 +33,23 @@ public class DelegateController {
 	@Autowired
 	DelegateService delegateService;
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_USER + "')")
-	@PostMapping({"/", ""})
-	@ApiOperation(value = "Create a Delegate", notes = "Also returns a link to retrieve the saved Delegate in the location header")
-	public ResponseEntity<Object> create(@Valid @RequestBody DelegateInput delegateInput) {
-		Delegate delegate = appControllerBase.mapTo(delegateInput, Delegate.class);
-		LOGGER.info("trying create new Delegate " + delegate.getId());
-		Delegate savedDelegate = delegateService.create(delegate);
-		// @formatter:off
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(savedDelegate.getId())
-				.toUri();
-		LOGGER.info("Delegate " + delegate.getId() + " create at " + location);
-		return ResponseEntity.created(location).build();
-		// @formatter:on
-	}
+//	@PreAuthorize("hasAuthority('" + Privilege.CREATE_USER + "')")
+//	@PostMapping({"/", ""})
+//	@ApiOperation(value = "Create a Delegate", notes = "Also returns a link to retrieve the saved Delegate in the location header")
+//	public ResponseEntity<Object> create(@Valid @RequestBody DelegateInput delegateInput) {
+//		Delegate delegate = appControllerBase.mapTo(delegateInput, Delegate.class);
+//		LOGGER.info("trying create new Delegate " + delegate.getId());
+//		Delegate savedDelegate = delegateService.create(delegate);
+//		// @formatter:off
+//		URI location = ServletUriComponentsBuilder
+//				.fromCurrentRequest()
+//				.path("/{id}")
+//				.buildAndExpand(savedDelegate.getId())
+//				.toUri();
+//		LOGGER.info("Delegate " + delegate.getId() + " create at " + location);
+//		return ResponseEntity.created(location).build();
+//		// @formatter:on
+//	}
 
 //	@PreAuthorize("hasAuthority('" + Privilege.SHOW_USER + "')")
 //		@ApiOperation(value = "Get an only User")

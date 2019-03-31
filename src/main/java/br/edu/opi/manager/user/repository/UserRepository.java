@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<UserModel, Long> {
 
 	UserModel findByUsername(String username);
 
-	Page<UserModel> findAllByProfileId(Long profileId);
+	List<UserModel> findAllByProfileId(Long profileId);
 
 	List<UserModel> findFirst10ByUsernameContainingIgnoreCase(String value, Sort sort);
 
