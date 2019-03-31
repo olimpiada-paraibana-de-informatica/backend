@@ -1,12 +1,12 @@
 package br.edu.opi.manager.config;
 
-import br.edu.opi.manager.project_patterns.models.user.ProfileFactory;
-import br.edu.opi.manager.user.model.UserFactory;
-import br.edu.opi.manager.user.repository.UserRepository;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.project_patterns.models.user.Profile;
+import br.edu.opi.manager.project_patterns.models.user.ProfileFactory;
 import br.edu.opi.manager.project_patterns.repository.ProfileRepository;
+import br.edu.opi.manager.user.model.UserFactory;
 import br.edu.opi.manager.user.model.UserModel;
+import br.edu.opi.manager.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -40,6 +40,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			return;
 		}
 
+		// Profile Delegate
+		createProfileIfNotFound(ProfileFactory.delegateUser());
+
 		// Profile Admin
 		final Profile profile_admin = createProfileIfNotFound("Administrador", new HashSet<Privilege>() {
 			private static final long serialVersionUID = -4532748588777883116L;
@@ -48,9 +51,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 				addAll(Arrays.asList(Privilege.values()));
 			}
 		});
-
-		// Profile Delegate
-		createProfileIfNotFound(ProfileFactory.delegateUser());
 
 		// Profile Test
 		final Profile profile_teste = createProfileIfNotFound("Usuário Padrão", new HashSet<Privilege>() {
@@ -65,14 +65,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		});
 
 		// User Admin
-		UserModel user = UserFactory.createUserObject("administrador@email.com", "P@ssw0rd", "Administrador",
-				"Geral", "111.111.111-11", profile_admin);
+		UserModel user = UserFactory.createUserObject("administrador@email.com", "P@ssw0rd", "Administrador", "111.111.111-11", profile_admin);
 		user.setNeedChangePassword(false);
 		user = createUserIfNotFound(user);
 
 		// User Test
-		UserModel userTest = UserFactory.createUserObject("test@email.com", "P@ssw0rd", "Test", "Geral",
-				"986.863.610-80", profile_teste);
+		UserModel userTest = UserFactory.createUserObject("test@email.com", "P@ssw0rd", "Test", "986.863.610-80", profile_teste);
 		userTest.setNeedChangePassword(true);
 		userTest = createUserIfNotFound(userTest);
 

@@ -18,7 +18,7 @@ public class DelegateInput {
 	@ApiModelProperty(example = "user@user.com", required = true)
 	@NotEmpty
 	@Email(message = ErrorMessagesConstants.EMAIL_INVALID)
-	private String username;
+	private String email;
 
 	@ApiModelProperty(example = "P@ssw0rd")
 	@NotEmpty
@@ -35,6 +35,9 @@ public class DelegateInput {
 	@ApiModelProperty(example = "1")
 	private Long profileId;
 
+	public DelegateInput() {
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -43,12 +46,12 @@ public class DelegateInput {
 		this.name = name;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

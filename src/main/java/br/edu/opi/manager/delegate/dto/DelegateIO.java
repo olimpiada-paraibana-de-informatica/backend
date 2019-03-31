@@ -10,33 +10,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class DelegateIO {
 
-    private ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 
-    final Converter<DelegateInput, Delegate> delegateConverter = new Converter<DelegateInput, Delegate>() {
+	final Converter<DelegateInput, Delegate> delegateConverter = new Converter<DelegateInput, Delegate>() {
+		@Override
+		public Delegate convert(MappingContext<DelegateInput, Delegate> context) {
+			DelegateInput delegateInput = context.getSource();
+			Delegate delegate = new Delegate();
+			delegate.setCpf(delegateInput.getCpf());
+			delegate.setUsername(delegateInput.getEmail());
+			delegate.setPassword(delegateInput.getPassword());
+			delegate.setName(delegateInput.getName());
+			delegate.setProfile(new Profile(delegateInput.getProfileId()));
+			return delegate;
+		}
+	};
 
-        @Override
-        public Delegate convert(MappingContext<DelegateInput, Delegate> context) {
-            DelegateInput delegateInput = context.getSource();
-            Delegate delegate = new Delegate();
-            // @formatter:off
-            delegate.setCpf(delegateInput.getCpf());
-            delegate.setUsername(delegateInput.getUsername());
-            delegate.setPassword(delegateInput.getPassword());
-            delegate.setFirstName(delegateInput.getName());
-            delegate.setLastName(delegateInput.getName());
-            delegate.setProfile(new Profile(delegateInput.getProfileId()));
+	public DelegateIO() {
+		modelMapper = new ModelMapper();
+		modelMapper.addConverter(delegateConverter);
+	}
 
-            return delegate;
-            // @formatter:on
-        }
-    };
+	public Delegate mapTo(DelegateInput delegateInput) {
+		return this.modelMapper.map(delegateInput, Delegate.class);
+	}
 
-    public DelegateIO() {
-        modelMapper = new ModelMapper();
-        modelMapper.addConverter(delegateConverter);
-    }
-
-    public Delegate mapTo(DelegateInput delegateInput) {
-        return this.modelMapper.map(delegateInput, Delegate.class);
-    }
 }

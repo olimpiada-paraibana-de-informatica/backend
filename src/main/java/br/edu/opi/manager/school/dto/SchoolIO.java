@@ -27,10 +27,9 @@ public class SchoolIO {
 		public School convert(MappingContext<SchoolInput, School> context) {
 			SchoolInput input = context.getSource();
 			return new School(
-					input.getName(),
-					new Delegate(input.getDelegateId(), input.getDelegateUsername()),
-					input.getCnpj(),
-					input.getPhone());
+					input.getSchoolName(),
+					input.getSchoolCity(),
+					new Delegate(null, input.getDelegateEmail(), input.getDelegateName()));
 		}
 	};
 

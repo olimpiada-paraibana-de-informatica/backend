@@ -1,7 +1,7 @@
 package br.edu.opi.manager.delegate.model;
 
+import br.edu.opi.manager.project_patterns.models.user.ProfileFactory;
 import br.edu.opi.manager.user.model.UserModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.Column;
@@ -20,11 +20,10 @@ public class Delegate extends UserModel {
 	@Column(name = "phone")
 	private String phone;
 
-	@Autowired
 	public Delegate() {
+		super();
 	}
 
-	@Autowired
 	public Delegate(Long delegateId) {
 		super(delegateId);
 	}
@@ -33,4 +32,20 @@ public class Delegate extends UserModel {
 		super(delegateId);
 		super.setUsername(delegateUsername);
 	}
+
+	public Delegate(Long delegateId, String delegateEmail, String delegateName) {
+		super(delegateId);
+		super.setUsername(delegateEmail);
+		super.setName(delegateName);
+		super.setProfile(ProfileFactory.delegateUser());
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 }

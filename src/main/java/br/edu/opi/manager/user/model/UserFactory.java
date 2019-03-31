@@ -27,11 +27,10 @@ public class UserFactory {
 	public static UserModel createUserObject(
 			String username,
 			String password,
-			String firstName,
-			String lastName,
+			String name,
 			String cpf,
 			Profile profile) {
-		UserModel user = new UserModel(username, password, firstName, lastName, cpf, profile);
+		UserModel user = new UserModel(username, password, name, cpf, profile);
 		user.setEnabled(true);
 		user.setLocked(false);
 		return user;

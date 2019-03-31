@@ -1,7 +1,7 @@
 package br.edu.opi.manager.project_patterns.models.user;
 
-import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import br.edu.opi.manager.project_patterns.models.Model;
+import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
@@ -36,6 +36,12 @@ public class Profile extends Auditing implements Serializable, Model<Long> {
 	private Set<Privilege> privileges;
 
 	public Profile() {
+	}
+
+	public Profile(Long id, String name, Set<Privilege> privileges) {
+		this.id = id;
+		this.name = name;
+		this.privileges = privileges;
 	}
 
 	public Profile(Long id) {

@@ -18,6 +18,7 @@ import java.io.Serializable;
 public enum Privilege implements Serializable {
 
 	// @formatter:off
+	//User
 	C_US(PrivilegeUtils.C_US, "CREATE_USER", "Criar Usuário", PrivilegeUtils.US),
 	I_US(PrivilegeUtils.I_US, "INDEX_USER", "Visualizar todos os Usuários", PrivilegeUtils.US),
 	S_US(PrivilegeUtils.S_US, "SHOW_USER", "Detalhes de Usuário", PrivilegeUtils.US),
@@ -26,11 +27,13 @@ public enum Privilege implements Serializable {
 	R_US(PrivilegeUtils.R_US, "RESET_USER_PASSWORD", "Resetar senha de Usuário", PrivilegeUtils.US),
 	P_US(PrivilegeUtils.P_US, "CHANGE_USER_PROFILE", "Modificar perfil de Usuário", PrivilegeUtils.US),
 	C_DE(PrivilegeUtils.C_DE, "CREATE_DELEGATE", "Criar Delegado", PrivilegeUtils.DE),
+	//Delegate
 	I_DE(PrivilegeUtils.I_DE, "INDEX_DELEGATE", "Visualizar todos os Delegados", PrivilegeUtils.DE),
 	S_DE(PrivilegeUtils.S_DE, "SHOW_DELEGATE", "Detalhes de Delegados", PrivilegeUtils.DE),
 	U_DE(PrivilegeUtils.U_DE, "UPDATE_DELEGATE", "Editar Delegado", PrivilegeUtils.DE),
 	D_DE(PrivilegeUtils.D_DE, "DELETE_DELEGATE", "Deletar Delegados", PrivilegeUtils.DE),
-
+	//School
+	C_SC(PrivilegeUtils.C_SC, "CREATE_SCHOOL", "Criar Usuário", PrivilegeUtils.SC),
 	;
 	// @formatter:on
 
@@ -51,6 +54,9 @@ public enum Privilege implements Serializable {
 	public static final String SHOW_DELEGATE = PrivilegeUtils.S_DE;
 	public static final String UPDATE_DELEGATE = PrivilegeUtils.U_DE;
 	public static final String DELETE_DELEGATE = PrivilegeUtils.D_DE;
+
+	//School
+	public static final String CREATE_SCHOOL = PrivilegeUtils.C_SC;
 
 	private String key;
 	private String name;
@@ -86,6 +92,7 @@ class PrivilegeUtils {
 
 	static final String US = "Usuário";
 	static final String DE = "Delegado";
+	static final String SC = "Colégio";
 
 	// UserModel
 	static final String C_US = "C_US";
@@ -102,4 +109,8 @@ class PrivilegeUtils {
 	static final String S_DE = "S_DE";
 	static final String U_DE = "U_DE";
 	static final String D_DE = "D_DE";
+
+	//School
+	static final String C_SC = "C_SC";
+
 }

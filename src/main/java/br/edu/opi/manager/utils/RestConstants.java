@@ -6,6 +6,7 @@ public class RestConstants {
 	public static final String USER_URI = API_URI + "/users";
 	public static final String SCHOLL_URI = API_URI + "/schools";
 	public static final String DELEGATE_URI = API_URI + "/delegates";
+	public static final String OPI_CATEGORY_CONTROLLER = API_URI + "/categories";
 
 	public static final String DEFAULT_PASSWORD = "P@ssw0rd";
 }

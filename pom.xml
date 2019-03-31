@@ -11,7 +11,7 @@
     <groupId>br.edu.opi</groupId>
     <artifactId>manager</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>manager</name>
+    <schoolName>manager</schoolName>
     <description>Manager to OPI</description>
 
     <properties>

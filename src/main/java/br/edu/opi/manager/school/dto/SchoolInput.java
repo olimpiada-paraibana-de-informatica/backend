@@ -1,72 +1,83 @@
 package br.edu.opi.manager.school.dto;
 
+import br.edu.opi.manager.olympiad.model.OpiCategory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.constraints.Email;
+import java.util.List;
 
 @ApiModel(value = "schoolInput")
 public class SchoolInput {
 
 	@ApiModelProperty(example = "Colégio de Teste", required = true)
-	private String name;
+	private String schoolName;
+
+	@ApiModelProperty(example = "Campina Grande", required = true)
+	private String schoolCity;
 
 	@Email
 	@ApiModelProperty(example = "delegate@email.com", required = true)
-	private String delegateUsername;
+	private String delegateEmail;
 
-	@ApiModelProperty(example = "1")
-	private Long delegateId;
+	@ApiModelProperty(example = "Delegado Exemplo")
+	private String delegateName;
 
-	@CNPJ
-	@ApiModelProperty(example = "11728649000140")
-	private String cnpj;
+//	@ApiModelProperty(example = "1")
+//	private Long delegateId;
 
-	@ApiModelProperty(example = "+55 55 5555-5555", required = true)
-	private String phone;
+	@ApiModelProperty("[]")
+	private List<OpiCategory> opiCategories;
 
 	public SchoolInput() {
 	}
 
-	public String getName() {
-		return name;
+	public String getSchoolName() {
+		return schoolName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
 	}
 
-	public String getDelegateUsername() {
-		return delegateUsername;
+	public String getSchoolCity() {
+		return schoolCity;
 	}
 
-	public void setDelegateUsername(String delegateUsername) {
-		this.delegateUsername = delegateUsername;
+	public void setSchoolCity(String schoolCity) {
+		this.schoolCity = schoolCity;
 	}
 
-	public Long getDelegateId() {
-		return delegateId;
+	public String getDelegateEmail() {
+		return delegateEmail;
 	}
 
-	public void setDelegateId(Long delegateId) {
-		this.delegateId = delegateId;
+	public void setDelegateEmail(String delegateEmail) {
+		this.delegateEmail = delegateEmail;
 	}
 
-	public String getCnpj() {
-		return cnpj;
+	public String getDelegateName() {
+		return delegateName;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setDelegateName(String delegateName) {
+		this.delegateName = delegateName;
 	}
 
-	public String getPhone() {
-		return phone;
+//	public Long getDelegateId() {
+//		return delegateId;
+//	}
+//
+//	public void setDelegateId(Long delegateId) {
+//		this.delegateId = delegateId;
+//	}
+
+	public List<OpiCategory> getOpiCategories() {
+		return opiCategories;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setOpiCategories(List<OpiCategory> opiCategories) {
+		this.opiCategories = opiCategories;
 	}
 
 }

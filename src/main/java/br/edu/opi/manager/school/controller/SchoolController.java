@@ -39,11 +39,11 @@ public class SchoolController {
 		this.schoolService = schoolService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_USER + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_SCHOOL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a School", notes = "Also returns a link to retrieve the saved School in the location header")
 	public ResponseEntity<Object> create(@Valid @RequestBody SchoolInput schoolInput) {
-		LOGGER.info("trying create new school " + schoolInput.getName());
+		LOGGER.info("trying create new school " + schoolInput.getSchoolName());
 		School school = schoolIO.mapTo(schoolInput);
 		School savedSchool = schoolService.create(school);
 		URI location = ServletUriComponentsBuilder

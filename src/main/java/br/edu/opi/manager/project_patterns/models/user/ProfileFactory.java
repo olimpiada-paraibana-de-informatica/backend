@@ -15,7 +15,7 @@ public class ProfileFactory {
 				add(Privilege.U_US);
 			}
 		};
-		return new Profile("Delegado", delegatePrivileges);
+		return new Profile(1L, "Delegado", delegatePrivileges);
 	}
 
 }

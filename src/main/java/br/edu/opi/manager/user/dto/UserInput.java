@@ -15,7 +15,7 @@ public class UserInput {
 	@ApiModelProperty(example = "administrador@email.com", required = true)
 	@NotEmpty
 	@Email(message = ErrorMessagesConstants.EMAIL_INVALID)
-	private String username;
+	private String email;
 
 	@ApiModelProperty(example = "P@ssw0rd", required = true)
 	@NotEmpty
@@ -23,24 +23,21 @@ public class UserInput {
 	private String password;
 
 	@ApiModelProperty(example = "User", required = true)
-	private String firstName;
-
-	@ApiModelProperty(example = "LastName", required = true)
-	private String lastName;
+	private String name;
 
 	@CPF(message = ErrorMessagesConstants.CPF_INVALID)
-	@ApiModelProperty(example = "950.213.940-29", required = true)
+	@ApiModelProperty(example = "950.213.940-29")
 	private String cpf;
 
 	@ApiModelProperty(example = "1", required = true)
 	private Long profileId;
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -51,20 +48,12 @@ public class UserInput {
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getCpf() {

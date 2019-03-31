@@ -1,7 +1,7 @@
 package br.edu.opi.manager.user.dto;
 
-import br.edu.opi.manager.user.model.UserFactory;
 import br.edu.opi.manager.project_patterns.models.user.Profile;
+import br.edu.opi.manager.user.model.UserFactory;
 import br.edu.opi.manager.user.model.UserModel;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -23,10 +23,9 @@ public class UserIO {
 			UserInput userInput = context.getSource();
 			// @formatter:off
 			return UserFactory.createUserObject(
-					userInput.getUsername(),
+					userInput.getEmail(),
 					userInput.getPassword(),
-					userInput.getFirstName(),
-					userInput.getLastName(),
+					userInput.getName(),
 					userInput.getCpf(),
 					new Profile(userInput.getProfileId()));
 			// @formatter:on

@@ -3,6 +3,7 @@ package br.edu.opi.manager.school.service;
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.delegate.service.DelegateService;
 import br.edu.opi.manager.project_patterns.services.GenericService;
+import br.edu.opi.manager.school.exception.DelegateNotFoundRuntimeException;
 import br.edu.opi.manager.school.exception.DelegateNotNullRuntimeException;
 import br.edu.opi.manager.school.model.School;
 import br.edu.opi.manager.school.repository.SchoolRepository;
@@ -24,6 +25,12 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 		Delegate delegate = school.getDelegate();
 		if (delegate == null || delegate.getUsername() == null) {
 			throw new DelegateNotNullRuntimeException();
+		}
+		if (delegate.getId() != null) {
+			delegate = delegateService.show(delegate.getId());
+			if (delegate == null) {
+				throw new DelegateNotFoundRuntimeException(delegate.getId().toString());
+			}
 		}
 		if (delegate.getId() == null) {
 			delegate = delegateService.create(delegate);

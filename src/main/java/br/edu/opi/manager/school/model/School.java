@@ -1,16 +1,17 @@
 package br.edu.opi.manager.school.model;
 
 import br.edu.opi.manager.delegate.model.Delegate;
+import br.edu.opi.manager.olympiad.model.OpiCategory;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "school")
-public class School extends Auditing implements Serializable, Model<Long>{
+@Table(name = "tb_school")
+public class School extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = -9051052759732137812L;
 
@@ -19,35 +20,32 @@ public class School extends Auditing implements Serializable, Model<Long>{
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 
-	@OneToOne( fetch = FetchType.LAZY)
+	@Column(name = "cidade", nullable = false)
+	private String cidade;
+
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "delegate_id", nullable = false)
 	private Delegate delegate;
 
-//	@OneToMany
-//	@JoinColumn(name = "student_id")
-//	private List<Student> student;
-
-	@CNPJ
-	@Column(name = "cnpj", nullable = false)
-	private String cnpj;
-
-	@Column(name = "phone")
-	private String phone;
+	@ElementCollection(targetClass = OpiCategory.class)
+	@CollectionTable(name = "tb_schools_opi_category", joinColumns = @JoinColumn(name = "school_id"))
+	@Column(name = "name", nullable = false)
+	@Enumerated(EnumType.STRING)
+	List<OpiCategory> categories;
 
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled = false;
 
-	public School(){
+	public School() {
 	}
 
-	public School(String name, Delegate delegate, @CNPJ String cnpj, String phone) {
+	public School(String name, String cidade, Delegate delegate) {
 		this.name = name;
+		this.cidade = cidade;
 		this.delegate = delegate;
-		this.cnpj = cnpj;
-		this.phone = phone;
 	}
 
 	@Override
@@ -68,6 +66,14 @@ public class School extends Auditing implements Serializable, Model<Long>{
 		this.name = name;
 	}
 
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
 	public Delegate getDelegate() {
 		return delegate;
 	}
@@ -76,28 +82,12 @@ public class School extends Auditing implements Serializable, Model<Long>{
 		this.delegate = delegate;
 	}
 
-//	public List<Student> getStudent() {
-//		return student;
-//	}
-//
-//	public void setStudent(List<Student> student) {
-//		this.student = student;
-//	}
-
-	public String getCnpj() {
-		return cnpj;
+	public List<OpiCategory> getCategories() {
+		return categories;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setCategories(List<OpiCategory> categories) {
+		this.categories = categories;
 	}
 
 	public boolean isEnabled() {
@@ -107,4 +97,5 @@ public class School extends Auditing implements Serializable, Model<Long>{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
 }

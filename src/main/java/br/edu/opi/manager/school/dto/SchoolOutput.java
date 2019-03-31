@@ -1,7 +1,9 @@
 package br.edu.opi.manager.school.dto;
 
+import br.edu.opi.manager.olympiad.dto.OpiCategoryOutput;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.br.CNPJ;
+
+import java.util.List;
 
 public class SchoolOutput {
 
@@ -11,18 +13,20 @@ public class SchoolOutput {
 	@ApiModelProperty(example = "Colégio de Teste")
 	private String name;
 
+	@ApiModelProperty(example = "user@user.com")
+	private String delegateEmail;
+
 	@ApiModelProperty(example = "Jose")
 	private String delegateName;
 
 	@ApiModelProperty(example = "+55 55 55555-5555")
 	private String delegatePhone;
 
-	@CNPJ
-	@ApiModelProperty(example = "11728649000140")
-	private String cnpj;
-
 	@ApiModelProperty(example = "+55 55 5555-5555")
 	private String phone;
+
+	@ApiModelProperty(example = "+55 55 5555-5555")
+	private List<OpiCategoryOutput> opiCategories;
 
 	@ApiModelProperty(example = "true")
 	private boolean enabled;
@@ -46,6 +50,14 @@ public class SchoolOutput {
 		this.name = name;
 	}
 
+	public String getDelegateEmail() {
+		return delegateEmail;
+	}
+
+	public void setDelegateEmail(String delegateEmail) {
+		this.delegateEmail = delegateEmail;
+	}
+
 	public String getDelegateName() {
 		return delegateName;
 	}
@@ -62,14 +74,6 @@ public class SchoolOutput {
 		this.delegatePhone = delegatePhone;
 	}
 
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
@@ -84,6 +88,14 @@ public class SchoolOutput {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public List<OpiCategoryOutput> getOpiCategories() {
+		return opiCategories;
+	}
+
+	public void setOpiCategories(List<OpiCategoryOutput> opiCategories) {
+		this.opiCategories = opiCategories;
 	}
 
 }

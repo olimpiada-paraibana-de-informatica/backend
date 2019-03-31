@@ -1,10 +1,10 @@
 package br.edu.opi.manager.user.model;
 
+import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.project_patterns.models.user.Profile;
 import br.edu.opi.manager.project_patterns.models.user.User;
-import br.edu.opi.manager.project_patterns.models.Model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import springfox.documentation.annotations.ApiIgnore;
@@ -50,11 +50,8 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "first_name")
-	private String firstName;
-
-	@Column(name = "last_name")
-	private String lastName;
+	@Column(name = "name")
+	private String name;
 
 	@OneToOne
 	@JoinColumn(name = "profile_id", nullable = false, foreignKey = @ForeignKey(name = FK_PROFILE_USER))
@@ -78,11 +75,9 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 	protected UserModel() {
 	}
 
-	public UserModel(String username, String password, String firstName, String lastName, String cpf, Profile profile) {
+	public UserModel(String username, String password, String cpf, Profile profile) {
 		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.cpf = cpf;
 		this.profile = profile;
 	}
@@ -103,6 +98,14 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 		this.id = id;
 	}
 
+	public UserModel(String username, String password, String name, String cpf, Profile profile) {
+		this.username = username;
+		this.password = password;
+		this.name = name;
+		this.cpf = cpf;
+		this.profile = profile;
+	}
+
 	@Override
 	public Long getId() {
 		return id;
@@ -121,20 +124,12 @@ public class UserModel extends Auditing implements Serializable, User, Model<Lon
 		this.password = password;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Profile getProfile() {
