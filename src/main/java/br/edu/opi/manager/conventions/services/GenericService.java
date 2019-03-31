@@ -24,7 +24,7 @@ import java.util.List;
  * @param <REPOSITORY> type of repository layer that is the focus of the target
  *                     service.
  */
-public abstract class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
+public class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
 
 	protected static final int DEFAULT_PAGE = 0;
 	protected static final int DEFAULT_SIZE = 10;

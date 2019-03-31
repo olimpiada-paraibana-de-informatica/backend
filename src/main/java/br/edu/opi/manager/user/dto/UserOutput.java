@@ -1,7 +1,7 @@
 package br.edu.opi.manager.user.dto;
 
 import br.edu.opi.manager.history.dto.AuditingOutput;
-import br.edu.ufcg.dto.outputs.ProfileUserOutput;
+import br.edu.opi.manager.;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.Email;
@@ -24,8 +24,8 @@ public class UserOutput extends AuditingOutput {
 	@ApiModelProperty(example = "Silva", required = true)
 	private String lastName;
 
-	@ApiModelProperty(required = true)
-	private ProfileUserOutput profile;
+//	@ApiModelProperty(required = true)
+//	private ProfileUserOutput profile;
 
 	@ApiModelProperty(example = "950.213.940-29", required = true)
 	private String cpf;
@@ -65,13 +65,13 @@ public class UserOutput extends AuditingOutput {
 		this.lastName = lastName;
 	}
 
-	public ProfileUserOutput getProfile() {
-		return profile;
-	}
-
-	public void setProfile(ProfileUserOutput profile) {
-		this.profile = profile;
-	}
+//	public ProfileUserOutput getProfile() {
+//		return profile;
+//	}
+//
+//	public void setProfile(ProfileUserOutput profile) {
+//		this.profile = profile;
+//	}
 
 	public String getCpf() {
 		return cpf;

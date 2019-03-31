@@ -4,8 +4,6 @@ import br.edu.opi.manager.conventions.dto.AppControllerBase;
 import br.edu.opi.manager.user.dto.UserIO;
 import br.edu.opi.manager.user.service.UserService;
 import br.edu.opi.manager.utils.RestConstants;
-import br.edu.ufcg.appcontroller.AppControllerBase;
-import br.edu.ufcg.appcontroller.UserIO;
 import br.edu.ufcg.dto.inputs.PasswordInput;
 import br.edu.ufcg.dto.inputs.UserInput;
 import br.edu.ufcg.dto.inputs.UserProfileInput;
