@@ -1,6 +1,6 @@
 package br.edu.opi.manager.user.dto;
 
-import br.edu.opi.manager.conventions.models.Profile;
+import br.edu.opi.manager.conventions.models.user.Profile;
 import br.edu.opi.manager.user.model.UserFactory;
 import br.edu.opi.manager.user.model.UserModel;
 import org.modelmapper.Converter;

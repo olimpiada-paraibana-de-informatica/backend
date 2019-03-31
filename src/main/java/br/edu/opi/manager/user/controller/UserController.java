@@ -1,7 +1,16 @@
 package br.edu.opi.manager.user.controller;
 
 import br.edu.opi.manager.conventions.dto.AppControllerBase;
+import br.edu.opi.manager.conventions.models.user.Privilege;
+import br.edu.opi.manager.security.AccountCredentials;
+import br.edu.opi.manager.security.SecurityUtils;
+import br.edu.opi.manager.security.TokenSecurityService;
+import br.edu.opi.manager.security.dto.PasswordInput;
 import br.edu.opi.manager.user.dto.UserIO;
+import br.edu.opi.manager.user.dto.UserInput;
+import br.edu.opi.manager.user.dto.UserOutput;
+import br.edu.opi.manager.user.dto.UserProfileInput;
+import br.edu.opi.manager.user.model.UserModel;
 import br.edu.opi.manager.user.service.UserService;
 import br.edu.opi.manager.utils.RestConstants;
 import br.edu.ufcg.dto.inputs.PasswordInput;
@@ -15,7 +24,6 @@ import br.edu.ufcg.security.SecurityUtils;
 import br.edu.ufcg.security.TokenAuthenticationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +32,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -62,14 +71,12 @@ public class UserController {
 	@ApiOperation(value = "Login an User")
 	public ResponseEntity<UserOutput> loginUser(@RequestBody @Valid AccountCredentials accountCredentials) {
 		LOGGER.info("trying logging " + accountCredentials.getUsername());
-		// @formatter:off
 		UserModel user = userService.login(
 				accountCredentials.getUsername(),
 				accountCredentials.getPassword());
 		if (user == null) {
 			return ResponseEntity.notFound().build();
 		}
-		// @formatter:on
 		LOGGER.info("user " + accountCredentials.getUsername() + " logged");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add(SecurityUtils.TOKEN_HEADER, userService.generateToken(user));
@@ -79,8 +86,9 @@ public class UserController {
 
 	@PostMapping({"/logout/", "/logout"})
 	@ApiOperation(value = "Logout an User by token")
-	public ResponseEntity<?> logoutUser(Principal principal,
-										@RequestHeader(value = TokenAuthenticationService.HEADER) String token) {
+	public ResponseEntity<?> logoutUser(
+			Principal principal,
+			@RequestHeader(value = TokenSecurityService.HEADER) String token) {
 		LOGGER.info("trying logout user " + principal.getName());
 		userService.logout(token);
 		LOGGER.info("logout " + principal.getName());
@@ -125,7 +133,7 @@ public class UserController {
 		LOGGER.info("index users");
 		Type type = new TypeToken<List<UserOutput>>() {
 		}.getType();
-		if (StringUtils.isNotBlank(value)) {
+		if (StringUtils.isEmpty(value)) {
 			List<UserOutput> result = appControllerBase.toList(userService.index(value), type);
 			return ResponseEntity.ok(result);
 		} else if (page == null && size == null) {

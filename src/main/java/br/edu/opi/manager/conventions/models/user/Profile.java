@@ -1,5 +1,6 @@
-package br.edu.opi.manager.conventions.models;
+package br.edu.opi.manager.conventions.models.user;
 
+import br.edu.opi.manager.conventions.models.Model;
 import br.edu.opi.manager.history.model.Auditing;
 import springfox.documentation.annotations.ApiIgnore;
 

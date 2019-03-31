@@ -1,4 +1,4 @@
-package br.edu.opi.manager.conventions.models;
+package br.edu.opi.manager.conventions.models.user;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.FIELD;

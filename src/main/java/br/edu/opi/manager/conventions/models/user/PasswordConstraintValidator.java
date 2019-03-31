@@ -1,4 +1,4 @@
-package br.edu.opi.manager.conventions.models;
+package br.edu.opi.manager.conventions.models.user;
 
 import br.edu.opi.manager.utils.ErrorMessagesConstants;
 import org.passay.*;
