@@ -12,7 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(value = "UserInput")
 public class UserInput {
 
-	@ApiModelProperty(example = "user@user.com", required = true)
+	@ApiModelProperty(example = "administrador@email.com", required = true)
 	@NotEmpty
 	@Email(message = ErrorMessagesConstants.EMAIL_INVALID)
 	private String username;

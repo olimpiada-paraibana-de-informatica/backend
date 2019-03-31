@@ -14,7 +14,7 @@ public class UserOutput extends AuditingOutput {
 	@NotEmpty
 	private Long id;
 
-	@ApiModelProperty(example = "user@user.com", required = true)
+	@ApiModelProperty(example = "administrador@email.com", required = true)
 	@NotEmpty
 	@Email
 	private String username;

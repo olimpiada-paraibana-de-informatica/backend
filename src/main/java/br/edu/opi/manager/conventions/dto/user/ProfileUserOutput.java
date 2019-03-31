@@ -10,7 +10,7 @@ public class ProfileUserOutput extends AuditingOutput {
 	@ApiModelProperty(required = true)
 	private Long id;
 
-	@ApiModelProperty(example = "Secretária de Saúde", required = true)
+	@ApiModelProperty(example = "Teste", required = true)
 	private String name;
 
 	Set<PrivilegeOutput> privileges;

@@ -66,7 +66,7 @@ public class UserController {
 		}
 		LOGGER.info("user " + accountCredentials.getUsername() + " logged");
 		HttpHeaders headers = new HttpHeaders();
-		headers.add(SecurityUtils.TOKEN_HEADER, userService.generateToken(user));
+//		headers.add(SecurityUtils.TOKEN_HEADER, userService.generateToken(user));
 		UserOutput userOutput = appControllerBase.mapTo(user, UserOutput.class);
 		return ResponseEntity.ok().headers(headers).body(userOutput);
 	}
