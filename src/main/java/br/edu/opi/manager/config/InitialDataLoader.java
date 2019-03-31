@@ -19,13 +19,18 @@ import java.util.HashSet;
 @Component
 public class InitialDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-	private boolean alreadySetup = false;
+	private boolean alreadySetup;
+	private UserRepository userRepository;
+	private ProfileRepository profileRepository;
 
 	@Autowired
-	UserRepository userRepository;
-
-	@Autowired
-	ProfileRepository profileRepository;
+	public InitialDataLoader(
+			UserRepository userRepository,
+			ProfileRepository profileRepository) {
+		this.userRepository = userRepository;
+		this.profileRepository = profileRepository;
+		this.alreadySetup = false;
+	}
 
 	@Override
 	@Transactional
@@ -69,23 +74,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		userTest.setNeedChangePassword(false);
 		userTest = createUserIfNotFound(userTest);
 
-		}
+	}
 
-		private Profile createProfileIfNotFound ( final String name, final Collection<Privilege> privileges){
-			Profile profile = profileRepository.findByName(name);
-			if (profile == null) {
-				profile = new Profile(name, new HashSet<>(privileges));
-				profile = profileRepository.save(profile);
-			}
-			return profile;
+	private Profile createProfileIfNotFound(final String name, final Collection<Privilege> privileges) {
+		Profile profile = profileRepository.findByName(name);
+		if (profile == null) {
+			profile = new Profile(name, new HashSet<>(privileges));
+			profile = profileRepository.save(profile);
 		}
+		return profile;
+	}
 
-		private UserModel createUserIfNotFound ( final UserModel userModel){
-			UserModel savedUser = userRepository.findByUsername(userModel.getUsername());
-			if (savedUser == null) {
-				savedUser = userRepository.save(userModel);
-			}
-			return savedUser;
+	private UserModel createUserIfNotFound(final UserModel userModel) {
+		UserModel savedUser = userRepository.findByUsername(userModel.getUsername());
+		if (savedUser == null) {
+			savedUser = userRepository.save(userModel);
 		}
+		return savedUser;
+	}
 
 }

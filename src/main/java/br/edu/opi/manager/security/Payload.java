@@ -44,8 +44,8 @@ public class Payload implements UserDetails {
 		int size = this.p.size();
 		// @formatter:off
 		String[] privileges = Arrays
-				.stream(this.p.toArray(new String[size]))
-				.map(String::hashCode)
+				.stream(this.p.toArray(new Privilege[size]))
+				.map(Enum::name)
 				.toArray(String[]::new);
 		// @formatter:on
 		return AuthorityUtils.createAuthorityList(privileges);

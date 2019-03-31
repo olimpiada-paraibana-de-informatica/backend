@@ -1,7 +1,6 @@
 package br.edu.opi.manager.security;
 
 import br.edu.opi.manager.utils.JsonUtil;
-import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,9 +28,12 @@ public class TokenSecurityService {
 	private static final String TOKEN_PREFIX = "Bearer";
 	public static final String HEADER = "Authorization";
 
-	@Autowired
-	JsonUtil jSonUtil;
+	private JsonUtil jSonUtil;
 
+	@Autowired
+	public TokenSecurityService(JsonUtil jSonUtil) {
+		this.jSonUtil = jSonUtil;
+	}
 
 	/**
 	 * Gets the authentication.

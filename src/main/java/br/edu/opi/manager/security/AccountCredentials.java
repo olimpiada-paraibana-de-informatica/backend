@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @ApiModel(value = "AccountCredentials")
 public class AccountCredentials {
 
-	@ApiModelProperty(example = "email@email.com", required = true)
+	@ApiModelProperty(example = "administrador@email.com", required = true)
 	@NotEmpty
 	private String username;
 
