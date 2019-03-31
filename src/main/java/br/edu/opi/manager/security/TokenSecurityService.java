@@ -1,11 +1,13 @@
 package br.edu.opi.manager.security;
 
+import br.edu.opi.manager.utils.JsonUtil;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -27,7 +29,9 @@ public class TokenSecurityService {
 	private static final String TOKEN_PREFIX = "Bearer";
 	public static final String HEADER = "Authorization";
 
-	private Gson gson;
+	@Autowired
+	JsonUtil jSonUtil;
+
 
 	/**
 	 * Gets the authentication.
@@ -46,7 +50,7 @@ public class TokenSecurityService {
 					.parseClaimsJws(token)
 					.getBody();
 			String user = claims.getSubject();
-			Payload userDetails = gson.fromJson(user, Payload.class);
+			Payload userDetails = jSonUtil.fromJSon(user, Payload.class);
 			LOGGER.info("trying connect user " + userDetails.getUsername());
 			LOGGER.info("user connected " + userDetails.getUsername());
 			return new UsernamePasswordAuthenticationToken(
@@ -69,7 +73,7 @@ public class TokenSecurityService {
 		// @formatter:off
 		return Jwts
 				.builder()
-				.setSubject(gson.toJson(payload))
+				.setSubject(jSonUtil.toJSon(payload))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
 				.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
 				.compact();
