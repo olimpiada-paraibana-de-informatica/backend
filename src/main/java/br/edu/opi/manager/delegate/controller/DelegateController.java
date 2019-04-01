@@ -8,7 +8,6 @@ import br.edu.opi.manager.delegate.service.DelegateService;
 import br.edu.opi.manager.project_patterns.dto.AppControllerBase;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
-import br.edu.opi.manager.utils.SenderMailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -35,42 +34,32 @@ public class DelegateController {
 
 	private DelegateService delegateService;
 
-	private SenderMailService mailService;
-
 	private DelegateIO delegateIO;
 
 	@Autowired
 	public DelegateController(
 			AppControllerBase appControllerBase,
 			DelegateService delegateService,
-			DelegateIO delegateIO,
-			SenderMailService mailService) {
+			DelegateIO delegateIO) {
 		this.appControllerBase = appControllerBase;
 		this.delegateService = delegateService;
 		this.delegateIO = delegateIO;
-		this.mailService = mailService;
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_DELEGATE + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a Delegate", notes = "Also returns a link to retrieve the saved Delegate in the location header")
 	public ResponseEntity<Object> create(@Valid @RequestBody DelegateInput delegateInput) {
+		LOGGER.info("trying create new delegate " + delegateInput.getName());
 		Delegate delegate = delegateIO.mapTo(delegateInput);
-		LOGGER.info("trying create new Delegate " + delegate.getId());
 		Delegate savedDelegate = delegateService.create(delegate);
-
-		// TODO: remove this test
-		String subject = "[OPI] Testando envio de email";
-		String text = "Envio de email funciona!";
-		mailService.send(delegate.getUsername(), subject, text);
-
 		//@formatter:off
 		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(savedDelegate.getId())
 				.toUri();
-		LOGGER.info("Delegate " + delegate.getId() + " create at " + location);
+		LOGGER.info("delegate " + delegate.getId() + " create at " + location);
 		return ResponseEntity.created(location).build();
 		//@formatter:on
 	}
@@ -85,7 +74,7 @@ public class DelegateController {
 
 	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_DELEGATE + "')")
 	@PutMapping({"/{id}/", "/{id}"})
-	@ApiOperation(value = "Updates an delegate")
+	@ApiOperation(value = "Updates a delegate")
 	public ResponseEntity<?> updateDelegate(
 			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
@@ -101,7 +90,7 @@ public class DelegateController {
 
 	@PreAuthorize("hasAuthority('" + Privilege.DELETE_DELEGATE + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
-	@ApiOperation(value = "Delete an Deçegate")
+	@ApiOperation(value = "Delete a Deçegate")
 	public ResponseEntity<?> deleteDelegate(@PathVariable("id") Long id) {
 		LOGGER.info("trying deleting delegate " + id);
 		delegateService.delete(id);

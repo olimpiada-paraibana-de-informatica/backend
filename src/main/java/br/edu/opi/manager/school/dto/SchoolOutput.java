@@ -23,9 +23,6 @@ public class SchoolOutput {
 	private String delegatePhone;
 
 	@ApiModelProperty(example = "+55 55 5555-5555")
-	private String phone;
-
-	@ApiModelProperty(example = "+55 55 5555-5555")
 	private List<OpiCategoryOutput> opiCategories;
 
 	@ApiModelProperty(example = "true")
@@ -72,14 +69,6 @@ public class SchoolOutput {
 
 	public void setDelegatePhone(String delegatePhone) {
 		this.delegatePhone = delegatePhone;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public boolean isEnabled() {

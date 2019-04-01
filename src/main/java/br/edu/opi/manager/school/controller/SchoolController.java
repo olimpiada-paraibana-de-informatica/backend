@@ -3,6 +3,7 @@ package br.edu.opi.manager.school.controller;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.school.dto.SchoolIO;
 import br.edu.opi.manager.school.dto.SchoolInput;
+import br.edu.opi.manager.school.dto.SchoolOutput;
 import br.edu.opi.manager.school.model.School;
 import br.edu.opi.manager.school.service.SchoolService;
 import br.edu.opi.manager.utils.RestConstants;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,7 @@ public class SchoolController {
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_SCHOOL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a School", notes = "Also returns a link to retrieve the saved School in the location header")
-	public ResponseEntity<Object> create(@Valid @RequestBody SchoolInput schoolInput) {
+	public ResponseEntity<?> create(@Valid @RequestBody SchoolInput schoolInput) {
 		LOGGER.info("trying create new school " + schoolInput.getSchoolName());
 		School school = schoolIO.mapTo(schoolInput);
 		School savedSchool = schoolService.create(school);
@@ -54,5 +56,28 @@ public class SchoolController {
 		LOGGER.info("school " + school.getId() + " create at " + location);
 		return ResponseEntity.created(location).build();
 	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.INDEX_SCHOOL + "')")
+	@ApiOperation(value = "Get All Schools")
+	@GetMapping({"/", ""})
+	// @formatter:off
+	public Page<SchoolOutput> index(
+			@RequestParam(required = false, name = "page") Integer page,
+			@RequestParam(required = false, name = "size") Integer size) {
+		LOGGER.info("index schools");
+		return schoolIO.toPage(schoolService.index(page, size));
+	}
+	// @formatter:on
+
+	@PreAuthorize("hasAuthority('" + Privilege.SHOW_SCHOOL + "')")
+	@ApiOperation(value = "Get All Users")
+	@GetMapping({"/{id}/", "/{id}"})
+	// @formatter:off
+	public SchoolOutput show(
+			@PathVariable("id") Long id) {
+		LOGGER.info("index users");
+		return schoolIO.mapTo(schoolService.show(id));
+	}
+	// @formatter:on
 
 }

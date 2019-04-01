@@ -4,15 +4,13 @@ import br.edu.opi.manager.project_patterns.models.user.ProfileFactory;
 import br.edu.opi.manager.user.model.UserModel;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @ApiIgnore
 @Entity
 @Table(name = "tb_delegate")
 @PrimaryKeyJoinColumn(name = "id")
+@EntityListeners(DelegateListener.class)
 public class Delegate extends UserModel {
 
 	private static final long serialVersionUID = -9051052759732137812L;

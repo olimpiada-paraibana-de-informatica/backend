@@ -122,8 +122,7 @@ public class UserController {
 			@RequestParam(required = false, name = "size") Integer size,
 			@RequestParam(required = false, name = "value") String value) {
 		LOGGER.info("index users");
-		Type type = new TypeToken<List<UserOutput>>() {
-		}.getType();
+		Type type = new TypeToken<List<UserOutput>>() {}.getType();
 		if (StringUtils.isEmpty(value)) {
 			List<UserOutput> result = appControllerBase.toList(userService.index(value), type);
 			return ResponseEntity.ok(result);

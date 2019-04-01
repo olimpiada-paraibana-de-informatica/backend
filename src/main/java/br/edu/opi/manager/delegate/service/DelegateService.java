@@ -18,7 +18,6 @@ public class DelegateService extends GenericService<Long, Delegate, DelegateRepo
 		}
 		if (delegate.getPassword() == null) {
 			String password = SecurityUtils.generateFriendlyPassword();
-			// TODO: send email to the delegate to inform your password
 			delegate.setPassword(password);
 		}
 		if (delegate.getProfile() == null) {
