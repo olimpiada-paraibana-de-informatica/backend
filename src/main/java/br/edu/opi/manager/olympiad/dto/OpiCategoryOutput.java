@@ -3,7 +3,7 @@ package br.edu.opi.manager.olympiad.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "OpiCategoryOutput")
+@ApiModel(value = "opiCategoryOutput")
 public class OpiCategoryOutput {
 
 	@ApiModelProperty(example = "Iniciação_1")

@@ -19,10 +19,10 @@ public class DelegateListener {
 		String email = delegate.getUsername();
 		// TODO: refactoring e-mail content
 		String text = "\tOlá " + delegate.getName() + "," +
-				" uma nova conta, em seu nome, foi criada em nossos registros.\n" +
+				" uma conta foi criada em seu nome.\n" +
 				"\tPara confirmar seus dados basta clicar no link abaixo:\n" +
-				"<a href='http:\\google.com'>Clique aqui!</a>\n\n" +
-				"<sub>Se não foi você, favor desconsiderar esse e-mail.</sub>\n\n" +
+				"\t\thttp://opi.org/asjlkjnlkj3nrlwjw378\n\n" +
+				"Se não foi você, favor desconsiderar esse e-mail.\n\n" +
 				"Até breve,\n" +
 				"Equipe OPI";
 		senderMailService.send(email, subject, text);

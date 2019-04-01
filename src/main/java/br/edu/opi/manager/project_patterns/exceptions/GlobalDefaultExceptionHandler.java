@@ -178,7 +178,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
 		ExceptionResponse exceptionResponse =
 				new ExceptionResponse(
 						Instant.now(),
-						"Erro em alguma data fornecida",
+						"Erro em alguma migration fornecida",
 						request.getDescription(false),
 						errorCode);
 		return exceptionResponse;

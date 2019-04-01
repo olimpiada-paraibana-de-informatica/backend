@@ -2,6 +2,7 @@ package br.edu.opi.manager.school.model;
 
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.olympiad.model.OpiCategory;
+import br.edu.opi.manager.places.model.City;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
 
@@ -23,8 +24,9 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "cidade", nullable = false)
-	private String cidade;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "city_cbo_code", nullable = false)
+	private City city;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "delegate_id", nullable = false)
@@ -34,7 +36,7 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	@CollectionTable(name = "tb_schools_opi_category", joinColumns = @JoinColumn(name = "school_id"))
 	@Column(name = "name", nullable = false)
 	@Enumerated(EnumType.STRING)
-	List<OpiCategory> categories;
+	private List<OpiCategory> categories;
 
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled = false;
@@ -42,9 +44,9 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	public School() {
 	}
 
-	public School(String name, String cidade, Delegate delegate) {
+	public School(String name, City city, Delegate delegate) {
 		this.name = name;
-		this.cidade = cidade;
+		this.city = city;
 		this.delegate = delegate;
 	}
 
@@ -66,12 +68,12 @@ public class School extends Auditing implements Serializable, Model<Long> {
 		this.name = name;
 	}
 
-	public String getCidade() {
-		return cidade;
+	public City getCity() {
+		return city;
 	}
 
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 	public Delegate getDelegate() {

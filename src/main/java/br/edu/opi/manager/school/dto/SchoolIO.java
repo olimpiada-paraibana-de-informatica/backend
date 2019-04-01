@@ -2,6 +2,8 @@ package br.edu.opi.manager.school.dto;
 
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.olympiad.dto.OpiCategoryOutput;
+import br.edu.opi.manager.places.dto.CityIO;
+import br.edu.opi.manager.places.model.City;
 import br.edu.opi.manager.school.model.School;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -24,13 +26,15 @@ public class SchoolIO {
 
 	private ModelMapper modelMapper;
 
+	private CityIO cityIO;
+
 	final Converter<SchoolInput, School> schoolInputConverter = new Converter<SchoolInput, School>() {
 		@Override
 		public School convert(MappingContext<SchoolInput, School> context) {
 			SchoolInput input = context.getSource();
 			return new School(
 					input.getSchoolName(),
-					input.getSchoolCity(),
+					new City(input.getSchoolCityCbo()),
 					new Delegate(null, input.getDelegateEmail(), input.getDelegateName()));
 		}
 	};
@@ -56,6 +60,7 @@ public class SchoolIO {
 	};
 
 	public SchoolIO() {
+		this.cityIO = new CityIO();
 		this.modelMapper = new ModelMapper();
 		this.modelMapper.addConverter(schoolInputConverter);
 		this.modelMapper.addConverter(schoolOutputConverter);
@@ -90,7 +95,8 @@ public class SchoolIO {
 	private SchoolOutput toSchoolOutput(School school) {
 		SchoolOutput schoolOutput = new SchoolOutput();
 		schoolOutput.setId(school.getId());
-		schoolOutput.setName(school.getName());
+		schoolOutput.setSchoolName(school.getName());
+		schoolOutput.setSchoolCityOutput(this.cityIO.mapTo(school.getCity()));
 		if (school.getDelegate() != null) {
 			Delegate delegate = school.getDelegate();
 			schoolOutput.setDelegateEmail(delegate.getUsername());

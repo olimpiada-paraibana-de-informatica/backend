@@ -1,6 +1,7 @@
 package br.edu.opi.manager.school.dto;
 
 import br.edu.opi.manager.olympiad.dto.OpiCategoryOutput;
+import br.edu.opi.manager.places.dto.CityOutput;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -11,7 +12,10 @@ public class SchoolOutput {
 	private Long id;
 
 	@ApiModelProperty(example = "Colégio de Teste")
-	private String name;
+	private String schoolName;
+
+	@ApiModelProperty(example = "Campina Grande")
+	private CityOutput schoolCityOutput;
 
 	@ApiModelProperty(example = "user@user.com")
 	private String delegateEmail;
@@ -39,12 +43,20 @@ public class SchoolOutput {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getSchoolName() {
+		return schoolName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSchoolName(String schoolName) {
+		this.schoolName = schoolName;
+	}
+
+	public CityOutput getSchoolCityOutput() {
+		return schoolCityOutput;
+	}
+
+	public void setSchoolCityOutput(CityOutput schoolCityOutput) {
+		this.schoolCityOutput = schoolCityOutput;
 	}
 
 	public String getDelegateEmail() {

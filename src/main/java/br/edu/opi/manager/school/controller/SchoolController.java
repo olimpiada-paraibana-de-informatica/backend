@@ -70,12 +70,12 @@ public class SchoolController {
 	// @formatter:on
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_SCHOOL + "')")
-	@ApiOperation(value = "Get All Users")
+	@ApiOperation(value = "Get a User")
 	@GetMapping({"/{id}/", "/{id}"})
 	// @formatter:off
 	public SchoolOutput show(
 			@PathVariable("id") Long id) {
-		LOGGER.info("index users");
+		LOGGER.info("show user " + id);
 		return schoolIO.mapTo(schoolService.show(id));
 	}
 	// @formatter:on

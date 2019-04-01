@@ -1,6 +1,7 @@
 package br.edu.opi.manager.school.dto;
 
 import br.edu.opi.manager.olympiad.model.OpiCategory;
+import br.edu.opi.manager.places.model.City;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -13,8 +14,8 @@ public class SchoolInput {
 	@ApiModelProperty(example = "Colégio de Teste", required = true)
 	private String schoolName;
 
-	@ApiModelProperty(example = "Campina Grande", required = true)
-	private String schoolCity;
+	@ApiModelProperty(example = "2504009", required = true)
+	private Long schoolCityCbo;
 
 	@Email
 	@ApiModelProperty(example = "delegate@email.com", required = true)
@@ -26,7 +27,7 @@ public class SchoolInput {
 //	@ApiModelProperty(example = "1")
 //	private Long delegateId;
 
-	@ApiModelProperty("[]")
+	@ApiModelProperty("[\"INICIACAO_1\"]")
 	private List<OpiCategory> opiCategories;
 
 	public SchoolInput() {
@@ -40,12 +41,12 @@ public class SchoolInput {
 		this.schoolName = schoolName;
 	}
 
-	public String getSchoolCity() {
-		return schoolCity;
+	public Long getSchoolCityCbo() {
+		return schoolCityCbo;
 	}
 
-	public void setSchoolCity(String schoolCity) {
-		this.schoolCity = schoolCity;
+	public void setSchoolCityCbo(Long schoolCityCbo) {
+		this.schoolCityCbo = schoolCityCbo;
 	}
 
 	public String getDelegateEmail() {

@@ -173,7 +173,7 @@ public class UserController {
 	@ApiOperation(value = "Get an User from the token")
 	@GetMapping({"/data/", "/data"})
 	public UserOutput showUser(Principal principal) {
-		LOGGER.info("show user data");
+		LOGGER.info("show user migration");
 		return appControllerBase.mapTo(userService.findByUsername(principal.getName()), UserOutput.class);
 	}
 
