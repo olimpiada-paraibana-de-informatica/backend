@@ -4,7 +4,7 @@ package br.edu.opi.manager.comunication.email;
 // import org.springframework.mail.SimpleMailMessage;
 // import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SenderMailService {
 
 	// public void send(String userEmail, String subject, String text) {
