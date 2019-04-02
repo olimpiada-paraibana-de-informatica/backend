@@ -15,7 +15,7 @@ public class SchoolOutput {
 	private String schoolName;
 
 	@ApiModelProperty(example = "Campina Grande")
-	private CityOutput schoolCityOutput;
+	private Long schoolCityCbo;
 
 	@ApiModelProperty(example = "user@user.com")
 	private String delegateEmail;
@@ -51,12 +51,12 @@ public class SchoolOutput {
 		this.schoolName = schoolName;
 	}
 
-	public CityOutput getSchoolCityOutput() {
-		return schoolCityOutput;
+	public Long getSchoolCityCbo() {
+		return schoolCityCbo;
 	}
 
-	public void setSchoolCityOutput(CityOutput schoolCityOutput) {
-		this.schoolCityOutput = schoolCityOutput;
+	public void setSchoolCityCbo(Long schoolCityCbo) {
+		this.schoolCityCbo = schoolCityCbo;
 	}
 
 	public String getDelegateEmail() {

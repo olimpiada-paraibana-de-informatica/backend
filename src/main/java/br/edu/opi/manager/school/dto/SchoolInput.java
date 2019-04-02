@@ -24,6 +24,9 @@ public class SchoolInput {
 	@ApiModelProperty(example = "Delegado Exemplo")
 	private String delegateName;
 
+	@ApiModelProperty(example = "abcde")
+	private String password;
+
 //	@ApiModelProperty(example = "1")
 //	private Long delegateId;
 
@@ -79,6 +82,14 @@ public class SchoolInput {
 
 	public void setOpiCategories(List<OpiCategory> opiCategories) {
 		this.opiCategories = opiCategories;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String delegatePassword) {
+		this.password = password;
 	}
 
 }

@@ -26,8 +26,6 @@ public class SchoolIO {
 
 	private ModelMapper modelMapper;
 
-	private CityIO cityIO;
-
 	final Converter<SchoolInput, School> schoolInputConverter = new Converter<SchoolInput, School>() {
 		@Override
 		public School convert(MappingContext<SchoolInput, School> context) {
@@ -35,7 +33,8 @@ public class SchoolIO {
 			return new School(
 					input.getSchoolName(),
 					new City(input.getSchoolCityCbo()),
-					new Delegate(null, input.getDelegateEmail(), input.getDelegateName()));
+					new Delegate(null, input.getDelegateEmail(), input.getDelegateName(), input.getPassword()),
+					input.getOpiCategories());
 		}
 	};
 
@@ -60,7 +59,6 @@ public class SchoolIO {
 	};
 
 	public SchoolIO() {
-		this.cityIO = new CityIO();
 		this.modelMapper = new ModelMapper();
 		this.modelMapper.addConverter(schoolInputConverter);
 		this.modelMapper.addConverter(schoolOutputConverter);
@@ -96,7 +94,7 @@ public class SchoolIO {
 		SchoolOutput schoolOutput = new SchoolOutput();
 		schoolOutput.setId(school.getId());
 		schoolOutput.setSchoolName(school.getName());
-		schoolOutput.setSchoolCityOutput(this.cityIO.mapTo(school.getCity()));
+		schoolOutput.setSchoolCityCbo(school.getCity() != null ? school.getCity().getCboCode() : null);
 		if (school.getDelegate() != null) {
 			Delegate delegate = school.getDelegate();
 			schoolOutput.setDelegateEmail(delegate.getUsername());
@@ -104,8 +102,7 @@ public class SchoolIO {
 			schoolOutput.setDelegatePhone(delegate.getPhone());
 		}
 		if (school.getCategories() != null) {
-			Type type = new TypeToken<List<OpiCategoryOutput>>() {
-			}.getType();
+			Type type = new TypeToken<List<OpiCategoryOutput>>() {}.getType();
 			schoolOutput.setOpiCategories(this.modelMapper.map(school.getCategories(), type));
 		}
 		schoolOutput.setEnabled(school.isEnabled());

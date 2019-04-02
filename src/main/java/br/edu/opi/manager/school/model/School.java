@@ -44,10 +44,11 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	public School() {
 	}
 
-	public School(String name, City city, Delegate delegate) {
+	public School(String name, City city, Delegate delegate, List<OpiCategory> categories) {
 		this.name = name;
 		this.city = city;
 		this.delegate = delegate;
+		this.categories = categories;
 	}
 
 	@Override

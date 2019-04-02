@@ -19,7 +19,6 @@ public class Delegate extends UserModel {
 	private String phone;
 
 	public Delegate() {
-		super();
 	}
 
 	public Delegate(Long delegateId) {
@@ -36,6 +35,14 @@ public class Delegate extends UserModel {
 		super.setUsername(delegateEmail);
 		super.setName(delegateName);
 		super.setProfile(ProfileFactory.delegateUser());
+	}
+
+	public Delegate(Long delegateId, String delegateEmail, String delegateName, String password) {
+		super(delegateId);
+		super.setUsername(delegateEmail);
+		super.setName(delegateName);
+		super.setProfile(ProfileFactory.delegateUser());
+		super.setPassword(password);
 	}
 
 	public String getPhone() {
