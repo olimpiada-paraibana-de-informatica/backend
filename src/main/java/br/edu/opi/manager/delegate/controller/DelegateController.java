@@ -67,7 +67,7 @@ public class DelegateController {
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_DELEGATE + "')")
 	@ApiOperation(value = "Get an only Delegate")
 	@GetMapping({"/{id}/", "/{id}"})
-	public DelegateOutput showDelegate(@PathVariable("id") Long id) {
+	public DelegateOutput show(@PathVariable("id") Long id) {
 		LOGGER.info("show delegate");
 		return appControllerBase.mapTo(delegateService.show(id), DelegateOutput.class);
 	}
@@ -75,7 +75,7 @@ public class DelegateController {
 	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_DELEGATE + "')")
 	@PutMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Updates a delegate")
-	public ResponseEntity<?> updateDelegate(
+	public ResponseEntity<?> update(
 			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
 			@Valid @RequestBody DelegateInput delegateInput) {
@@ -91,7 +91,7 @@ public class DelegateController {
 	@PreAuthorize("hasAuthority('" + Privilege.DELETE_DELEGATE + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Delete a Deçegate")
-	public ResponseEntity<?> deleteDelegate(@PathVariable("id") Long id) {
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		LOGGER.info("trying deleting delegate " + id);
 		delegateService.delete(id);
 		LOGGER.info("delegate " + id + " deleted");
