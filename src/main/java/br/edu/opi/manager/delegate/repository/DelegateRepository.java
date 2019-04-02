@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DelegateRepository extends JpaRepository<Delegate, Long>{
 
+	Delegate findByUsername(String username);
+
 }
