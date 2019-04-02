@@ -1,7 +1,6 @@
 package br.edu.opi.manager.school.dto;
 
 import br.edu.opi.manager.olympiad.model.OpiCategory;
-import br.edu.opi.manager.places.model.City;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -26,9 +25,6 @@ public class SchoolInput {
 
 	@ApiModelProperty(example = "abcde")
 	private String password;
-
-//	@ApiModelProperty(example = "1")
-//	private Long delegateId;
 
 	@ApiModelProperty("[\"INICIACAO_1\"]")
 	private List<OpiCategory> opiCategories;
@@ -68,14 +64,6 @@ public class SchoolInput {
 		this.delegateName = delegateName;
 	}
 
-//	public Long getDelegateId() {
-//		return delegateId;
-//	}
-//
-//	public void setDelegateId(Long delegateId) {
-//		this.delegateId = delegateId;
-//	}
-
 	public List<OpiCategory> getOpiCategories() {
 		return opiCategories;
 	}
@@ -88,7 +76,7 @@ public class SchoolInput {
 		return this.password;
 	}
 
-	public void setPassword(String delegatePassword) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
