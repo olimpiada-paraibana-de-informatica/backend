@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.net.URI;
 
 @RestController
@@ -77,6 +78,32 @@ public class SchoolController {
 			@PathVariable("id") Long id) {
 		LOGGER.info("show user " + id);
 		return schoolIO.mapTo(schoolService.show(id));
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_DELEGATE + "')")
+	@PutMapping({"/{id}/", "/{id}"})
+	@ApiOperation(value = "Updates a delegate")
+	public ResponseEntity<?> update(
+			//@formatter:off
+			@Min(value = 1) @PathVariable("id") Long id,
+			@Valid @RequestBody SchoolInput schoolInput) {
+		School school = schoolIO.mapTo(schoolInput);
+		LOGGER.info("trying update school " + school.getName());
+		schoolService.update(id, school);
+		LOGGER.info("school " + school.getName() + " updated");
+		return ResponseEntity.noContent().build();
+	}
+
+	//@formatter:on
+
+	@PreAuthorize("hasAuthority('" + Privilege.DELETE_DELEGATE + "')")
+	@DeleteMapping({"/{id}/", "/{id}"})
+	@ApiOperation(value = "Delete a School")
+	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+		LOGGER.info("trying deleting school " + id);
+		schoolService.delete(id);
+		LOGGER.info("school " + id + " deleted");
+		return ResponseEntity.ok().build();
 	}
 	// @formatter:on
 
