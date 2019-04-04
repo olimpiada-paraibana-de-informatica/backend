@@ -82,7 +82,7 @@ public class SchoolController {
 
 	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_DELEGATE + "')")
 	@PutMapping({"/{id}/", "/{id}"})
-	@ApiOperation(value = "Updates a School")
+	@ApiOperation(value = "Updates a delegate")
 	public ResponseEntity<?> update(
 			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
