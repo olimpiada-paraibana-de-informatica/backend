@@ -23,7 +23,7 @@ import javax.validation.constraints.Min;
 import java.net.URI;
 
 @RestController
-@RequestMapping(RestConstants.SCHOLL_URI)
+@RequestMapping(RestConstants.SCHOOL_URI)
 @Api(tags = "School")
 @CrossOrigin
 public class SchoolController {

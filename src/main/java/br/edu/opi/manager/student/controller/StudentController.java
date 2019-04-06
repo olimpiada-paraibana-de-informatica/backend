@@ -13,7 +13,7 @@ import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
 
 @RestController
-@RequestMapping(RestConstants.SCHOLL_URI)
+@RequestMapping(RestConstants.SCHOOL_URI)
 @Api(tags = "Student")
 @CrossOrigin
 public class StudentController {

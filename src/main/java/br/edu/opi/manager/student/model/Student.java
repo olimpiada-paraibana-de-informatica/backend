@@ -1,25 +1,20 @@
 package br.edu.opi.manager.student.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import br.edu.opi.manager.delegate.model.Delegate;
 import br.edu.opi.manager.olympiad.model.OpiCategory;
 import br.edu.opi.manager.places.model.City;
+import br.edu.opi.manager.project_patterns.models.Model;
+import br.edu.opi.manager.project_patterns.models.history.Auditing;
 
-public class Student {
+@Entity
+@Table(name = "student")
+public class Student extends Auditing implements Serializable, Model<Long> {
 	
 
 	private static final long serialVersionUID = -9051052759732137812L;
