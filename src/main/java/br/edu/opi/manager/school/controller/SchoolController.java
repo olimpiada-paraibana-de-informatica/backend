@@ -42,7 +42,7 @@ public class SchoolController {
 		this.schoolService = schoolService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_SCHOOL + "')")
+//	@PreAuthorize("hasAuthority('" + Privilege.CREATE_SCHOOL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a School", notes = "Also returns a link to retrieve the saved School in the location header")
 	public ResponseEntity<?> create(@Valid @RequestBody SchoolInput schoolInput) {
@@ -80,7 +80,7 @@ public class SchoolController {
 		return schoolIO.mapTo(schoolService.show(id));
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_DELEGATE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Privilege.UPDATE_SCHOOL + "', '" + Privilege.UPDATE_DELEGATE + "')")
 	@PutMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Updates a delegate")
 	public ResponseEntity<?> update(
@@ -96,7 +96,7 @@ public class SchoolController {
 
 	//@formatter:on
 
-	@PreAuthorize("hasAuthority('" + Privilege.DELETE_DELEGATE + "')")
+	@PreAuthorize("hasAnyAuthority('" + Privilege.DELETE_SCHOOL + "', '" + Privilege.DELETE_DELEGATE + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Delete a School")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {

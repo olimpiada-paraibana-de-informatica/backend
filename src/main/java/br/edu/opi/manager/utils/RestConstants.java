@@ -9,7 +9,7 @@ public class RestConstants {
 	public static final String OPI_CATEGORY_URI = API_URI + "/categories";
 	public static final String CITY_URI = API_URI + "/cities";
 	public static final String STATE_URI = API_URI + "/states";
-	public static final String STUDENT_URI = API_URI + "students";
+	public static final String STUDENT_URI = API_URI + "/students";
 
 	public static final String DEFAULT_PASSWORD = "P@ssw0rd";
 }

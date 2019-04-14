@@ -37,7 +37,7 @@ public enum OpiCategory {
 
 	@Override
 	public String toString() {
-		return name;
+		return key;
 	}
 
 }

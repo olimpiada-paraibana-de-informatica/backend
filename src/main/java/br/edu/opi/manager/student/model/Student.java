@@ -1,21 +1,15 @@
 package br.edu.opi.manager.student.model;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.List;
-
-import javax.persistence.*;
-
-import br.edu.opi.manager.delegate.model.Delegate;
-import br.edu.opi.manager.olympiad.model.OpiCategory;
-import br.edu.opi.manager.places.model.City;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "student")
 public class Student extends Auditing implements Serializable, Model<Long> {
-	
 
 	private static final long serialVersionUID = -9051052759732137812L;
 
@@ -26,25 +20,28 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 
 	@Column(name = "name", nullable = false)
 	private String name;
-	
-	@Column(name = "dateBirth", nullable = false)
+
+	@Column(name = "date_birth", nullable = false)
 	private LocalDate dateBirth;
-	
+
 	@Column(name = "genre", nullable = false)
-	private String genre;
-	
-	@Column(name="degree", nullable = false)
-	private String degree;
-	
+	private Genre genre;
+
 	@Column(name = "enabled", nullable = false)
-	private boolean enabled = false;
-	
-	
-	public Student(String name, LocalDate dateBirth, String genre, String degree) {
+	private boolean enabled = true;
+
+	public Student(String name, LocalDate dateBirth, Genre genre) {
 		this.name = name;
 		this.dateBirth = dateBirth;
 		this.genre = genre;
-		this.degree = degree;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -63,20 +60,12 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 		this.dateBirth = dateBirth;
 	}
 
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
-	}
-
-	public String getDegree() {
-		return degree;
-	}
-
-	public void setDegree(String degree) {
-		this.degree = degree;
 	}
 
 	public boolean isEnabled() {
@@ -86,16 +75,5 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	
-	
 
 }

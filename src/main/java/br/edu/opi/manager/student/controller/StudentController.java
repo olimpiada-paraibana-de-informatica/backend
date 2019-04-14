@@ -34,19 +34,17 @@ public class StudentController {
 
 	private StudentService studentService;
 
-
 	@Autowired
 	public StudentController(StudentIO studentIO, StudentService studentService) {
 		this.studentIO = studentIO;
 		this.studentService = studentService;
 	}
 
-
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_STUDENT + "')")
 	@PostMapping({"/", ""})
-	@ApiOperation(value = "Create a School", notes = "Also returns a link to retrieve the saved Student in the location header")
+	@ApiOperation(value = "Create a Student", notes = "Also returns a link to retrieve the saved Student in the location header")
 	public ResponseEntity<?> create(@Valid @RequestBody StudentInput studentInput) {
-		LOGGER.info("trying create new school " + studentInput.getName());
+		LOGGER.info("trying create new student " + studentInput.getName());
 		Student student = studentIO.mapTo(studentInput);
 		Student savedSchool = studentService.create(student);
 		URI location = ServletUriComponentsBuilder
@@ -54,7 +52,7 @@ public class StudentController {
 				.path("/{id}")
 				.buildAndExpand(savedSchool.getId())
 				.toUri();
-		LOGGER.info("school " + student.getId() + " create at " + location);
+		LOGGER.info("student " + student.getId() + " create at " + location);
 		return ResponseEntity.created(location).build();
 	}
 
@@ -65,7 +63,7 @@ public class StudentController {
 	public Page<StudentOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
 			@RequestParam(required = false, name = "size") Integer size) {
-		LOGGER.info("index schools");
+		LOGGER.info("index students");
 		return studentIO.toPage(studentService.index(page, size));
 	}
 	// @formatter:on
@@ -106,7 +104,5 @@ public class StudentController {
 		return ResponseEntity.ok().build();
 	}
 	// @formatter:on
-
-
 
 }

@@ -1,6 +1,7 @@
 package br.edu.opi.manager.student.dto;
 
 import br.edu.opi.manager.school.dto.SchoolOutput;
+import br.edu.opi.manager.student.model.Student;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -8,8 +9,6 @@ import org.modelmapper.spi.MappingContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
-
-import br.edu.opi.manager.student.model.Student;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -32,10 +31,10 @@ public class StudentIO {
 		@Override
 		public Student convert(MappingContext<StudentInput, Student> context) {
 			StudentInput input = context.getSource();
-			return new Student(input.getName(),
+			return new Student(
+					input.getName(),
 					input.getDateBirth(),
-					input.getGenre(),
-					input.getDegree());
+					input.getGenre());
 		}
 	};
 
@@ -71,9 +70,7 @@ public class StudentIO {
 		studentOutput.setId(student.getId());
 		studentOutput.setName(student.getName());
 		studentOutput.setDateBirth(student.getDateBirth());
-		studentOutput.setDegree(student.getDegree());
 		studentOutput.setGenre(student.getGenre());
-
 		studentOutput.setEnabled(student.isEnabled());
 		return studentOutput;
 	}

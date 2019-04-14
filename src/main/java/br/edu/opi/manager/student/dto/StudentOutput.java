@@ -1,34 +1,33 @@
 package br.edu.opi.manager.student.dto;
 
-import java.time.LocalDate;
-
+import br.edu.opi.manager.student.model.Genre;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+
 public class StudentOutput {
-	
+
 	@ApiModelProperty(example = "1")
 	private Long id;
-	
+
 	@ApiModelProperty(example = "João da Silva Santos")
 	private String name;
-	
-	@ApiModelProperty(example = "28/10/1822")
+
+	@ApiModelProperty(example = "1998-03-25")
 	private LocalDate dateBirth;
-	
-	@ApiModelProperty(example = "M")
-	private String genre;
-	
-	@ApiModelProperty(example = "8 série")
-	private String degree;
-	
+
+	@ApiModelProperty
+	@NotEmpty
+	private Genre genre;
+
 	@ApiModelProperty(example = "true")
-	private boolean enabled = false;
-	
+	private boolean enabled;
 
 	public StudentOutput() {
-		
+
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -45,20 +44,12 @@ public class StudentOutput {
 		this.dateBirth = dateBirth;
 	}
 
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
-	}
-
-	public String getDegree() {
-		return degree;
-	}
-
-	public void setDegree(String degree) {
-		this.degree = degree;
 	}
 
 	public Long getId() {
@@ -68,7 +59,7 @@ public class StudentOutput {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -76,5 +67,5 @@ public class StudentOutput {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 }
