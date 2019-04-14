@@ -1,6 +1,7 @@
 package br.edu.opi.manager.student.dto;
 
 import br.edu.opi.manager.school.dto.SchoolOutput;
+import br.edu.opi.manager.school.model.School;
 import br.edu.opi.manager.student.model.Student;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -34,7 +35,8 @@ public class StudentIO {
 			return new Student(
 					input.getName(),
 					input.getDateBirth(),
-					input.getGenre());
+					input.getGenre(),
+					new School(input.getSchoolId()));
 		}
 	};
 

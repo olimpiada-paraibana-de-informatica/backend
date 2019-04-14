@@ -39,9 +39,13 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	private List<OpiCategory> categories;
 
 	@Column(name = "enabled", nullable = false)
-	private boolean enabled = false;
+	private boolean enabled = true; // TODO: modify to false when create funcionality to change it
 
 	public School() {
+	}
+
+	public School(Long id) {
+		this.id = id;
 	}
 
 	public School(String name, City city, Delegate delegate, List<OpiCategory> categories) {

@@ -2,6 +2,7 @@ package br.edu.opi.manager.student.model;
 
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
+import br.edu.opi.manager.school.model.School;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,10 +31,16 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled = true;
 
-	public Student(String name, LocalDate dateBirth, Genre genre) {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "school_id", nullable = false, updatable = false)
+	// TODO: check what happens when the student changes his school
+	private School school;
+
+	public Student(String name, LocalDate dateBirth, Genre genre, School school) {
 		this.name = name;
 		this.dateBirth = dateBirth;
 		this.genre = genre;
+		this.school = school;
 	}
 
 	public Long getId() {
@@ -74,6 +81,14 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 
 }

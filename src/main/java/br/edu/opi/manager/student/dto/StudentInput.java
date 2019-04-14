@@ -20,6 +20,9 @@ public class StudentInput {
 	@NotEmpty
 	private Genre genre;
 
+	@ApiModelProperty(required = false)
+	private Long schoolId;
+
 	public StudentInput() {
 	}
 
@@ -45,6 +48,14 @@ public class StudentInput {
 
 	public void setGenre(Genre genre) {
 		this.genre = genre;
+	}
+
+	public Long getSchoolId() {
+		return schoolId;
+	}
+
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
 	}
 
 }

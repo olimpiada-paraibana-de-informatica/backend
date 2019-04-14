@@ -46,7 +46,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		// Profile Admin
 		final Profile profile_admin = createProfileIfNotFound("Administrador", new HashSet<Privilege>() {
 			private static final long serialVersionUID = -4532748588777883116L;
-
 			{
 				addAll(Arrays.asList(Privilege.values()));
 			}
@@ -55,7 +54,6 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		// Profile Test
 		final Profile profile_teste = createProfileIfNotFound("Usuário Padrão", new HashSet<Privilege>() {
 			private static final long serialVersionUID = -4532748588777883116L;
-
 			{
 				add(Privilege.C_US);
 				add(Privilege.S_US);
