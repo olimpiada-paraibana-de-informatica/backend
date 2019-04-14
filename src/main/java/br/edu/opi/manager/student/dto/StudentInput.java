@@ -4,6 +4,7 @@ import br.edu.opi.manager.student.model.Genre;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class StudentInput {
@@ -13,14 +14,14 @@ public class StudentInput {
 	private String name;
 
 	@ApiModelProperty(example = "1998-03-25", required = true)
-	@NotEmpty
+	@NotNull
 	private LocalDate dateBirth;
 
 	@ApiModelProperty(required = true)
-	@NotEmpty
+	@NotNull
 	private Genre genre;
 
-	@ApiModelProperty(required = false)
+	@ApiModelProperty
 	private Long schoolId;
 
 	public StudentInput() {

@@ -52,8 +52,7 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 			throw new SchoolNotNullRuntimeException(student.getName(), student.getDateBirth());
 		}
 		student.setSchool(new School(school.getId()));
-		this.create(student);
-		return null;
+		return this.create(student);
 	}
 
 	public Student update(Long id, Student student, String delegatePrincipal) {

@@ -49,7 +49,7 @@ public class StudentIO {
 	}
 
 	public List<StudentOutput> toList(List<Student> source) {
-		Type dest = new TypeToken<List<SchoolOutput>>() {
+		Type dest = new TypeToken<List<StudentOutput>>() {
 		}.getType();
 		return modelMapper.map(source, dest);
 	}

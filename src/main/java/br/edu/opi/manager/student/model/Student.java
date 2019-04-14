@@ -36,6 +36,9 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 	// TODO: check what happens when the student changes his school
 	private School school;
 
+	public Student() {
+	}
+
 	public Student(String name, LocalDate dateBirth, Genre genre, School school) {
 		this.name = name;
 		this.dateBirth = dateBirth;
