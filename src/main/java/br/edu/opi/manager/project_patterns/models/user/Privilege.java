@@ -36,6 +36,12 @@ public enum Privilege implements Serializable {
 	C_SC(PrivilegeUtils.C_SC, "CREATE_SCHOOL", "Criar Colégio", PrivilegeUtils.SC),
 	I_SC(PrivilegeUtils.I_SC, "INDEX_SCHOOL", "Visualizar todos os Colégios", PrivilegeUtils.SC),
 	S_SC(PrivilegeUtils.S_SC, "SHOW_SCHOOL", "Detalhes de Colégio", PrivilegeUtils.SC),
+	//Student
+	C_ST(PrivilegeUtils.C_ST, "CREATE_STUDENT", "Criar estudante", PrivilegeUtils.C_ST),
+	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.I_ST),
+	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.S_ST),
+	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.U_ST),
+	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.D_ST)
 	;
 	// @formatter:on
 
@@ -61,6 +67,13 @@ public enum Privilege implements Serializable {
 	public static final String CREATE_SCHOOL = PrivilegeUtils.C_SC;
 	public static final String INDEX_SCHOOL = PrivilegeUtils.I_SC;
 	public static final String SHOW_SCHOOL = PrivilegeUtils.S_SC;
+
+	//Student
+	public static final String CREATE_STUDENT = PrivilegeUtils.C_ST;
+	public static final String INDEX_STUDENT = PrivilegeUtils.I_ST;
+	public static final String SHOW_STUDENT = PrivilegeUtils.S_ST;
+	public static final String UPDATE_STUDENT = PrivilegeUtils.U_ST;
+	public static final String DELETE_STUDENT = PrivilegeUtils.D_ST;
 
 	private String key;
 	private String name;
@@ -118,5 +131,12 @@ class PrivilegeUtils {
 	static final String C_SC = "C_SC";
 	static final String I_SC = "I_SC";
 	static final String S_SC = "S_SC";
+
+	//Student
+	static final String C_ST = "C_ST";
+	static final String I_ST = "I_ST";
+	static final String S_ST = "S_ST";
+	static final String U_ST = "U_ST";
+	static final String D_ST = "D_ST";
 
 }
