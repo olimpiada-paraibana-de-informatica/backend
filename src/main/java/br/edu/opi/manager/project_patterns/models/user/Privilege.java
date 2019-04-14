@@ -45,7 +45,12 @@ public enum Privilege implements Serializable {
 	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.I_ST),
 	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.S_ST),
 	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.U_ST),
-	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.D_ST)
+	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.D_ST),
+	CA_ST(PrivilegeUtils.CA_ST, "CREATE_ASSOCIATED_STUDENT", "Criar estudante associado", PrivilegeUtils.C_ST),
+	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.I_ST),
+	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.S_ST),
+	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.U_ST),
+	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.D_ST)
 	;
 	// @formatter:on
 
@@ -82,6 +87,11 @@ public enum Privilege implements Serializable {
 	public static final String SHOW_STUDENT = PrivilegeUtils.S_ST;
 	public static final String UPDATE_STUDENT = PrivilegeUtils.U_ST;
 	public static final String DELETE_STUDENT = PrivilegeUtils.D_ST;
+	public static final String CREATE_ASSOCIATED_STUDENT = PrivilegeUtils.CA_ST;
+	public static final String INDEX_ASSOCIATED_STUDENT = PrivilegeUtils.IA_ST;
+	public static final String SHOW_ASSOCIATED_STUDENT = PrivilegeUtils.SA_ST;
+	public static final String UPDATE_ASSOCIATED_STUDENT = PrivilegeUtils.UA_ST;
+	public static final String DELETE_ASSOCIATED_STUDENT = PrivilegeUtils.DA_ST;
 
 	private String key;
 	private String name;
@@ -136,7 +146,7 @@ class PrivilegeUtils {
 	static final String D_DE = "D_DE";
 
 	//School
-	static final String C_SC = "C_SC";
+//	static final String C_SC = "C_SC";
 	static final String I_SC = "I_SC";
 	static final String S_SC = "S_SC";
 	static final String U_SC = "U_SC";
@@ -150,5 +160,10 @@ class PrivilegeUtils {
 	static final String S_ST = "S_ST";
 	static final String U_ST = "U_ST";
 	static final String D_ST = "D_ST";
+	static final String CA_ST = "CA_ST";
+	static final String IA_ST = "IA_ST";
+	static final String SA_ST = "SA_ST";
+	static final String UA_ST = "UA_ST";
+	static final String DA_ST = "DA_ST";
 
 }
