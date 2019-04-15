@@ -33,6 +33,7 @@ public enum Privilege implements Serializable {
 	U_DE(PrivilegeUtils.U_DE, "UPDATE_DELEGATE", "Editar Delegado", PrivilegeUtils.DE),
 	D_DE(PrivilegeUtils.D_DE, "DELETE_DELEGATE", "Deletar Delegados", PrivilegeUtils.DE),
 	//School
+	C_SC(PrivilegeUtils.C_SC, "CREATE_SCHOOL", "Criar Escola a qualquer momento", PrivilegeUtils.SC),
 	I_SC(PrivilegeUtils.I_SC, "INDEX_SCHOOL", "Visualizar todas as Escolas", PrivilegeUtils.SC),
 	S_SC(PrivilegeUtils.S_SC, "SHOW_SCHOOL", "Detalhes da Escola", PrivilegeUtils.SC),
 	U_SC(PrivilegeUtils.U_SC, "UPDATE_SCHOOL", "Editar Escola", PrivilegeUtils.SC),
@@ -72,6 +73,7 @@ public enum Privilege implements Serializable {
 	public static final String DELETE_DELEGATE = PrivilegeUtils.D_DE;
 
 	//School
+	public static final String CREATE_SCHOOL = PrivilegeUtils.C_SC;
 	public static final String INDEX_SCHOOL = PrivilegeUtils.I_SC;
 	public static final String SHOW_SCHOOL = PrivilegeUtils.S_SC;
 	public static final String UPDATE_SCHOOL = PrivilegeUtils.U_SC;
@@ -144,6 +146,7 @@ class PrivilegeUtils {
 	static final String D_DE = "D_DE";
 
 	//School
+	static final String C_SC = "C_SC";
 	static final String I_SC = "I_SC";
 	static final String S_SC = "S_SC";
 	static final String U_SC = "U_SC";

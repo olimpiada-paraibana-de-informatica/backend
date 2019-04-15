@@ -42,7 +42,6 @@ public class SchoolController {
 		this.schoolService = schoolService;
 	}
 
-//	@PreAuthorize("hasAuthority('" + Privilege.CREATE_SCHOOL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a School", notes = "Also returns a link to retrieve the saved School in the location header")
 	public ResponseEntity<?> create(@Valid @RequestBody SchoolInput schoolInput) {
