@@ -22,12 +22,6 @@ public class StudentIO {
 
 	private ModelMapper modelMapper;
 
-	public StudentIO() {
-		this.modelMapper = new ModelMapper();
-		this.modelMapper.addConverter(studentInputConverter);
-		this.modelMapper.addConverter(studentOutputConverter);
-	}
-
 	final Converter<StudentInput, Student> studentInputConverter = new Converter<StudentInput, Student>() {
 		@Override
 		public Student convert(MappingContext<StudentInput, Student> context) {
@@ -40,6 +34,20 @@ public class StudentIO {
 		}
 	};
 
+	final Converter<Student, StudentOutput> studentOutputConverter = new Converter<Student, StudentOutput>() {
+		@Override
+		public StudentOutput convert(MappingContext<Student, StudentOutput> context) {
+			Student input = context.getSource();
+			return toStudentOutput(input);
+		}
+	};
+
+	public StudentIO() {
+		this.modelMapper = new ModelMapper();
+		this.modelMapper.addConverter(studentInputConverter);
+		this.modelMapper.addConverter(studentOutputConverter);
+	}
+
 	public Student mapTo(StudentInput studentInput) {
 		return this.modelMapper.map(studentInput, Student.class);
 	}
@@ -49,8 +57,12 @@ public class StudentIO {
 	}
 
 	public List<StudentOutput> toList(List<Student> source) {
-		Type dest = new TypeToken<List<StudentOutput>>() {
-		}.getType();
+		Type dest = new TypeToken<List<StudentOutput>>() {}.getType();
+		return modelMapper.map(source, dest);
+	}
+
+	public List<Student> toStudentList(List<StudentInput> source) {
+		Type dest = new TypeToken<List<Student>>() {}.getType();
 		return modelMapper.map(source, dest);
 	}
 
@@ -58,14 +70,6 @@ public class StudentIO {
 		List<StudentOutput> list = toList(source.getContent());
 		return new PageImpl<>(list, source.getPageable(), source.getTotalElements());
 	}
-
-	final Converter<Student, StudentOutput> studentOutputConverter = new Converter<Student, StudentOutput>() {
-		@Override
-		public StudentOutput convert(MappingContext<Student, StudentOutput> context) {
-			Student input = context.getSource();
-			return toStudentOutput(input);
-		}
-	};
 
 	private StudentOutput toStudentOutput(Student student) {
 		StudentOutput studentOutput = new StudentOutput();

@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StudentService extends GenericService<Long, Student, StudentRepository> {
 
@@ -46,6 +48,12 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		return savedStudent;
 	}
 
+	public void create(List<Student> students) {
+		for (Student student : students) {
+			this.create(student);
+		}
+	}
+
 	public Student create(Student student, String delegatePrincipal) {
 		School school = schoolRepository.findByDelegateUsername(delegatePrincipal);
 		if (school == null) {
@@ -53,6 +61,18 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		}
 		student.setSchool(new School(school.getId()));
 		return this.create(student);
+	}
+
+	public void create(List<Student> students, String delegatePrincipal) {
+		School school = schoolRepository.findByDelegateUsername(delegatePrincipal);
+		if (school == null) {
+			throw new SchoolNotNullRuntimeException(delegatePrincipal);
+		}
+		school = new School(school.getId());
+		for (Student student : students) {
+			student.setSchool(school);
+			this.create(student);
+		}
 	}
 
 	public Student update(Long id, Student student, String delegatePrincipal) {

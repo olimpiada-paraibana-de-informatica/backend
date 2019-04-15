@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(RestConstants.STUDENT_URI)
@@ -42,18 +43,13 @@ public class StudentController {
 
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_STUDENT + "')")
 	@PostMapping({"/", ""})
-	@ApiOperation(value = "Create a Student", notes = "Also returns a link to retrieve the saved Student in the location header")
-	public ResponseEntity<?> create(@Valid @RequestBody StudentInput studentInput) {
-		LOGGER.info("trying create new student " + studentInput.getName());
-		Student student = studentIO.mapTo(studentInput);
-		Student savedSchool = studentService.create(student);
-		URI location = ServletUriComponentsBuilder
-				.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(savedSchool.getId())
-				.toUri();
-		LOGGER.info("student " + student.getId() + " create at " + location);
-		return ResponseEntity.created(location).build();
+	@ApiOperation(value = "Create a Student")
+	public ResponseEntity<?> create(@Valid @RequestBody List<StudentInput> studentsInput) {
+		LOGGER.info("trying create new students");
+		List<Student> students = studentIO.toStudentList(studentsInput);
+		studentService.create(students);
+		LOGGER.info("students created");
+		return ResponseEntity.noContent().build();
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.INDEX_STUDENT + "')")
