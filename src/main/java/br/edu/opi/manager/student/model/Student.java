@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "student")
+@Table(name = "tb_student")
 public class Student extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = -9051052759732137812L;
