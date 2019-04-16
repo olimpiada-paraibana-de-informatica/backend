@@ -5,6 +5,7 @@ public class RestConstants {
 	public static final String STATUS_URI = "/";
 	public static final String USER_URI = API_URI + "/users";
 	public static final String SCHOOL_URI = API_URI + "/schools";
+	public static final String SCHOOL_DELEGATE_URI = API_URI + "/delegate/schools";
 	public static final String DELEGATE_URI = API_URI + "/delegates";
 	public static final String OPI_CATEGORY_URI = API_URI + "/categories";
 	public static final String CITY_URI = API_URI + "/cities";
