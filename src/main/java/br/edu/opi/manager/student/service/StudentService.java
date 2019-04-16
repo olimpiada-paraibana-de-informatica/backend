@@ -68,6 +68,10 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		if (school == null) {
 			throw new SchoolNotNullRuntimeException(delegatePrincipal);
 		}
+		// TODO: try change front in future
+		List<Student> listToRemove = repository.findAllBySchoolId(school.getId());
+		repository.deleteAll(listToRemove);
+		// TODO: try change front in future
 		school = new School(school.getId());
 		for (Student student : students) {
 			student.setSchool(school);

@@ -7,7 +7,7 @@ public class SchoolNotNullRuntimeException extends StudentConflictRuntimeExcepti
 	private static final long serialVersionUID = -8855688573022904276L;
 
 	public SchoolNotNullRuntimeException(String delegatePrincipal) {
-		super("Delegado " + delegatePrincipal + " associado não está relacionado com escola alguma");
+		super("Delegado " + delegatePrincipal + " não está relacionado com escola alguma");
 	}
 
 	public SchoolNotNullRuntimeException(String name, LocalDate dateBirth) {
