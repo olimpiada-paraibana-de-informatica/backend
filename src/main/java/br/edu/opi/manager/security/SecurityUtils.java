@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /**
- * Utils for Security.
+ * ExceptionsUtils for Security.
  */
 @Component
 public class SecurityUtils {

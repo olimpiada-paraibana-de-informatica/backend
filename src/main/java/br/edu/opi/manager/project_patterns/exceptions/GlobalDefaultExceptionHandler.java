@@ -1,8 +1,8 @@
 package br.edu.opi.manager.project_patterns.exceptions;
 
-import br.edu.opi.manager.school.exception.SchoolConflictsRuntimeException;
-import br.edu.opi.manager.security.exception.AuthenticationRuntimeException;
-import br.edu.opi.manager.student.exception.StudentConflictRuntimeException;
+import br.edu.opi.manager.school.exceptions.SchoolConflictsRuntimeException;
+import br.edu.opi.manager.security.exceptions.AuthenticationRuntimeException;
+import br.edu.opi.manager.student.exceptions.StudentConflictRuntimeException;
 import org.modelmapper.MappingException;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -95,7 +95,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
 	//@formatter:on
 
 	/**
-	 * Captures model mapper exceptions and sends error occurred with status Conflict (HTTP 409).
+	 * Captures models mapper exceptions and sends error occurred with status Conflict (HTTP 409).
 	 *
 	 * @param exception
 	 * @param request

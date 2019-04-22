@@ -19,10 +19,10 @@ import java.util.List;
 /**
  * Generic Service to optimize development.
  *
- * @param <ID>         type of id that is the focus of the target service.
- * @param <MODEL>      type of domain that is the focus of the target service.
- * @param <REPOSITORY> type of repository layer that is the focus of the target
- *                     service.
+ * @param <ID>         type of id that is the focus of the target services.
+ * @param <MODEL>      type of domain that is the focus of the target services.
+ * @param <REPOSITORY> type of repositories layer that is the focus of the target
+ *                     services.
  */
 public abstract class GenericService<ID, MODEL extends Model<ID>, REPOSITORY extends JpaRepository<MODEL, ID>> {
 
@@ -88,7 +88,7 @@ public abstract class GenericService<ID, MODEL extends Model<ID>, REPOSITORY ext
 	 * exceptions-in-spring/32347906#32347906
 	 *
 	 * To recovery error code, use
-	 * org.hibernate.exception.ConstraintViolationException:
+	 * org.hibernate.exceptions.ConstraintViolationException:
 	 *
 	 * @code {
 	 *   catch (DataIntegrityViolationException dive) {

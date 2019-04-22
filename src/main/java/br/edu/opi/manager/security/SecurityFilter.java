@@ -1,7 +1,7 @@
 package br.edu.opi.manager.security;
 
-import br.edu.opi.manager.security.exception.AuthenticationRuntimeException;
-import br.edu.opi.manager.security.exception.ErrorConstants;
+import br.edu.opi.manager.security.exceptions.AuthenticationRuntimeException;
+import br.edu.opi.manager.security.exceptions.ErrorConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

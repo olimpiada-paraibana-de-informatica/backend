@@ -1,6 +1,6 @@
 package br.edu.opi.manager.comunication.email;
 
-// import br.edu.opi.manager.delegate.model.Delegate;
+// import br.edu.opi.manager.delegate.models.Delegate;
 // import org.springframework.mail.SimpleMailMessage;
 // import org.springframework.stereotype.Component;
 

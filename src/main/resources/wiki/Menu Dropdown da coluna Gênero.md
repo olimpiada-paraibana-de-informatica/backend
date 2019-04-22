@@ -1,0 +1,3 @@
+Masculino
+Feminino
+Não Binário
