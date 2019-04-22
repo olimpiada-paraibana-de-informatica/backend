@@ -34,7 +34,7 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 	private boolean enabled = true;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "school_id", nullable = false, updatable = false)
+	@JoinColumn(name = "school_id", updatable = false)
 	// TODO: check what happens when the student changes his school
 	private School school;
 

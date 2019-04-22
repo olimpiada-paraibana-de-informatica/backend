@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping(RestConstants.EXCEL_URI)
+@RequestMapping(RestConstants.EXCEL_DELEGATE_URI)
 @Api(tags = "Excel")
 @CrossOrigin
 public class ExcelParserController {
@@ -23,10 +24,10 @@ public class ExcelParserController {
 		this.parserStudentsService = parserStudentsService;
 	}
 
-	@PostMapping({"/schools/{id}/competitors/", "/schools/{id}/competitors"})
+	@PostMapping({"/schools/competitors/", "/schools/competitors"})
 	@ApiOperation(value = "Upload excel files to register competitors")
-	public void createCompetitorsFromSheet(@PathVariable("id") Long schoolId, @RequestParam("file") MultipartFile multipartFile) {
-		parserStudentsService.createStudents(schoolId, LocalDate.now().getYear(), multipartFile);
+	public void createCompetitorsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
+		parserStudentsService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
 	}
 
 }

@@ -9,6 +9,7 @@ import br.edu.opi.manager.school.exceptions.SchoolExistsRuntimeException;
 import br.edu.opi.manager.school.exceptions.UserNotDelegateRuntimeException;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.repositories.SchoolRepository;
+import br.edu.opi.manager.student.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.user.models.UserModel;
 import br.edu.opi.manager.user.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,22 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 		this.delegateRepository = delegateRepository;
 		this.delegateService = delegateService;
 		this.userRepository = userRepository;
+	}
+
+	public School show(String delegatePrincipal) {
+		School school = repository.findByDelegateUsername(delegatePrincipal);
+		if (school == null) {
+			throw new SchoolNotNullRuntimeException(delegatePrincipal);
+		}
+		return school;
+	}
+
+	public School update(Long id, School school, String delegatePrincipal) {
+		School savedSchool = repository.findByDelegateUsername(delegatePrincipal);
+		if (savedSchool == null) {
+			throw new SchoolNotNullRuntimeException(delegatePrincipal);
+		}
+		return this.update(savedSchool.getId(), school);
 	}
 
 	@Override

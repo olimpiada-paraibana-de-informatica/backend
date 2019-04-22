@@ -70,9 +70,8 @@ public class SchoolController {
 	// @formatter:on
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_SCHOOL + "')")
-	@ApiOperation(value = "Get a User")
+	@ApiOperation(value = "Get a School")
 	@GetMapping({"/{id}/", "/{id}"})
-	// @formatter:off
 	public SchoolOutput show(
 			@PathVariable("id") Long id) {
 		LOGGER.info("show user " + id);
@@ -81,7 +80,7 @@ public class SchoolController {
 
 	@PreAuthorize("hasAnyAuthority('" + Privilege.UPDATE_SCHOOL + "', '" + Privilege.UPDATE_DELEGATE + "')")
 	@PutMapping({"/{id}/", "/{id}"})
-	@ApiOperation(value = "Updates a delegate")
+	@ApiOperation(value = "Updates a School")
 	public ResponseEntity<?> update(
 			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,

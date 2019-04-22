@@ -7,6 +7,7 @@ import br.edu.opi.manager.excel_io.repositories.StudentTableMetadataRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
+import br.edu.opi.manager.school.services.SchoolService;
 import br.edu.opi.manager.student.models.Genre;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -29,21 +30,26 @@ public class ParserStudentsService {
 
 	private static final int CELLS_LENGTH = 5;
 
+	private SchoolService schoolService;
+
 	private StudentTableMetadataRepository studentTableMetadataRepository;
 
 	private StudentTableRowRepository studentTableRowRepository;
 
 	@Autowired
 	public ParserStudentsService(
+			SchoolService schoolService,
 			StudentTableMetadataRepository studentTableMetadataRepository,
 			StudentTableRowRepository studentTableRowRepository) {
+		this.schoolService = schoolService;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
 		this.studentTableRowRepository = studentTableRowRepository;
 	}
 
-	public void createStudents(Long schoolId, int year, MultipartFile multipartFile) {
+	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
 		try {
-			createStudentsTransactional(schoolId, year, multipartFile.getInputStream());
+			School school = schoolService.show(delegatePrincipal);
+			createStudentsTransactional(school.getId(), year, multipartFile.getInputStream());
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
