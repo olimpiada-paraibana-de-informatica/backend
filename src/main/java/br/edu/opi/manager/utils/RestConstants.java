@@ -13,6 +13,7 @@ public class RestConstants {
 	public static final String STUDENT_URI = API_URI + "/students";
 	public static final String STUDENT_DELEGATE_URI = API_URI + "/delegate/students";
 	public static final String EXCEL_DELEGATE_URI = API_URI + "/delegates/excel";
+	public static final String COMPETITOR_URI = API_URI + "/competitors";
 
 	public static final String DEFAULT_PASSWORD = "P@ssw0rd";
 }

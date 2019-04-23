@@ -41,6 +41,10 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 	public Student() {
 	}
 
+	public Student(Long id){
+		this.id = id;
+	}
+
 	public Student(String name, LocalDate dateBirth, Genre genre, School school) {
 		this.name = name;
 		this.dateBirth = dateBirth;

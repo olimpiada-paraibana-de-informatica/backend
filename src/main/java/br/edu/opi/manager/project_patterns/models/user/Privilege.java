@@ -50,7 +50,13 @@ public enum Privilege implements Serializable {
 	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.I_ST),
 	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.S_ST),
 	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.U_ST),
-	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.D_ST)
+	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.D_ST),
+	//Competitor
+	C_CO(PrivilegeUtils.C_CO, "CREATE_COMPETITOR", "Criar Competidor", PrivilegeUtils.C_CO),
+	I_CO(PrivilegeUtils.I_CO, "INDEX_COMPETITOR", "Visualizar todos os Competidores", PrivilegeUtils.I_CO),
+	S_CO(PrivilegeUtils.S_CO, "SHOW_COMPETITOR", "Detalhes do Competidor", PrivilegeUtils.S_CO),
+	U_CO(PrivilegeUtils.U_CO, "UPDATE_COMPETITOR", "Editar Competidor", PrivilegeUtils.U_CO),
+	D_CO(PrivilegeUtils.D_CO, "DELETE_COMPETITOR", "Deletar Competidor", PrivilegeUtils.D_CO)
 	;
 	// @formatter:on
 
@@ -92,6 +98,13 @@ public enum Privilege implements Serializable {
 	public static final String SHOW_ASSOCIATED_STUDENT = PrivilegeUtils.SA_ST;
 	public static final String UPDATE_ASSOCIATED_STUDENT = PrivilegeUtils.UA_ST;
 	public static final String DELETE_ASSOCIATED_STUDENT = PrivilegeUtils.DA_ST;
+
+	//Competitor
+	public static final String CREATE_COMPETITOR = PrivilegeUtils.C_CO;
+	public static final String INDEX_COMPETITOR = PrivilegeUtils.I_CO;
+	public static final String SHOW_COMPETITOR = PrivilegeUtils.S_CO;
+	public static final String UPDATE_COMPETITOR = PrivilegeUtils.U_CO;
+	public static final String DELETE_COMPETITOR = PrivilegeUtils.D_CO;
 
 	private String key;
 	private String name;
@@ -165,5 +178,12 @@ class PrivilegeUtils {
 	static final String SA_ST = "SA_ST";
 	static final String UA_ST = "UA_ST";
 	static final String DA_ST = "DA_ST";
+
+	//Competitor
+	static final String C_CO = "C_CO";
+	static final String I_CO = "I_CO";
+	static final String S_CO = "S_CO";
+	static final String U_CO = "U_CO";
+	static final String D_CO = "D_CO";
 
 }
