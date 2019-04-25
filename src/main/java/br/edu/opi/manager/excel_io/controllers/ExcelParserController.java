@@ -1,6 +1,6 @@
 package br.edu.opi.manager.excel_io.controllers;
 
-import br.edu.opi.manager.excel_io.services.ParserStudentsService;
+import br.edu.opi.manager.excel_io.services.CompetitorParserService;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
@@ -19,18 +19,18 @@ import java.time.LocalDate;
 @CrossOrigin
 public class ExcelParserController {
 
-	private ParserStudentsService parserStudentsService;
+	private CompetitorParserService competitorParserService;
 
 	@Autowired
-	public ExcelParserController(ParserStudentsService parserStudentsService) {
-		this.parserStudentsService = parserStudentsService;
+	public ExcelParserController(CompetitorParserService competitorParserService) {
+		this.competitorParserService = competitorParserService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
 	@PostMapping({"/schools/competitors/", "/schools/competitors"})
 	@ApiOperation(value = "Upload excel files to register competitors")
 	public void createCompetitorsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
-		parserStudentsService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
+		competitorParserService.createCompetitors(principal.getName(), LocalDate.now().getYear(), multipartFile);
 	}
 
 }

@@ -19,6 +19,7 @@ public class ProfileFactory {
 				add(Privilege.IA_ST);
 				add(Privilege.SA_ST);
 				add(Privilege.DA_ST);
+				add(Privilege.CA_CO);
 			}
 		};
 		return new Profile(1L, "Delegado", delegatePrivileges);

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_student_table_row")
-public class StudentTableRow extends Auditing implements Serializable, Model<Long> {
+public class CompetitorTableRow extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = 3030331999726512470L;
 
@@ -39,9 +39,9 @@ public class StudentTableRow extends Auditing implements Serializable, Model<Lon
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_table_metadata_id")
-	private StudentTableMetadata studentTableMetadata;
+	private CompetitorTableMetadata competitorTableMetadata;
 
-	public StudentTableRow() {
+	public CompetitorTableRow() {
 	}
 
 	@Override
@@ -94,12 +94,12 @@ public class StudentTableRow extends Auditing implements Serializable, Model<Lon
 		this.score = score;
 	}
 
-	public StudentTableMetadata getStudentTableMetadata() {
-		return studentTableMetadata;
+	public CompetitorTableMetadata getCompetitorTableMetadata() {
+		return competitorTableMetadata;
 	}
 
-	public void setStudentTableMetadata(StudentTableMetadata studentTableMetadata) {
-		this.studentTableMetadata = studentTableMetadata;
+	public void setCompetitorTableMetadata(CompetitorTableMetadata competitorTableMetadata) {
+		this.competitorTableMetadata = competitorTableMetadata;
 	}
 
 	@Override

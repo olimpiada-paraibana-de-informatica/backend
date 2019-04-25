@@ -10,8 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_student_table_metadata")
-public class StudentTableMetadata extends Auditing implements Serializable, Model<Long> {
+@Table(name = "tb_competitor_table_metadata")
+public class CompetitorTableMetadata extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = -8017746246759554559L;
 
@@ -29,14 +29,14 @@ public class StudentTableMetadata extends Auditing implements Serializable, Mode
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "student_table_metadata_id")
-	private List<StudentTableRow> rows;
+	private List<CompetitorTableRow> rows;
 
-	public StudentTableMetadata() {
+	public CompetitorTableMetadata() {
 		super();
 		this.rows = new LinkedList<>();
 	}
 
-	public StudentTableMetadata(int year, School school) {
+	public CompetitorTableMetadata(int year, School school) {
 		this();
 		this.year = year;
 		this.school = school;
@@ -68,16 +68,16 @@ public class StudentTableMetadata extends Auditing implements Serializable, Mode
 		this.school = school;
 	}
 
-	public List<StudentTableRow> getRows() {
+	public List<CompetitorTableRow> getRows() {
 		return rows;
 	}
 
-	public void setRows(List<StudentTableRow> rows) {
+	public void setRows(List<CompetitorTableRow> rows) {
 		this.rows = rows;
 	}
 
-	public void addRow(StudentTableRow studentTableRow) {
-		this.rows.add(studentTableRow);
+	public void addRow(CompetitorTableRow competitorTableRow) {
+		this.rows.add(competitorTableRow);
 	}
 
 }

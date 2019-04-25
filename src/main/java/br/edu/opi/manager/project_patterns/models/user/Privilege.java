@@ -56,7 +56,8 @@ public enum Privilege implements Serializable {
 	I_CO(PrivilegeUtils.I_CO, "INDEX_COMPETITOR", "Visualizar todos os Competidores", PrivilegeUtils.I_CO),
 	S_CO(PrivilegeUtils.S_CO, "SHOW_COMPETITOR", "Detalhes do Competidor", PrivilegeUtils.S_CO),
 	U_CO(PrivilegeUtils.U_CO, "UPDATE_COMPETITOR", "Editar Competidor", PrivilegeUtils.U_CO),
-	D_CO(PrivilegeUtils.D_CO, "DELETE_COMPETITOR", "Deletar Competidor", PrivilegeUtils.D_CO)
+	D_CO(PrivilegeUtils.D_CO, "DELETE_COMPETITOR", "Deletar Competidor", PrivilegeUtils.D_CO),
+	CA_CO(PrivilegeUtils.CA_CO, "CREATE_ASSOCIATED_COMPETITOR", "Criar Competidor associado", PrivilegeUtils.CA_CO),
 	;
 	// @formatter:on
 
@@ -105,6 +106,7 @@ public enum Privilege implements Serializable {
 	public static final String SHOW_COMPETITOR = PrivilegeUtils.S_CO;
 	public static final String UPDATE_COMPETITOR = PrivilegeUtils.U_CO;
 	public static final String DELETE_COMPETITOR = PrivilegeUtils.D_CO;
+	public static final String CREATE_ASSOCIATED_COMPETITOR = PrivilegeUtils.CA_CO;
 
 	private String key;
 	private String name;
@@ -185,5 +187,6 @@ class PrivilegeUtils {
 	static final String S_CO = "S_CO";
 	static final String U_CO = "U_CO";
 	static final String D_CO = "D_CO";
+	static final String CA_CO = "CA_CO";
 
 }

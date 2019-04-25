@@ -72,9 +72,9 @@ public class CompetitorController {
 //			@Min(value = 1) @PathVariable("id") Long id,
 //			@Valid @RequestBody StudentInput studentInput) {
 //		Student student = studentIO.mapTo(studentInput);
-//		LOGGER.info("trying update student " + student.getName());
+//		LOGGER.info("trying update student " + student.getFullName());
 //		studentService.update(id, student);
-//		LOGGER.info("student " + student.getName() + " updated");
+//		LOGGER.info("student " + student.getFullName() + " updated");
 //		return ResponseEntity.noContent().build();
 //	}
 
@@ -84,7 +84,7 @@ public class CompetitorController {
 	@DeleteMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Delete a Competitor")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-		LOGGER.info("trying deleting student " + id);
+		LOGGER.info("trying deleting competitor " + id);
 		competitorService.delete(id);
 		LOGGER.info("competitor " + id + " deleted");
 		return ResponseEntity.ok().build();

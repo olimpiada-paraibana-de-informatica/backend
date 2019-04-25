@@ -21,7 +21,7 @@ public class SenderMailService {
 	// 	SimpleMailMessage message = new SimpleMailMessage();
 	// 	message.setTo("eri.silva@ccc.ufcg.edu.br");
 	// 	message.setSubject("[OPI] Nova conta criada");
-	// 	String text = "\t" + delegate.getName() +
+	// 	String text = "\t" + delegate.getFullName() +
 	// 			" registrou um conta para o e-mail " +
 	// 			delegate.getUsername() + ".\n\n" +
 	// 			"\tMais detalhes em: http://opi.org/t=asd23jnbisjk3j4kjnksa\n\n" +

@@ -18,7 +18,7 @@ public class DelegateListener {
 		// BeanUtil.autowire(this, this.senderMailService);
 		// String email = delegate.getUsername();
 		// // TODO: refactoring e-mail content
-		// String text = "\tOlá " + delegate.getName() + "," +
+		// String text = "\tOlá " + delegate.getFullName() + "," +
 		// 		" uma conta foi criada em seu nome.\n" +
 		// 		"\tPara confirmar seus dados basta clicar no link abaixo:\n" +
 		// 		"\t\thttp://opi.org/asjlkjnlkj3nrlwjw378\n\n" +

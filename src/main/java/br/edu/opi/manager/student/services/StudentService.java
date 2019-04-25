@@ -1,6 +1,5 @@
 package br.edu.opi.manager.student.services;
 
-import br.edu.opi.manager.excel_io.models.StudentTableRow;
 import br.edu.opi.manager.project_patterns.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.project_patterns.services.GenericService;
 import br.edu.opi.manager.school.models.School;
@@ -58,7 +57,7 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 	public Student create(Student student, String delegatePrincipal) {
 		School school = schoolRepository.findByDelegateUsername(delegatePrincipal);
 		if (school == null) {
-			throw new SchoolNotNullRuntimeException(student.getName(), student.getDateBirth());
+			throw new SchoolNotNullRuntimeException(student.getPerson().getFullName(), student.getPerson().getDateBirth());
 		}
 		student.setSchool(new School(school.getId()));
 		return this.create(student);
@@ -71,7 +70,7 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		}
 		// TODO: try change front in future
 		List<Student> listToRemove = repository.findAllBySchoolId(school.getId());
-		repository.deleteAll(listToRemove);
+		repository.deleteAll(listToRemove); // TODO: performance
 		// TODO: try change front in future
 		school = new School(school.getId());
 		for (Student student : students) {
@@ -88,21 +87,6 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 	public void delete(Long id, String delegatePrincipal) {
 		show(id, delegatePrincipal);
 		this.delete(id);
-	}
-
-	// TODO: competitor when his CRUD has been implemented
-	public void solveAndSave(StudentTableRow studentTableRow) {
-		Student savedStudent = repository.findByNameAndDateBirth(studentTableRow.getName(), studentTableRow.getDateBirth());
-		if (savedStudent == null) {
-			savedStudent = new Student(
-					studentTableRow.getName(),
-					studentTableRow.getDateBirth(),
-					studentTableRow.getGenre(),
-					studentTableRow.getStudentTableMetadata().getSchool());
-		} else {
-			savedStudent.setSchool(studentTableRow.getStudentTableMetadata().getSchool());
-		}
-		repository.save(savedStudent);
 	}
 
 	@Override

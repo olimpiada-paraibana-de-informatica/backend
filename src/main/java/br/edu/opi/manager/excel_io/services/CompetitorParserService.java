@@ -1,9 +1,9 @@
 package br.edu.opi.manager.excel_io.services;
 
 import br.edu.opi.manager.excel_io.exceptions.*;
-import br.edu.opi.manager.excel_io.models.StudentTableMetadata;
-import br.edu.opi.manager.excel_io.models.StudentTableRow;
-import br.edu.opi.manager.excel_io.repositories.StudentTableMetadataRepository;
+import br.edu.opi.manager.excel_io.models.CompetitorTableMetadata;
+import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
+import br.edu.opi.manager.excel_io.repositories.CompetitorTableMetadataRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
@@ -26,57 +26,57 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Service
-public class ParserStudentsService {
+public class CompetitorParserService {
 
 	private static final int CELLS_LENGTH = 5;
 
 	private SchoolService schoolService;
 
-	private StudentTableMetadataRepository studentTableMetadataRepository;
+	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
 
-	private StudentTableRowRepository studentTableRowRepository;
+	private StudentTableRowRepository competitorTableRowRepository;
 
 	@Autowired
-	public ParserStudentsService(
+	public CompetitorParserService(
 			SchoolService schoolService,
-			StudentTableMetadataRepository studentTableMetadataRepository,
-			StudentTableRowRepository studentTableRowRepository) {
+			CompetitorTableMetadataRepository competitorTableMetadataRepository,
+			StudentTableRowRepository competitorTableRowRepository) {
 		this.schoolService = schoolService;
-		this.studentTableMetadataRepository = studentTableMetadataRepository;
-		this.studentTableRowRepository = studentTableRowRepository;
+		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
+		this.competitorTableRowRepository = competitorTableRowRepository;
 	}
 
-	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
+	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
 		try {
 			School school = schoolService.show(delegatePrincipal);
-			createStudentsTransactional(school.getId(), year, multipartFile.getInputStream());
+			createCompetitorsTransactional(school.getId(), year, multipartFile.getInputStream());
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
 	}
 
 	@Transactional
-	void createStudentsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
-		StudentTableMetadata studentTableMetadata = new StudentTableMetadata(year, new School(schoolId));
-		StudentTableMetadata savedStudentTableMetadata = studentTableMetadataRepository.save(studentTableMetadata);
+	void createCompetitorsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
+		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(schoolId));
+		CompetitorTableMetadata savedCompetitorTableMetadata = competitorTableMetadataRepository.save(competitorTableMetadata);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
 			XSSFSheet worksheet = workbook.getSheetAt(0); // TODO: verify number of sheets with client
 			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
-				StudentTableRow tempStudent = new StudentTableRow();
+				CompetitorTableRow tempStudent = new CompetitorTableRow();
 				if (isCellsWithContent(row)) {
 					tempStudent.setName(getNameAttribute(row.getCell(0)));
 					tempStudent.setDateBirth(getDateAttribute(row.getCell(1)));
 					tempStudent.setGenre(getGenreAttribute(row.getCell(2)));
 					tempStudent.setGrade(getGradeAttribute(row.getCell(3)));
 					tempStudent.setScore(getScoreAttibute(row.getCell(4)));
-					tempStudent.setStudentTableMetadata(savedStudentTableMetadata);
-					savedStudentTableMetadata.addRow(tempStudent);
+					tempStudent.setCompetitorTableMetadata(savedCompetitorTableMetadata);
+					savedCompetitorTableMetadata.addRow(tempStudent);
 				}
 			}
-			studentTableMetadataRepository.save(savedStudentTableMetadata);
-			new ConsolidateChangesInStudents(savedStudentTableMetadata.getRows()).start();
+			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
+			new ConsolidateChangesInCompetitors(savedCompetitorTableMetadata.getRows()).start();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
@@ -146,7 +146,7 @@ public class ParserStudentsService {
 				throw new ScoreNotNullRuntimeException(cell.getColumnIndex(), cell.getRow().getRowNum() + 1);
 			}
 			if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().equals("FALTOU")) {
-				return StudentTableRow.MISSED_STUDENT;
+				return CompetitorTableRow.MISSED_STUDENT;
 			} else if (cell.getCellType() == CellType.NUMERIC) {
 				return cell.getNumericCellValue();
 			} else {
