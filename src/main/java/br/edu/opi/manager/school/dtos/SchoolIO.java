@@ -33,7 +33,8 @@ public class SchoolIO {
 					input.getSchoolName(),
 					new City(input.getSchoolCityCbo()),
 					new Delegate(null, input.getDelegateEmail(), input.getDelegateName(), input.getPassword()),
-					input.getOpiCategories());
+					input.getOpiCategories(),
+					input.isPublic());
 		}
 	};
 

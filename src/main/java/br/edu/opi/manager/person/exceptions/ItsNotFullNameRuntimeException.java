@@ -1,6 +1,9 @@
 package br.edu.opi.manager.person.exceptions;
 
-public class ItsNotFullNameRuntimeException extends PersonConflictRuntimeException {
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+import br.edu.opi.manager.project_patterns.exceptions.ExceptionWithErrorCode;
+
+public class ItsNotFullNameRuntimeException extends ConflictsRuntimeException {
 
 	public ItsNotFullNameRuntimeException() {
 		super("Favor informar nome completo");

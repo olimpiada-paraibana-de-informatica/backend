@@ -8,6 +8,7 @@ public class ProfileFactory {
 	public static Profile delegateUser() {
 		Set<Privilege> delegatePrivileges = new HashSet<Privilege>() {
 			private static final long serialVersionUID = 2249152407872739555L;
+
 			{
 				// TODO: change to Delegate own privileges
 				add(Privilege.S_US);
@@ -20,6 +21,10 @@ public class ProfileFactory {
 				add(Privilege.SA_ST);
 				add(Privilege.DA_ST);
 				add(Privilege.CA_CO);
+				add(Privilege.UA_CO);
+				add(Privilege.IA_CO);
+				add(Privilege.SA_CO);
+				add(Privilege.DA_CO);
 			}
 		};
 		return new Profile(1L, "Delegado", delegatePrivileges);

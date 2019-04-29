@@ -41,23 +41,27 @@ public enum Privilege implements Serializable {
 	SA_SC(PrivilegeUtils.SA_SC, "SHOW_ASSOCIATED_SCHOOL", "Detalhes da Escola associada", PrivilegeUtils.SC),
 	UA_SC(PrivilegeUtils.UA_SC, "UPDATE_ASSOCIATED_SCHOOL", "Atualizar Escola associada", PrivilegeUtils.SC),
 	//Student
-	C_ST(PrivilegeUtils.C_ST, "CREATE_STUDENT", "Criar estudante", PrivilegeUtils.C_ST),
-	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.I_ST),
-	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.S_ST),
-	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.U_ST),
-	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.D_ST),
-	CA_ST(PrivilegeUtils.CA_ST, "CREATE_ASSOCIATED_STUDENT", "Criar estudante associado", PrivilegeUtils.C_ST),
-	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.I_ST),
-	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.S_ST),
-	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.U_ST),
-	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.D_ST),
+	C_ST(PrivilegeUtils.C_ST, "CREATE_STUDENT", "Criar estudante", PrivilegeUtils.ST),
+	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.ST),
+	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.ST),
+	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.ST),
+	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.ST),
+	CA_ST(PrivilegeUtils.CA_ST, "CREATE_ASSOCIATED_STUDENT", "Criar estudante associado", PrivilegeUtils.ST),
+	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.ST),
+	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.ST),
+	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.ST),
+	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.ST),
 	//Competitor
-	C_CO(PrivilegeUtils.C_CO, "CREATE_COMPETITOR", "Criar Competidor", PrivilegeUtils.C_CO),
-	I_CO(PrivilegeUtils.I_CO, "INDEX_COMPETITOR", "Visualizar todos os Competidores", PrivilegeUtils.I_CO),
-	S_CO(PrivilegeUtils.S_CO, "SHOW_COMPETITOR", "Detalhes do Competidor", PrivilegeUtils.S_CO),
-	U_CO(PrivilegeUtils.U_CO, "UPDATE_COMPETITOR", "Editar Competidor", PrivilegeUtils.U_CO),
-	D_CO(PrivilegeUtils.D_CO, "DELETE_COMPETITOR", "Deletar Competidor", PrivilegeUtils.D_CO),
-	CA_CO(PrivilegeUtils.CA_CO, "CREATE_ASSOCIATED_COMPETITOR", "Criar Competidor associado", PrivilegeUtils.CA_CO),
+	C_CO(PrivilegeUtils.C_CO, "CREATE_COMPETITOR", "Criar Competidor", PrivilegeUtils.CO),
+	I_CO(PrivilegeUtils.I_CO, "INDEX_COMPETITOR", "Visualizar todos os Competidores", PrivilegeUtils.CO),
+	S_CO(PrivilegeUtils.S_CO, "SHOW_COMPETITOR", "Detalhes do Competidor", PrivilegeUtils.CO),
+	U_CO(PrivilegeUtils.U_CO, "UPDATE_COMPETITOR", "Editar Competidor", PrivilegeUtils.CO),
+	D_CO(PrivilegeUtils.D_CO, "DELETE_COMPETITOR", "Deletar Competidor", PrivilegeUtils.CO),
+	CA_CO(PrivilegeUtils.CA_CO, "CREATE_ASSOCIATED_COMPETITOR", "Criar Competidor associado", PrivilegeUtils.CO),
+	IA_CO(PrivilegeUtils.IA_CO, "INDEX_ASSOCIATED_COMPETITOR", "Visualizar todos os Competidores associados", PrivilegeUtils.CO),
+	SA_CO(PrivilegeUtils.SA_CO, "SHOW_ASSOCIATED_COMPETITOR", "Detalhes do Competidor associado", PrivilegeUtils.CO),
+	UA_CO(PrivilegeUtils.UA_CO, "UPDATE_ASSOCIATED_COMPETITOR", "Editar Competidor associado", PrivilegeUtils.CO),
+	DA_CO(PrivilegeUtils.DA_CO, "DELETE_ASSOCIATED_COMPETITOR", "Deletar Competidor associado", PrivilegeUtils.CO),
 	;
 	// @formatter:on
 
@@ -107,6 +111,10 @@ public enum Privilege implements Serializable {
 	public static final String UPDATE_COMPETITOR = PrivilegeUtils.U_CO;
 	public static final String DELETE_COMPETITOR = PrivilegeUtils.D_CO;
 	public static final String CREATE_ASSOCIATED_COMPETITOR = PrivilegeUtils.CA_CO;
+	public static final String INDEX_ASSOCIATED_COMPETITOR = PrivilegeUtils.IA_CO;
+	public static final String SHOW_ASSOCIATED_COMPETITOR = PrivilegeUtils.SA_CO;
+	public static final String UPDATE_ASSOCIATED_COMPETITOR = PrivilegeUtils.UA_CO;
+	public static final String DELETE_ASSOCIATED_COMPETITOR = PrivilegeUtils.DA_CO;
 
 	private String key;
 	private String name;
@@ -142,7 +150,9 @@ class PrivilegeUtils {
 
 	static final String US = "Usuário";
 	static final String DE = "Delegado";
-	static final String SC = "Colégio";
+	static final String SC = "Escola";
+	static final String ST = "Estudante";
+	static final String CO = "Competidor";
 
 	// UserModel
 	static final String C_US = "C_US";
@@ -188,5 +198,9 @@ class PrivilegeUtils {
 	static final String U_CO = "U_CO";
 	static final String D_CO = "D_CO";
 	static final String CA_CO = "CA_CO";
+	static final String IA_CO = "IA_CO";
+	static final String SA_CO = "SA_CO";
+	static final String UA_CO = "UA_CO";
+	static final String DA_CO = "DA_CO";
 
 }

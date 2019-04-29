@@ -44,10 +44,10 @@ public class StudentDelegateController {
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Delegate Creates a Student")
 	public ResponseEntity<?> create(@Valid @RequestBody List<StudentInput> studentsInput, Principal principal) {
-		LOGGER.info("delegate trying create new students");
+		LOGGER.info("delegate trying create new associated students");
 		List<Student> students = studentIO.toStudentList(studentsInput);
 		studentService.create(students, principal.getName());
-		LOGGER.info("students created");
+		LOGGER.info("associated students created");
 		return ResponseEntity.noContent().build();
 	}
 
@@ -68,7 +68,7 @@ public class StudentDelegateController {
 	@ApiOperation(value = "Delegate Gets a Student")
 	@GetMapping({"/{id}/", "/{id}"})
 	public StudentOutput show(@PathVariable("id") Long id, Principal principal) {
-		LOGGER.info("delegate " + principal.getName() + " show student " + id);
+		LOGGER.info("delegate " + principal.getName() + " show associated student " + id);
 		return studentIO.mapTo(studentService.show(id, principal.getName()));
 	}
 
@@ -81,9 +81,9 @@ public class StudentDelegateController {
 			@Valid @RequestBody StudentInput studentInput,
 			Principal principal) {
 		Student student = studentIO.mapTo(studentInput);
-		LOGGER.info("delegate " + principal.getName() + " trying update student " + id);
+		LOGGER.info("delegate " + principal.getName() + " trying update associated student " + id);
 		studentService.update(id, student, principal.getName());
-		LOGGER.info("student " + id + " updated");
+		LOGGER.info("associated student " + id + " updated");
 		return ResponseEntity.noContent().build();
 	}
 	//@formatter:on
@@ -92,9 +92,9 @@ public class StudentDelegateController {
 	@DeleteMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Delegate Deletes a Student")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id, Principal principal) {
-		LOGGER.info("delegate " + principal.getName() + "trying deleting student " + id);
+		LOGGER.info("delegate " + principal.getName() + "trying deleting associated student " + id);
 		studentService.delete(id, principal.getName());
-		LOGGER.info("student " + id + " deleted");
+		LOGGER.info("associated student " + id + " deleted");
 		return ResponseEntity.ok().build();
 	}
 	// @formatter:on

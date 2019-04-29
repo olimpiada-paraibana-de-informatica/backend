@@ -2,7 +2,6 @@ package br.edu.opi.manager.person.models;
 
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
-import br.edu.opi.manager.student.models.Genre;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -23,8 +22,11 @@ public class Person extends Auditing implements Serializable, Model<Long> {
 	private Long id;
 
 	@NotEmpty
-	@Column(name = "fullName", nullable = false)
+	@Column(name = "full_name", nullable = false)
 	private String fullName;
+
+	@Column(name = "name_certificate")
+	private String nameCertificate;
 
 	@NotEmpty
 	@Column(name = "acronym", nullable = false, length = 10)
@@ -71,6 +73,14 @@ public class Person extends Auditing implements Serializable, Model<Long> {
 
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
+	}
+
+	public String getNameCertificate() {
+		return nameCertificate;
+	}
+
+	public void setNameCertificate(String nameCertificate) {
+		this.nameCertificate = nameCertificate;
 	}
 
 	public String getAcronym() {

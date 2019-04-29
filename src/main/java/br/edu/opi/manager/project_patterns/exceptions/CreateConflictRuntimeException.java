@@ -1,6 +1,6 @@
 package br.edu.opi.manager.project_patterns.exceptions;
 
-public class CreateConflictRuntimeException extends RuntimeException implements ExceptionWithErrorCode {
+public class CreateConflictRuntimeException extends ConflictsRuntimeException {
 
 	private static final long serialVersionUID = -5834281831937441923L;
 

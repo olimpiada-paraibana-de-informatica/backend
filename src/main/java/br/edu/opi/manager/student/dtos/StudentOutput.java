@@ -1,6 +1,6 @@
 package br.edu.opi.manager.student.dtos;
 
-import br.edu.opi.manager.student.models.Genre;
+import br.edu.opi.manager.person.models.Genre;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotEmpty;

@@ -1,8 +1,6 @@
 package br.edu.opi.manager.project_patterns.exceptions;
 
-import br.edu.opi.manager.school.exceptions.SchoolConflictsRuntimeException;
 import br.edu.opi.manager.security.exceptions.AuthenticationRuntimeException;
-import br.edu.opi.manager.student.exceptions.StudentConflictRuntimeException;
 import org.modelmapper.MappingException;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -135,11 +133,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
 			ConstraintViolationException.class,
 			DataIntegrityViolationException.class,
 			ValidationException.class,
-			CreateConflictRuntimeException.class,
-			UpdateConflictRuntimeException.class,
-			DeleteConflictRuntimeException.class,
-			SchoolConflictsRuntimeException.class,
-			StudentConflictRuntimeException.class
+			ConflictsRuntimeException.class
 	})
 	public final ExceptionResponse handleValidationException(
 			Exception exception,

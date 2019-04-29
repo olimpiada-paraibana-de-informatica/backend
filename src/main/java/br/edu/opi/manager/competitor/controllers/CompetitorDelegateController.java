@@ -19,77 +19,79 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.security.Principal;
 
 @RestController
-@RequestMapping(RestConstants.COMPETITOR_URI)
+@RequestMapping(RestConstants.COMPETITOR_DELEGATE_URI)
 @Api(tags = "Competitor")
 @CrossOrigin
-public class CompetitorController {
+public class CompetitorDelegateController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CompetitorController.class.getSimpleName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(CompetitorDelegateController.class.getSimpleName());
 
 	private CompetitorIO competitorIO;
 
 	private CompetitorService competitorService;
 
 	@Autowired
-	public CompetitorController(CompetitorIO competitorIO, CompetitorService competitorService) {
+	public CompetitorDelegateController(CompetitorIO competitorIO, CompetitorService competitorService) {
 		this.competitorIO = competitorIO;
 		this.competitorService = competitorService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_COMPETITOR + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Create a Competitor")
-	public ResponseEntity<?> create(@Valid @RequestBody CompetitorInput competitorInput) {
-		LOGGER.info("trying create new competitor");
+	public ResponseEntity<?> create(@Valid @RequestBody CompetitorInput competitorInput, Principal principal) {
+		LOGGER.info("delegate trying create new associated competitor");
 		Competitor competitor = competitorIO.mapTo(competitorInput);
-		competitorService.create(competitor);
-		LOGGER.info("competitor created");
+		competitorService.create(competitor, principal.getName());
+		LOGGER.info("associated competitor created");
 		return ResponseEntity.noContent().build();
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.INDEX_COMPETITOR + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.INDEX_ASSOCIATED_COMPETITOR + "')")
 	@ApiOperation(value = "Get All Competitors")
 	@GetMapping({"/", ""})
 	public Page<CompetitorOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
-			@RequestParam(required = false, name = "size") Integer size) {
-		LOGGER.info("index competitors");
-		return competitorIO.toPage(competitorService.index(page, size));
+			@RequestParam(required = false, name = "size") Integer size,
+			Principal principal) {
+		LOGGER.info("delegate index associated competitors");
+		return competitorIO.toPage(competitorService.index(page, size, principal.getName()));
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.SHOW_COMPETITOR + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.SHOW_ASSOCIATED_COMPETITOR + "')")
 	@ApiOperation(value = "Get a Competitor")
 	@GetMapping({"/{id}/", "/{id}"})
-	public CompetitorOutput show(@PathVariable("id") Long id) {
-		LOGGER.info("show competitor " + id);
-		return competitorIO.mapTo(competitorService.show(id));
+	public CompetitorOutput show(@PathVariable("id") Long id, Principal principal) {
+		LOGGER.info("delegate show associated competitor " + id);
+		return competitorIO.mapTo(competitorService.show(id, principal.getName()));
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_COMPETITOR + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_ASSOCIATED_COMPETITOR + "')")
 	@PutMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Updates a Competitor")
 	public ResponseEntity<?> update(
 			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
-			@Valid @RequestBody CompetitorInput competitorInput) {
+			@Valid @RequestBody CompetitorInput competitorInput, Principal principal) {
 		Competitor competitor = competitorIO.mapTo(competitorInput);
-		LOGGER.info("trying update competitor");
-		competitorService.update(id, competitor);
-		LOGGER.info("competitor updated");
+		LOGGER.info("delegate trying update associated competitor");
+		competitorService.update(id, competitor, principal.getName());
+		LOGGER.info("associated competitor updated");
 		return ResponseEntity.noContent().build();
 	}
 
 	//@formatter:on
 
-	@PreAuthorize("hasAuthority('" + Privilege.DELETE_COMPETITOR + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.DELETE_ASSOCIATED_COMPETITOR + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Delete a Competitor")
-	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-		LOGGER.info("trying deleting competitor " + id);
-		competitorService.delete(id);
-		LOGGER.info("competitor " + id + " deleted");
+	public ResponseEntity<?> delete(@PathVariable("id") Long id, Principal principal) {
+		LOGGER.info("delegate trying deleting associated competitor " + id);
+		competitorService.delete(id, principal.getName());
+		LOGGER.info("associated competitor " + id + " deleted");
 		return ResponseEntity.ok().build();
 	}
 

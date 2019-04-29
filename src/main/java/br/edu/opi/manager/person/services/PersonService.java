@@ -5,9 +5,13 @@ import br.edu.opi.manager.person.exceptions.LastNameCantAbbreviatedRuntimeExcept
 import br.edu.opi.manager.person.models.PartsPersonName;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class PersonService {
 
+	// TODO:
 	public PartsPersonName processName(String fullName) {
 		PartsPersonName partsPersonName = new PartsPersonName();
 		String[] parts = fullName.trim().split(" ");
@@ -35,32 +39,14 @@ public class PersonService {
 	}
 
 	private boolean isPrepositionOfName(String partName) {
-		switch (partName) {
-			// TODO: put in a table and CRUD
-			case "a":
-			case "e":
-			case "o":
-			case "u":
-			case "da":
-			case "dá":
-			case "das":
-			case "dás":
-			case "de":
-			case "des":
-			case "dé":
-			case "dés":
-			case "do":
-			case "dó":
-			case "dos":
-			case "dós":
-				return true;
-			default:
-				return false;
-		}
+		return prepositionsOfName.contains(partName.toLowerCase());
 	}
 
 	private boolean isAbbreviatedName(String partName) {
 		return partName.length() < 2;
 	}
+
+	// TODO: put in a table and CRUD
+	final List<String> prepositionsOfName = Arrays.asList("a", "à", "á", "e", "é", "o", "ó", "u", "ú", "da", "dá", "das", "dás", "de", "des", "dé", "dés", "do", "dó", "dos", "dós");
 
 }

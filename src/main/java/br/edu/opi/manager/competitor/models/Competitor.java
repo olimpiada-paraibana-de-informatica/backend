@@ -1,5 +1,6 @@
 package br.edu.opi.manager.competitor.models;
 
+import br.edu.opi.manager.competitor.exceptions.StudentOrSchoolNotNullRuntimeException;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
@@ -8,9 +9,11 @@ import br.edu.opi.manager.student.models.Student;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Year;
 
 @Entity
 @Table(name = "tb_competitor")
+@EntityListeners(CompetitorListener.class)
 public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = -9051052759732137812L;
@@ -32,11 +35,21 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "category", nullable = false)
 	private OpiCategory category;
 
-	public Competitor() {
+	@Column(name = "year", nullable = false)
+	private Integer year; // TODO: change to competition after talking with Rohit about
 
+	public Competitor() {
+		this.year = Year.now().getValue();
+	}
+
+	public Competitor(Student student, Grade grade) {
+		this();
+		this.student = student;
+		this.grade = grade;
 	}
 
 	public Competitor(Long id) {
+		this();
 		this.id = id;
 	}
 
@@ -72,6 +85,21 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	public void setCategory(OpiCategory category) {
 		this.category = category;
+	}
+
+	public Integer getYear() {
+		return year;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
+	}
+
+	public boolean isSchoolPublic() {
+		if (student == null || student.getSchool() == null) {
+			throw new StudentOrSchoolNotNullRuntimeException();
+		}
+		return student.getSchool().isPublic();
 	}
 
 }

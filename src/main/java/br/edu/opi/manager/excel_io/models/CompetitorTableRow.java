@@ -3,7 +3,7 @@ package br.edu.opi.manager.excel_io.models;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import br.edu.opi.manager.school.models.Grade;
-import br.edu.opi.manager.student.models.Genre;
+import br.edu.opi.manager.person.models.Genre;
 
 import javax.persistence.*;
 import java.io.Serializable;

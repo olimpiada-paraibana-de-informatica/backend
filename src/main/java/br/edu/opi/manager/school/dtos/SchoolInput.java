@@ -26,8 +26,11 @@ public class SchoolInput {
 	@ApiModelProperty(example = "abcde")
 	private String password;
 
-	@ApiModelProperty("[\"INICIACAO_1\"]")
+	@ApiModelProperty(example = "[\"INICIACAO_1\"]")
 	private List<OpiCategory> opiCategories;
+
+	@ApiModelProperty(example = "false")
+	private boolean isPublic;
 
 	public SchoolInput() {
 	}
@@ -78,6 +81,14 @@ public class SchoolInput {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean aPublic) {
+		isPublic = aPublic;
 	}
 
 }

@@ -8,7 +8,7 @@ import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.services.SchoolService;
-import br.edu.opi.manager.student.models.Genre;
+import br.edu.opi.manager.person.models.Genre;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -76,7 +76,7 @@ public class CompetitorParserService {
 				}
 			}
 			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
-			new ConsolidateChangesInCompetitors(savedCompetitorTableMetadata.getRows()).start();
+			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
