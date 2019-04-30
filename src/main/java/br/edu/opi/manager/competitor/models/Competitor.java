@@ -35,6 +35,9 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "category", nullable = false)
 	private OpiCategory category;
 
+	@Column(name = "score")
+	private Double score;
+
 	@Column(name = "year", nullable = false)
 	private Integer year; // TODO: change to competition after talking with Rohit about
 
@@ -42,10 +45,11 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 		this.year = Year.now().getValue();
 	}
 
-	public Competitor(Student student, Grade grade) {
+	public Competitor(Student student, Grade grade, Double score) {
 		this();
 		this.student = student;
 		this.grade = grade;
+		this.score = score;
 	}
 
 	public Competitor(Long id) {
@@ -85,6 +89,14 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	public void setCategory(OpiCategory category) {
 		this.category = category;
+	}
+
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
 	}
 
 	public Integer getYear() {

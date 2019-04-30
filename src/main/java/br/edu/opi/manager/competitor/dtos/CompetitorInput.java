@@ -15,6 +15,9 @@ public class CompetitorInput {
 	@NotNull
 	private Grade studentGrade;
 
+	@ApiModelProperty(example = "1")
+	private Double score;
+
 	public Long getStudentId() {
 		return studentId;
 	}
@@ -30,4 +33,13 @@ public class CompetitorInput {
 	public void setStudentGrade(Grade studentGrade) {
 		this.studentGrade = studentGrade;
 	}
+
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
 }

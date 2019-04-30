@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
@@ -96,6 +97,7 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 						parts.getFirstName(),
 						parts.getLastName());
 		Grade grade = competitorTableRow.getGrade();
+		Double score = competitorTableRow.getScore();
 		Student savedStudent = !listSavedStudent.isEmpty() ? listSavedStudent.get(0) : null; // TODO: if size > 0?
 		if (savedStudent == null) {
 			String name = competitorTableRow.getName();
@@ -103,11 +105,11 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 			Genre genre = competitorTableRow.getGenre();
 			Student student = new Student(new Person(name, dateBirth, genre), new School(schoolId));
 			savedStudent = studentRepository.save(student);
-			Competitor competitor = new Competitor(savedStudent, grade);
+			Competitor competitor = new Competitor(savedStudent, grade, score);
 			repository.save(competitor);
 		} else {
 			List<Competitor> listCompetitors = repository.findAllByStudentIdAndYear(savedStudent.getId(), Year.now().getValue());
-			Competitor competitor = new Competitor(savedStudent, grade);
+			Competitor competitor = new Competitor(savedStudent, grade, score);
 			if (!listCompetitors.isEmpty()) {
 				// TODO: if size > 0?
 				Competitor savedCompetitor = listCompetitors.get(0);

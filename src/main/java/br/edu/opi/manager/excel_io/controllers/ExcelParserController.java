@@ -6,6 +6,10 @@ import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +35,18 @@ public class ExcelParserController {
 	@ApiOperation(value = "Upload excel files to register competitors")
 	public void createCompetitorsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
 		competitorParserService.createCompetitors(principal.getName(), LocalDate.now().getYear(), multipartFile);
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
+	@GetMapping({"/schools/competitors/download/", "/schools/competitors/download"})
+	@ApiOperation(value = "Download excel competitor model")
+	public ResponseEntity<Resource> downloadSheet() {
+		Resource resource = competitorParserService.downloadCompetitorSheet();
+		String contentType = competitorParserService.XLSX_CONTENT_TYPE;
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
 
 }

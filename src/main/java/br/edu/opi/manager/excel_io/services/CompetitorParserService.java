@@ -5,28 +5,37 @@ import br.edu.opi.manager.excel_io.models.CompetitorTableMetadata;
 import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
 import br.edu.opi.manager.excel_io.repositories.CompetitorTableMetadataRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
+import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.services.SchoolService;
-import br.edu.opi.manager.person.models.Genre;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
 @Service
 public class CompetitorParserService {
+
+	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	private static final int CELLS_LENGTH = 5;
 
@@ -36,14 +45,18 @@ public class CompetitorParserService {
 
 	private StudentTableRowRepository competitorTableRowRepository;
 
+	private ServletContext context;
+
 	@Autowired
 	public CompetitorParserService(
 			SchoolService schoolService,
 			CompetitorTableMetadataRepository competitorTableMetadataRepository,
-			StudentTableRowRepository competitorTableRowRepository) {
+			StudentTableRowRepository competitorTableRowRepository,
+			ServletContext context) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.competitorTableRowRepository = competitorTableRowRepository;
+		this.context = context;
 	}
 
 	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
@@ -164,6 +177,23 @@ public class CompetitorParserService {
 			return false;
 		}
 		return true;
+	}
+
+	public Resource downloadCompetitorSheet() {
+		String pathFiles = context.getRealPath("files");
+		File file = new File(pathFiles, "Modelo.xlsx");
+		Path filePath = Paths.get(file.getAbsolutePath()).toAbsolutePath().normalize();
+		String fileName = filePath.getFileName().toString();
+		try {
+			Resource resource = new UrlResource(filePath.toUri());
+			if (resource.exists()) {
+				return resource;
+			} else {
+				throw new RuntimeException("File not found " + fileName);
+			}
+		} catch (MalformedURLException murl) {
+			throw new RuntimeException("File not found " + fileName, murl);
+		}
 	}
 
 }
