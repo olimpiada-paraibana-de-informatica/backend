@@ -18,16 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -180,19 +179,20 @@ public class CompetitorParserService {
 	}
 
 	public Resource downloadCompetitorSheet() {
-		String pathFiles = context.getRealPath("files");
-		File file = new File(pathFiles, "Modelo.xlsx");
-		Path filePath = Paths.get(file.getAbsolutePath()).toAbsolutePath().normalize();
-		String fileName = filePath.getFileName().toString();
+		String fileName = "Modelo.xlsx";
 		try {
+			Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
+			Path filePath = resourcesPath.resolve(fileName);
 			Resource resource = new UrlResource(filePath.toUri());
 			if (resource.exists()) {
 				return resource;
 			} else {
-				throw new RuntimeException("File not found " + fileName);
+				throw new RuntimeException("Arquivo " + fileName + " não encontrado");
 			}
 		} catch (MalformedURLException murl) {
-			throw new RuntimeException("File not found " + fileName, murl);
+			throw new RuntimeException("Arquivo " + fileName + " não encontrado", murl);
+		} catch (IOException ioe) {
+			throw new RuntimeException("Erro ao buscar arquivo " + fileName, ioe);
 		}
 	}
 

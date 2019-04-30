@@ -42,7 +42,7 @@ public class ExcelParserController {
 	@ApiOperation(value = "Download excel competitor model")
 	public ResponseEntity<Resource> downloadSheet() {
 		Resource resource = competitorParserService.downloadCompetitorSheet();
-		String contentType = competitorParserService.XLSX_CONTENT_TYPE;
+		String contentType =  "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
