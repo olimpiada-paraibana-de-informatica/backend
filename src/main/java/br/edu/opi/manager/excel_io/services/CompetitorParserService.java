@@ -172,7 +172,7 @@ public class CompetitorParserService {
 	}
 
 	private static boolean isCellsWithContent(XSSFRow row) {
-		if (row == null || row.getLastCellNum() < CELLS_LENGTH) {
+		if (row == null || row.getCell(0) == null || row.getCell(0).getRawValue() == null || row.getLastCellNum() < CELLS_LENGTH) {
 			return false;
 		}
 		return true;
