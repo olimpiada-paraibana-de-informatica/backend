@@ -3,7 +3,11 @@ package br.edu.opi.manager.excel_io.services;
 import br.edu.opi.manager.excel_io.exceptions.*;
 import br.edu.opi.manager.excel_io.models.CompetitorTableMetadata;
 import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
+import br.edu.opi.manager.excel_io.models.StudentTableMetadata;
+import br.edu.opi.manager.excel_io.models.StudentTableRow;
 import br.edu.opi.manager.excel_io.repositories.CompetitorTableMetadataRepository;
+import br.edu.opi.manager.excel_io.repositories.CompetitorTableRowRepository;
+import br.edu.opi.manager.excel_io.repositories.StudentTableMetadataRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
 import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.school.models.Grade;
@@ -21,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +35,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Service
-public class CompetitorParserService {
+public class ExcelParserService {
 
 	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -42,26 +45,59 @@ public class CompetitorParserService {
 
 	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
 
-	private StudentTableRowRepository competitorTableRowRepository;
-
-	private ServletContext context;
+	private StudentTableMetadataRepository studentTableMetadataRepository;
 
 	@Autowired
-	public CompetitorParserService(
+	public ExcelParserService(
 			SchoolService schoolService,
 			CompetitorTableMetadataRepository competitorTableMetadataRepository,
-			StudentTableRowRepository competitorTableRowRepository,
-			ServletContext context) {
+			CompetitorTableRowRepository competitorTableRowRepository,
+			StudentTableMetadataRepository studentTableMetadataRepository,
+			StudentTableRowRepository studentTableRowRepository) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
-		this.competitorTableRowRepository = competitorTableRowRepository;
-		this.context = context;
+		this.studentTableMetadataRepository = studentTableMetadataRepository;
+	}
+
+	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
+		try {
+			School school = schoolService.show(delegatePrincipal);
+			createStudentsTransactional(school.getId(), year, multipartFile.getInputStream());
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
 	}
 
 	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
 		try {
 			School school = schoolService.show(delegatePrincipal);
 			createCompetitorsTransactional(school.getId(), year, multipartFile.getInputStream());
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
+	}
+
+	@Transactional
+	void createStudentsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
+		StudentTableMetadata competitorTableMetadata = new StudentTableMetadata(year, new School(schoolId));
+		StudentTableMetadata savedCompetitorTableMetadata = studentTableMetadataRepository.save(competitorTableMetadata);
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
+			XSSFSheet worksheet = workbook.getSheetAt(0); // TODO: verify number of sheets with client
+			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
+				XSSFRow row = worksheet.getRow(i);
+				StudentTableRow tempStudent = new StudentTableRow();
+				if (isCellsWithContent(row)) {
+					tempStudent.setName(getNameAttribute(row.getCell(0)));
+					tempStudent.setDateBirth(getDateAttribute(row.getCell(1)));
+					tempStudent.setGenre(getGenreAttribute(row.getCell(2)));
+					tempStudent.setStudentTableMetadata(savedCompetitorTableMetadata);
+					savedCompetitorTableMetadata.addRow(tempStudent);
+				}
+			}
+			studentTableMetadataRepository.save(savedCompetitorTableMetadata);
+//			new ConsolidateChangesInStudents(schoolId, savedCompetitorTableMetadata.getRows()).start();
+			new ConsolidateChangesInStudents(schoolId, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
@@ -76,19 +112,20 @@ public class CompetitorParserService {
 			XSSFSheet worksheet = workbook.getSheetAt(0); // TODO: verify number of sheets with client
 			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
-				CompetitorTableRow tempStudent = new CompetitorTableRow();
+				CompetitorTableRow tempCompetitor = new CompetitorTableRow();
 				if (isCellsWithContent(row)) {
-					tempStudent.setName(getNameAttribute(row.getCell(0)));
-					tempStudent.setDateBirth(getDateAttribute(row.getCell(1)));
-					tempStudent.setGenre(getGenreAttribute(row.getCell(2)));
-					tempStudent.setGrade(getGradeAttribute(row.getCell(3)));
-					tempStudent.setScore(getScoreAttibute(row.getCell(4)));
-					tempStudent.setCompetitorTableMetadata(savedCompetitorTableMetadata);
-					savedCompetitorTableMetadata.addRow(tempStudent);
+					tempCompetitor.setName(getNameAttribute(row.getCell(0)));
+					tempCompetitor.setDateBirth(getDateAttribute(row.getCell(1)));
+					tempCompetitor.setGenre(getGenreAttribute(row.getCell(2)));
+					tempCompetitor.setGrade(getGradeAttribute(row.getCell(3)));
+					tempCompetitor.setScore(getScoreAttibute(row.getCell(4)));
+					tempCompetitor.setCompetitorTableMetadata(savedCompetitorTableMetadata);
+					savedCompetitorTableMetadata.addRow(tempCompetitor);
 				}
 			}
 			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
-			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
+//			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
+			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}

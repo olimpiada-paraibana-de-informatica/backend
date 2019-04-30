@@ -3,19 +3,16 @@ package br.edu.opi.manager.excel_io.models;
 import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
-import br.edu.opi.manager.school.models.Grade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tb_competitor_table_row")
-public class CompetitorTableRow extends Auditing implements Serializable, Model<Long> {
+@Table(name = "tb_student_table_row")
+public class StudentTableRow extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = 3030331999726512470L;
-
-	public static final double MISSED_STUDENT = -1D;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,17 +28,11 @@ public class CompetitorTableRow extends Auditing implements Serializable, Model<
 	@Column(name = "genre", nullable = false)
 	private Genre genre;
 
-	@Column(name = "grade", nullable = false)
-	private Grade grade;
-
-	@Column(name = "score", nullable = false)
-	private Double score;
-
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_table_metadata_id")
-	private CompetitorTableMetadata competitorTableMetadata;
+	private StudentTableMetadata studentTableMetadata;
 
-	public CompetitorTableRow() {
+	public StudentTableRow() {
 	}
 
 	@Override
@@ -78,37 +69,19 @@ public class CompetitorTableRow extends Auditing implements Serializable, Model<
 		this.genre = genre;
 	}
 
-	public Grade getGrade() {
-		return grade;
+	public StudentTableMetadata getStudentTableMetadata() {
+		return studentTableMetadata;
 	}
 
-	public void setGrade(Grade grade) {
-		this.grade = grade;
-	}
-
-	public Double getScore() {
-		return score;
-	}
-
-	public void setScore(Double score) {
-		this.score = score;
-	}
-
-	public CompetitorTableMetadata getCompetitorTableMetadata() {
-		return competitorTableMetadata;
-	}
-
-	public void setCompetitorTableMetadata(CompetitorTableMetadata competitorTableMetadata) {
-		this.competitorTableMetadata = competitorTableMetadata;
+	public void setStudentTableMetadata(StudentTableMetadata studentTableMetadata) {
+		this.studentTableMetadata = studentTableMetadata;
 	}
 
 	@Override
 	public String toString() {
 		return "name='" + name + '\'' +
 				", dateBirth='" + dateBirth + '\'' +
-				", genre='" + genre + '\'' +
-				", grade='" + grade + '\'' +
-				", score='" + score + '\'';
+				", genre='" + genre + '\'';
 	}
 
 }

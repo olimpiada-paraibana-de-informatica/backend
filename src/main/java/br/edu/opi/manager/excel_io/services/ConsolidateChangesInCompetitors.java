@@ -18,7 +18,8 @@ public class ConsolidateChangesInCompetitors extends Thread {
 	@Override
 	public void run() {
 		for (CompetitorTableRow student : rows) {
-			new ConsolidateChangeInCompetitor(schoolId, student).start();
+//			new ConsolidateChangeInCompetitor(schoolId, student).start();
+			new ConsolidateChangeInCompetitor(schoolId, student).run();
 		}
 	}
 

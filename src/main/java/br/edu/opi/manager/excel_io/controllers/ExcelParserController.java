@@ -1,6 +1,6 @@
 package br.edu.opi.manager.excel_io.controllers;
 
-import br.edu.opi.manager.excel_io.services.CompetitorParserService;
+import br.edu.opi.manager.excel_io.services.ExcelParserService;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
@@ -23,25 +23,32 @@ import java.time.LocalDate;
 @CrossOrigin
 public class ExcelParserController {
 
-	private CompetitorParserService competitorParserService;
+	private ExcelParserService excelParserService;
 
 	@Autowired
-	public ExcelParserController(CompetitorParserService competitorParserService) {
-		this.competitorParserService = competitorParserService;
+	public ExcelParserController(ExcelParserService excelParserService) {
+		this.excelParserService = excelParserService;
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
 	@PostMapping({"/schools/competitors/", "/schools/competitors"})
 	@ApiOperation(value = "Upload excel files to register competitors")
 	public void createCompetitorsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
-		competitorParserService.createCompetitors(principal.getName(), LocalDate.now().getYear(), multipartFile);
+		excelParserService.createCompetitors(principal.getName(), LocalDate.now().getYear(), multipartFile);
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
+	@PostMapping({"/schools/students/", "/schools/students"})
+	@ApiOperation(value = "Upload excel files to register competitors")
+	public void createStudentsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
+		excelParserService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
 	@GetMapping({"/schools/competitors/download/", "/schools/competitors/download"})
 	@ApiOperation(value = "Download excel competitor model")
 	public ResponseEntity<Resource> downloadSheet() {
-		Resource resource = competitorParserService.downloadCompetitorSheet();
+		Resource resource = excelParserService.downloadCompetitorSheet();
 		String contentType =  "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))

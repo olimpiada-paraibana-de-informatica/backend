@@ -1,5 +1,10 @@
 package br.edu.opi.manager.student.services;
 
+import br.edu.opi.manager.excel_io.models.StudentTableRow;
+import br.edu.opi.manager.person.models.Genre;
+import br.edu.opi.manager.person.models.PartsPersonName;
+import br.edu.opi.manager.person.models.Person;
+import br.edu.opi.manager.person.services.PersonService;
 import br.edu.opi.manager.project_patterns.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.project_patterns.services.GenericService;
 import br.edu.opi.manager.school.models.School;
@@ -11,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,8 +24,13 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 
 	private SchoolRepository schoolRepository;
 
-	public StudentService(SchoolRepository schoolRepository) {
+	private PersonService personService;
+
+	public StudentService(
+			SchoolRepository schoolRepository,
+			PersonService personService) {
 		this.schoolRepository = schoolRepository;
+		this.personService = personService;
 	}
 
 	public Page<Student> index(Integer page, Integer size, String delegatePrincipal) {
@@ -87,6 +98,25 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 	public void delete(Long id, String delegatePrincipal) {
 		show(id, delegatePrincipal);
 		this.delete(id);
+	}
+
+	public void solveAndSave(Long schoolId, StudentTableRow studentTableRow) {
+		PartsPersonName parts = personService.processName(studentTableRow.getName());
+		List<Student> listSavedStudent = repository
+				.findByPersonAcronymAndPersonFirstNameAndPersonLastName(
+						parts.getAcronym(),
+						parts.getFirstName(),
+						parts.getLastName());
+		Student savedStudent = !listSavedStudent.isEmpty() ? listSavedStudent.get(0) : null; // TODO: if size > 0?
+		String name = studentTableRow.getName();
+		LocalDate dateBirth = studentTableRow.getDateBirth();
+		Genre genre = studentTableRow.getGenre();
+		Student student = new Student(new Person(name, dateBirth, genre), new School(schoolId));
+		if (savedStudent == null) {
+			create(student);
+		} else {
+			update(savedStudent.getId(), student);
+		}
 	}
 
 	@Override
