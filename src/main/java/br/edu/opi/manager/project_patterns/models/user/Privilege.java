@@ -62,6 +62,12 @@ public enum Privilege implements Serializable {
 	SA_CO(PrivilegeUtils.SA_CO, "SHOW_ASSOCIATED_COMPETITOR", "Detalhes do Competidor associado", PrivilegeUtils.CO),
 	UA_CO(PrivilegeUtils.UA_CO, "UPDATE_ASSOCIATED_COMPETITOR", "Editar Competidor associado", PrivilegeUtils.CO),
 	DA_CO(PrivilegeUtils.DA_CO, "DELETE_ASSOCIATED_COMPETITOR", "Deletar Competidor associado", PrivilegeUtils.CO),
+	//Interested
+	I_EM(PrivilegeUtils.I_EM, "INDEX_EMAILS_LIST", "Visualizar todas as listas de e-mails", PrivilegeUtils.EM),
+	S_EM(PrivilegeUtils.S_EM, "SHOW_EMAILS_LIST", "Detalhes de uma lista de e-mails", PrivilegeUtils.EM),
+	C_EM(PrivilegeUtils.C_EM, "CREATE_EMAILS_LIST", "Criar lista de e-mails", PrivilegeUtils.EM),
+	U_EM(PrivilegeUtils.U_EM, "UPDATE_EMAILS_LIST", "Atualizar lista de e-mails", PrivilegeUtils.EM),
+	D_EM(PrivilegeUtils.D_EM, "DELETE_EMAILS_LIST", "Deletar listas de e-mails", PrivilegeUtils.EM),
 	;
 	// @formatter:on
 
@@ -116,6 +122,13 @@ public enum Privilege implements Serializable {
 	public static final String UPDATE_ASSOCIATED_COMPETITOR = PrivilegeUtils.UA_CO;
 	public static final String DELETE_ASSOCIATED_COMPETITOR = PrivilegeUtils.DA_CO;
 
+	// Interested
+	public static final String INDEX_EMAILS_LIST = PrivilegeUtils.I_EM;
+	public static final String SHOW_EMAILS_LIST = PrivilegeUtils.S_EM;
+	public static final String CREATE_EMAILS_LIST = PrivilegeUtils.C_EM;
+	public static final String UPDATE_EMAILS_LIST = PrivilegeUtils.U_EM;
+	public static final String DELETE_EMAILS_LIST = PrivilegeUtils.D_EM;
+
 	private String key;
 	private String name;
 	private String nameFriendly;
@@ -153,6 +166,7 @@ class PrivilegeUtils {
 	static final String SC = "Escola";
 	static final String ST = "Estudante";
 	static final String CO = "Competidor";
+	static final String EM = "E-mails";
 
 	// UserModel
 	static final String C_US = "C_US";
@@ -202,5 +216,12 @@ class PrivilegeUtils {
 	static final String SA_CO = "SA_CO";
 	static final String UA_CO = "UA_CO";
 	static final String DA_CO = "DA_CO";
+
+	//Interested
+	static final String I_EM = "I_EM";
+	static final String S_EM = "S_EM";
+	static final String C_EM = "C_EM";
+	static final String U_EM = "U_EM";
+	static final String D_EM = "D_EM";
 
 }

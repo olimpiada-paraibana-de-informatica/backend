@@ -15,6 +15,7 @@ public class RestConstants {
 	public static final String EXCEL_DELEGATE_URI = API_URI + "/delegates/excel";
 	public static final String COMPETITOR_URI = API_URI + "/competitors";
 	public static final String COMPETITOR_DELEGATE_URI = API_URI + "/delegates/competitors";
+	public static final String EMAILS_LIST_URI = API_URI + "/emails";
 
 	public static final String DEFAULT_PASSWORD = "P@ssw0rd";
 }

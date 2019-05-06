@@ -1,6 +1,6 @@
 package br.edu.opi.manager.delegate.models;
 
-import br.edu.opi.manager.comunication.email.SenderMailService;
+import br.edu.opi.manager.comunication.email.services.SenderMailService;
 import br.edu.opi.manager.utils.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
