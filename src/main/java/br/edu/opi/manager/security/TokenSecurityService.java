@@ -1,6 +1,7 @@
 package br.edu.opi.manager.security;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,7 +16,7 @@ import java.util.Base64;
 import java.util.Date;
 
 /**
- * Service for Token Authentication.
+ * GenericService for Token Authentication.
  */
 @Service
 public class TokenSecurityService {
@@ -29,6 +30,10 @@ public class TokenSecurityService {
 
 	private Gson gson;
 
+	public TokenSecurityService() {
+		gson = new GsonBuilder().create();
+	}
+
 	/**
 	 * Gets the authentication.
 	 *
@@ -39,7 +44,6 @@ public class TokenSecurityService {
 		String token = request.getHeader(HEADER);
 		if (token != null) {
 			token = token.replace(TOKEN_PREFIX, "").trim();
-			// @formatter:off
 			Claims claims = Jwts
 					.parser()
 					.setSigningKey(SECRET_KEY)
@@ -53,7 +57,6 @@ public class TokenSecurityService {
 					userDetails.getUsername(),
 					null,
 					userDetails.getAuthorities());
-			// @formatter:on
 		} else {
 			return null;
 		}
@@ -66,14 +69,12 @@ public class TokenSecurityService {
 	 * @return token
 	 */
 	public final String generateToken(final Payload payload) {
-		// @formatter:off
 		return Jwts
 				.builder()
 				.setSubject(gson.toJson(payload))
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TOKEN))
 				.signWith(SignatureAlgorithm.HS512, SECRET_KEY)
 				.compact();
-		// @formatter:on
 	}
 
 }

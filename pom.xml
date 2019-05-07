@@ -20,8 +20,10 @@
 		<java.version>1.8</java.version>
 		<swagger.version>2.8.0</swagger.version>
 		<h2.version>1.4.196</h2.version>
+		<flyway.version>5.2.1</flyway.version>
 		<jwt.version>0.7.0</jwt.version>
 		<modelmapper.version>2.3.0</modelmapper.version>
+		<passay.version>1.3.0</passay.version>
 	</properties>
 
 	<dependencies>
@@ -67,6 +69,10 @@
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 
 		<!-- Security -->
 		<dependency>
@@ -92,6 +98,13 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
+		<!-- Valid Password -->
+		<dependency>
+			<groupId>org.passay</groupId>
+			<artifactId>passay</artifactId>
+			<version>${passay.version}</version>
+		</dependency>
+
 		<!-- Test and Develop -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -103,6 +116,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Mail -->
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency> -->
 	</dependencies>
 
 	<build>

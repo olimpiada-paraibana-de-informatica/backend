@@ -1,5 +1,6 @@
 package br.edu.opi.manager.security;
 
+import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +17,19 @@ public class Payload implements UserDetails {
 	private static final long serialVersionUID = -4406190873913296752L;
 
 	private String u;
-	private Set<String> p;
+	private Set<Privilege> p;
 	private boolean e;
 	private boolean l;
 	private boolean n;
 
-	public Payload(String username, Set<String> priviles, boolean enabled, boolean locked,
-				   boolean needChangePassword) {
+	public Payload(
+			String username,
+			Set<Privilege> privileges,
+			boolean enabled,
+			boolean locked,
+			boolean needChangePassword) {
 		this.u = username;
-		this.p = priviles;
+		this.p = privileges;
 		this.e = enabled;
 		this.l = locked;
 		this.n = needChangePassword;
@@ -39,8 +44,8 @@ public class Payload implements UserDetails {
 		int size = this.p.size();
 		// @formatter:off
 		String[] privileges = Arrays
-				.stream(this.p.toArray(new String[size]))
-				.map(String::hashCode)
+				.stream(this.p.toArray(new Privilege[size]))
+				.map(Enum::name)
 				.toArray(String[]::new);
 		// @formatter:on
 		return AuthorityUtils.createAuthorityList(privileges);
