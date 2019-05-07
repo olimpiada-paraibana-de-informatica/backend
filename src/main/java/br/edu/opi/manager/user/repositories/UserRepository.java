@@ -1,0 +1,25 @@
+package br.edu.opi.manager.user.repositories;
+
+import br.edu.opi.manager.user.models.UserModel;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Persistence layer to Simple User.
+ */
+@Repository
+public interface UserRepository extends JpaRepository<UserModel, Long> {
+
+	Set<UserModel> findByUsernameContaining(String username);
+
+	UserModel findByUsername(String username);
+
+	List<UserModel> findAllByProfileId(Long profileId);
+
+	List<UserModel> findFirst10ByUsernameContainingIgnoreCase(String value, Sort sort);
+
+}
