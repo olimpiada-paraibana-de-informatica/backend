@@ -33,9 +33,24 @@ public enum Privilege implements Serializable {
 	U_DE(PrivilegeUtils.U_DE, "UPDATE_DELEGATE", "Editar Delegado", PrivilegeUtils.DE),
 	D_DE(PrivilegeUtils.D_DE, "DELETE_DELEGATE", "Deletar Delegados", PrivilegeUtils.DE),
 	//School
-	C_SC(PrivilegeUtils.C_SC, "CREATE_SCHOOL", "Criar Colégio", PrivilegeUtils.SC),
-	I_SC(PrivilegeUtils.I_SC, "INDEX_SCHOOL", "Visualizar todos os Colégios", PrivilegeUtils.SC),
-	S_SC(PrivilegeUtils.S_SC, "SHOW_SCHOOL", "Detalhes de Colégio", PrivilegeUtils.SC),
+	C_SC(PrivilegeUtils.C_SC, "CREATE_SCHOOL", "Criar Escola a qualquer momento", PrivilegeUtils.SC),
+	I_SC(PrivilegeUtils.I_SC, "INDEX_SCHOOL", "Visualizar todas as Escolas", PrivilegeUtils.SC),
+	S_SC(PrivilegeUtils.S_SC, "SHOW_SCHOOL", "Detalhes da Escola", PrivilegeUtils.SC),
+	U_SC(PrivilegeUtils.U_SC, "UPDATE_SCHOOL", "Editar Escola", PrivilegeUtils.SC),
+	D_SC(PrivilegeUtils.D_SC, "DELETE_SCHOOL", "Deletar Escola", PrivilegeUtils.SC),
+	SA_SC(PrivilegeUtils.SA_SC, "SHOW_ASSOCIATED_SCHOOL", "Detalhes da Escola associada", PrivilegeUtils.SC),
+	UA_SC(PrivilegeUtils.UA_SC, "UPDATE_ASSOCIATED_SCHOOL", "Atualizar Escola associada", PrivilegeUtils.SC),
+	//Student
+	C_ST(PrivilegeUtils.C_ST, "CREATE_STUDENT", "Criar estudante", PrivilegeUtils.C_ST),
+	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.I_ST),
+	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.S_ST),
+	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.U_ST),
+	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.D_ST),
+	CA_ST(PrivilegeUtils.CA_ST, "CREATE_ASSOCIATED_STUDENT", "Criar estudante associado", PrivilegeUtils.C_ST),
+	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.I_ST),
+	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.S_ST),
+	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.U_ST),
+	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.D_ST)
 	;
 	// @formatter:on
 
@@ -61,6 +76,22 @@ public enum Privilege implements Serializable {
 	public static final String CREATE_SCHOOL = PrivilegeUtils.C_SC;
 	public static final String INDEX_SCHOOL = PrivilegeUtils.I_SC;
 	public static final String SHOW_SCHOOL = PrivilegeUtils.S_SC;
+	public static final String UPDATE_SCHOOL = PrivilegeUtils.U_SC;
+	public static final String DELETE_SCHOOL = PrivilegeUtils.D_SC;
+	public static final String SHOW_ASSOCIATED_SCHOOL = PrivilegeUtils.SA_SC;
+	public static final String UPDATE_ASSOCIATED_SCHOOL = PrivilegeUtils.UA_SC;
+
+	//Student
+	public static final String CREATE_STUDENT = PrivilegeUtils.C_ST;
+	public static final String INDEX_STUDENT = PrivilegeUtils.I_ST;
+	public static final String SHOW_STUDENT = PrivilegeUtils.S_ST;
+	public static final String UPDATE_STUDENT = PrivilegeUtils.U_ST;
+	public static final String DELETE_STUDENT = PrivilegeUtils.D_ST;
+	public static final String CREATE_ASSOCIATED_STUDENT = PrivilegeUtils.CA_ST;
+	public static final String INDEX_ASSOCIATED_STUDENT = PrivilegeUtils.IA_ST;
+	public static final String SHOW_ASSOCIATED_STUDENT = PrivilegeUtils.SA_ST;
+	public static final String UPDATE_ASSOCIATED_STUDENT = PrivilegeUtils.UA_ST;
+	public static final String DELETE_ASSOCIATED_STUDENT = PrivilegeUtils.DA_ST;
 
 	private String key;
 	private String name;
@@ -118,5 +149,21 @@ class PrivilegeUtils {
 	static final String C_SC = "C_SC";
 	static final String I_SC = "I_SC";
 	static final String S_SC = "S_SC";
+	static final String U_SC = "U_SC";
+	static final String D_SC = "D_SC";
+	static final String SA_SC = "SA_SC";
+	static final String UA_SC = "UA_SC";
+
+	//Student
+	static final String C_ST = "C_ST";
+	static final String I_ST = "I_ST";
+	static final String S_ST = "S_ST";
+	static final String U_ST = "U_ST";
+	static final String D_ST = "D_ST";
+	static final String CA_ST = "CA_ST";
+	static final String IA_ST = "IA_ST";
+	static final String SA_ST = "SA_ST";
+	static final String UA_ST = "UA_ST";
+	static final String DA_ST = "DA_ST";
 
 }

@@ -1,23 +1,29 @@
 package br.edu.opi.manager.student.dto;
 
-import java.time.LocalDate;
-import java.util.Set;
-
-import javax.persistence.Column;
-
-import br.edu.opi.manager.student.model.Student;
+import br.edu.opi.manager.student.model.Genre;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+
 public class StudentInput {
-	
+
+	@ApiModelProperty(example = "José da Silva", required = true)
+	@NotEmpty
 	private String name;
-	
+
+	@ApiModelProperty(example = "1998-03-25", required = true)
+	@NotNull
 	private LocalDate dateBirth;
-	
-	private String genre;
-	
-	private String degree;
-	
+
+	@ApiModelProperty(required = true)
+	@NotNull
+	private Genre genre;
+
+	@ApiModelProperty
+	private Long schoolId;
+
 	public StudentInput() {
 	}
 
@@ -37,22 +43,20 @@ public class StudentInput {
 		this.dateBirth = dateBirth;
 	}
 
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 
-	public String getDegree() {
-		return degree;
+	public Long getSchoolId() {
+		return schoolId;
 	}
 
-	public void setDegree(String degree) {
-		this.degree = degree;
+	public void setSchoolId(Long schoolId) {
+		this.schoolId = schoolId;
 	}
 
-
-	
 }
