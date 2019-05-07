@@ -86,11 +86,9 @@ public class DelegateController {
 		return ResponseEntity.noContent().build();
 	}
 
-	//@formatter:on
-
 	@PreAuthorize("hasAuthority('" + Privilege.DELETE_DELEGATE + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
-	@ApiOperation(value = "Delete a Deçegate")
+	@ApiOperation(value = "Delete a Delegate")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		LOGGER.info("trying deleting delegate " + id);
 		delegateService.delete(id);

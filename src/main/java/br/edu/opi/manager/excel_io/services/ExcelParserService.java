@@ -215,8 +215,8 @@ public class ExcelParserService {
 		return true;
 	}
 
-	public Resource downloadCompetitorSheet() {
-		String fileName = "Modelo.xlsx";
+	public Resource downloadSheet(TargetXlsx targetXlsx) {
+		String fileName = solveFileName(targetXlsx);
 		try {
 			Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
 			Path filePath = resourcesPath.resolve(fileName);
@@ -230,6 +230,15 @@ public class ExcelParserService {
 			throw new RuntimeException("Arquivo " + fileName + " não encontrado", murl);
 		} catch (IOException ioe) {
 			throw new RuntimeException("Erro ao buscar arquivo " + fileName, ioe);
+		}
+	}
+
+	private String solveFileName(TargetXlsx targetXlsx) {
+		switch (targetXlsx) {
+			case STUDENT:
+				return "OPI_Modelo_Estudante.xlsx";
+			default:
+				return "OPI_Modelo_Competidor.xlsx";
 		}
 	}
 
