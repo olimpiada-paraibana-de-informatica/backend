@@ -1,6 +1,6 @@
 package br.edu.opi.manager.project_patterns.exceptions;
 
-public class DeleteConflictRuntimeException extends RuntimeException implements ExceptionWithErrorCode {
+public class DeleteConflictRuntimeException extends ConflictsRuntimeException {
 
 	private static final long serialVersionUID = -8769718520588585221L;
 

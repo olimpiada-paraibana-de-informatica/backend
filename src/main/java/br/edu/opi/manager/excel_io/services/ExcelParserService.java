@@ -1,49 +1,62 @@
 package br.edu.opi.manager.excel_io.services;
 
 import br.edu.opi.manager.excel_io.exceptions.*;
+import br.edu.opi.manager.excel_io.models.CompetitorTableMetadata;
+import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
 import br.edu.opi.manager.excel_io.models.StudentTableMetadata;
 import br.edu.opi.manager.excel_io.models.StudentTableRow;
+import br.edu.opi.manager.excel_io.repositories.CompetitorTableMetadataRepository;
+import br.edu.opi.manager.excel_io.repositories.CompetitorTableRowRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableMetadataRepository;
 import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
+import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.services.SchoolService;
-import br.edu.opi.manager.student.models.Genre;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
 @Service
-public class ParserStudentsService {
+public class ExcelParserService {
+
+	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 	private static final int CELLS_LENGTH = 5;
 
 	private SchoolService schoolService;
 
+	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
+
 	private StudentTableMetadataRepository studentTableMetadataRepository;
 
-	private StudentTableRowRepository studentTableRowRepository;
-
 	@Autowired
-	public ParserStudentsService(
+	public ExcelParserService(
 			SchoolService schoolService,
+			CompetitorTableMetadataRepository competitorTableMetadataRepository,
+			CompetitorTableRowRepository competitorTableRowRepository,
 			StudentTableMetadataRepository studentTableMetadataRepository,
 			StudentTableRowRepository studentTableRowRepository) {
 		this.schoolService = schoolService;
+		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
-		this.studentTableRowRepository = studentTableRowRepository;
 	}
 
 	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
@@ -55,10 +68,19 @@ public class ParserStudentsService {
 		}
 	}
 
+	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
+		try {
+			School school = schoolService.show(delegatePrincipal);
+			createCompetitorsTransactional(school.getId(), year, multipartFile.getInputStream());
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
+	}
+
 	@Transactional
 	void createStudentsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
-		StudentTableMetadata studentTableMetadata = new StudentTableMetadata(year, new School(schoolId));
-		StudentTableMetadata savedStudentTableMetadata = studentTableMetadataRepository.save(studentTableMetadata);
+		StudentTableMetadata competitorTableMetadata = new StudentTableMetadata(year, new School(schoolId));
+		StudentTableMetadata savedCompetitorTableMetadata = studentTableMetadataRepository.save(competitorTableMetadata);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
 			XSSFSheet worksheet = workbook.getSheetAt(0); // TODO: verify number of sheets with client
@@ -69,14 +91,41 @@ public class ParserStudentsService {
 					tempStudent.setName(getNameAttribute(row.getCell(0)));
 					tempStudent.setDateBirth(getDateAttribute(row.getCell(1)));
 					tempStudent.setGenre(getGenreAttribute(row.getCell(2)));
-					tempStudent.setGrade(getGradeAttribute(row.getCell(3)));
-					tempStudent.setScore(getScoreAttibute(row.getCell(4)));
-					tempStudent.setStudentTableMetadata(savedStudentTableMetadata);
-					savedStudentTableMetadata.addRow(tempStudent);
+					tempStudent.setStudentTableMetadata(savedCompetitorTableMetadata);
+					savedCompetitorTableMetadata.addRow(tempStudent);
 				}
 			}
-			studentTableMetadataRepository.save(savedStudentTableMetadata);
-			new ConsolidateChangesInStudents(savedStudentTableMetadata.getRows()).start();
+			studentTableMetadataRepository.save(savedCompetitorTableMetadata);
+//			new ConsolidateChangesInStudents(schoolId, savedCompetitorTableMetadata.getRows()).start();
+			new ConsolidateChangesInStudents(schoolId, savedCompetitorTableMetadata.getRows()).run();
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
+	}
+
+	@Transactional
+	void createCompetitorsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
+		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(schoolId));
+		CompetitorTableMetadata savedCompetitorTableMetadata = competitorTableMetadataRepository.save(competitorTableMetadata);
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
+			XSSFSheet worksheet = workbook.getSheetAt(0); // TODO: verify number of sheets with client
+			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
+				XSSFRow row = worksheet.getRow(i);
+				CompetitorTableRow tempCompetitor = new CompetitorTableRow();
+				if (isCellsWithContent(row)) {
+					tempCompetitor.setName(getNameAttribute(row.getCell(0)));
+					tempCompetitor.setDateBirth(getDateAttribute(row.getCell(1)));
+					tempCompetitor.setGenre(getGenreAttribute(row.getCell(2)));
+					tempCompetitor.setGrade(getGradeAttribute(row.getCell(3)));
+					tempCompetitor.setScore(getScoreAttibute(row.getCell(4)));
+					tempCompetitor.setCompetitorTableMetadata(savedCompetitorTableMetadata);
+					savedCompetitorTableMetadata.addRow(tempCompetitor);
+				}
+			}
+			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
+//			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
+			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
@@ -146,7 +195,7 @@ public class ParserStudentsService {
 				throw new ScoreNotNullRuntimeException(cell.getColumnIndex(), cell.getRow().getRowNum() + 1);
 			}
 			if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().equals("FALTOU")) {
-				return StudentTableRow.MISSED_STUDENT;
+				return CompetitorTableRow.MISSED_STUDENT;
 			} else if (cell.getCellType() == CellType.NUMERIC) {
 				return cell.getNumericCellValue();
 			} else {
@@ -160,10 +209,28 @@ public class ParserStudentsService {
 	}
 
 	private static boolean isCellsWithContent(XSSFRow row) {
-		if (row == null || row.getLastCellNum() < CELLS_LENGTH) {
+		if (row == null || row.getCell(0) == null || row.getCell(0).getRawValue() == null || row.getLastCellNum() < CELLS_LENGTH) {
 			return false;
 		}
 		return true;
+	}
+
+	public Resource downloadCompetitorSheet() {
+		String fileName = "Modelo.xlsx";
+		try {
+			Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
+			Path filePath = resourcesPath.resolve(fileName);
+			Resource resource = new UrlResource(filePath.toUri());
+			if (resource.exists()) {
+				return resource;
+			} else {
+				throw new RuntimeException("Arquivo " + fileName + " não encontrado");
+			}
+		} catch (MalformedURLException murl) {
+			throw new RuntimeException("Arquivo " + fileName + " não encontrado", murl);
+		} catch (IOException ioe) {
+			throw new RuntimeException("Erro ao buscar arquivo " + fileName, ioe);
+		}
 	}
 
 }

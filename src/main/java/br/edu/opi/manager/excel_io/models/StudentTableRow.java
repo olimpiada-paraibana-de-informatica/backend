@@ -1,9 +1,8 @@
 package br.edu.opi.manager.excel_io.models;
 
+import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
-import br.edu.opi.manager.school.models.Grade;
-import br.edu.opi.manager.student.models.Genre;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,8 +13,6 @@ import java.time.LocalDate;
 public class StudentTableRow extends Auditing implements Serializable, Model<Long> {
 
 	private static final long serialVersionUID = 3030331999726512470L;
-
-	public static final double MISSED_STUDENT = -1D;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +27,6 @@ public class StudentTableRow extends Auditing implements Serializable, Model<Lon
 
 	@Column(name = "genre", nullable = false)
 	private Genre genre;
-
-	@Column(name = "grade", nullable = false)
-	private Grade grade;
-
-	@Column(name = "score", nullable = false)
-	private Double score;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "student_table_metadata_id")
@@ -78,22 +69,6 @@ public class StudentTableRow extends Auditing implements Serializable, Model<Lon
 		this.genre = genre;
 	}
 
-	public Grade getGrade() {
-		return grade;
-	}
-
-	public void setGrade(Grade grade) {
-		this.grade = grade;
-	}
-
-	public Double getScore() {
-		return score;
-	}
-
-	public void setScore(Double score) {
-		this.score = score;
-	}
-
 	public StudentTableMetadata getStudentTableMetadata() {
 		return studentTableMetadata;
 	}
@@ -106,9 +81,7 @@ public class StudentTableRow extends Auditing implements Serializable, Model<Lon
 	public String toString() {
 		return "name='" + name + '\'' +
 				", dateBirth='" + dateBirth + '\'' +
-				", genre='" + genre + '\'' +
-				", grade='" + grade + '\'' +
-				", score='" + score + '\'';
+				", genre='" + genre + '\'';
 	}
 
 }

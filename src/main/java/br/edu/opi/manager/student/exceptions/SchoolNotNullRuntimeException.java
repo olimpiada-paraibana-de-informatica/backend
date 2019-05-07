@@ -1,8 +1,10 @@
 package br.edu.opi.manager.student.exceptions;
 
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+
 import java.time.LocalDate;
 
-public class SchoolNotNullRuntimeException extends StudentConflictRuntimeException {
+public class SchoolNotNullRuntimeException extends ConflictsRuntimeException {
 
 	private static final long serialVersionUID = -8855688573022904276L;
 

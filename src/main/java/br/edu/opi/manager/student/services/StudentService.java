@@ -1,6 +1,10 @@
 package br.edu.opi.manager.student.services;
 
 import br.edu.opi.manager.excel_io.models.StudentTableRow;
+import br.edu.opi.manager.person.models.Genre;
+import br.edu.opi.manager.person.models.PartsPersonName;
+import br.edu.opi.manager.person.models.Person;
+import br.edu.opi.manager.person.services.PersonService;
 import br.edu.opi.manager.project_patterns.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.project_patterns.services.GenericService;
 import br.edu.opi.manager.school.models.School;
@@ -12,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,8 +24,13 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 
 	private SchoolRepository schoolRepository;
 
-	public StudentService(SchoolRepository schoolRepository) {
+	private PersonService personService;
+
+	public StudentService(
+			SchoolRepository schoolRepository,
+			PersonService personService) {
 		this.schoolRepository = schoolRepository;
+		this.personService = personService;
 	}
 
 	public Page<Student> index(Integer page, Integer size, String delegatePrincipal) {
@@ -58,7 +68,7 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 	public Student create(Student student, String delegatePrincipal) {
 		School school = schoolRepository.findByDelegateUsername(delegatePrincipal);
 		if (school == null) {
-			throw new SchoolNotNullRuntimeException(student.getName(), student.getDateBirth());
+			throw new SchoolNotNullRuntimeException(student.getPerson().getFullName(), student.getPerson().getDateBirth());
 		}
 		student.setSchool(new School(school.getId()));
 		return this.create(student);
@@ -71,7 +81,7 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		}
 		// TODO: try change front in future
 		List<Student> listToRemove = repository.findAllBySchoolId(school.getId());
-		repository.deleteAll(listToRemove);
+		repository.deleteAll(listToRemove); // TODO: performance
 		// TODO: try change front in future
 		school = new School(school.getId());
 		for (Student student : students) {
@@ -90,19 +100,23 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 		this.delete(id);
 	}
 
-	// TODO: competitor when his CRUD has been implemented
-	public void solveAndSave(StudentTableRow studentTableRow) {
-		Student savedStudent = repository.findByNameAndDateBirth(studentTableRow.getName(), studentTableRow.getDateBirth());
+	public void solveAndSave(Long schoolId, StudentTableRow studentTableRow) {
+		PartsPersonName parts = personService.processName(studentTableRow.getName());
+		List<Student> listSavedStudent = repository
+				.findByPersonAcronymAndPersonFirstNameAndPersonLastName(
+						parts.getAcronym(),
+						parts.getFirstName(),
+						parts.getLastName());
+		Student savedStudent = !listSavedStudent.isEmpty() ? listSavedStudent.get(0) : null; // TODO: if size > 0?
+		String name = studentTableRow.getName();
+		LocalDate dateBirth = studentTableRow.getDateBirth();
+		Genre genre = studentTableRow.getGenre();
+		Student student = new Student(new Person(name, dateBirth, genre), new School(schoolId));
 		if (savedStudent == null) {
-			savedStudent = new Student(
-					studentTableRow.getName(),
-					studentTableRow.getDateBirth(),
-					studentTableRow.getGenre(),
-					studentTableRow.getStudentTableMetadata().getSchool());
+			create(student);
 		} else {
-			savedStudent.setSchool(studentTableRow.getStudentTableMetadata().getSchool());
+			update(savedStudent.getId(), student);
 		}
-		repository.save(savedStudent);
 	}
 
 	@Override

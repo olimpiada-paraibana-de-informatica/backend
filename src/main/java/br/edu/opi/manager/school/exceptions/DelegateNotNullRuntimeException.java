@@ -1,6 +1,9 @@
 package br.edu.opi.manager.school.exceptions;
 
-public class DelegateNotNullRuntimeException extends SchoolConflictsRuntimeException {
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+import br.edu.opi.manager.project_patterns.exceptions.ExceptionWithErrorCode;
+
+public class DelegateNotNullRuntimeException extends ConflictsRuntimeException {
 
 	public DelegateNotNullRuntimeException() {
 		super("Favor informar um Delegado");

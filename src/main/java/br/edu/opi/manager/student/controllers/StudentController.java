@@ -80,9 +80,9 @@ public class StudentController {
 			@Min(value = 1) @PathVariable("id") Long id,
 			@Valid @RequestBody StudentInput studentInput) {
 		Student student = studentIO.mapTo(studentInput);
-		LOGGER.info("trying update student " + student.getName());
+		LOGGER.info("trying update student");
 		studentService.update(id, student);
-		LOGGER.info("student " + student.getName() + " updated");
+		LOGGER.info("student updated");
 		return ResponseEntity.noContent().build();
 	}
 

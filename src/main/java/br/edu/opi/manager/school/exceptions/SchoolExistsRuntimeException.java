@@ -1,6 +1,9 @@
 package br.edu.opi.manager.school.exceptions;
 
-public class SchoolExistsRuntimeException extends SchoolConflictsRuntimeException {
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+import br.edu.opi.manager.project_patterns.exceptions.ExceptionWithErrorCode;
+
+public class SchoolExistsRuntimeException extends ConflictsRuntimeException {
 
 	public SchoolExistsRuntimeException(String schoolName) {
 		super("Este delegado já está reponsável por " + schoolName);

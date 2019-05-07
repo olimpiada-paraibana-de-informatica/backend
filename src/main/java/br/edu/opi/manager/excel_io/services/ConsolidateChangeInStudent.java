@@ -8,18 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ConsolidateChangeInStudent extends Thread {
 
 	private StudentTableRow student;
+	private Long schoolId;
 
 	@Autowired // don't remove, BeanUtil.autowire needs this
-	private StudentService studentService; // TODO: competitor when his CRUD has been implemented
+	private StudentService studentService;
 
-	public ConsolidateChangeInStudent(StudentTableRow student) {
+	public ConsolidateChangeInStudent(Long schoolId, StudentTableRow student) {
 		BeanUtil.autowire(this, this.studentService);
 		this.student = student;
+		this.schoolId = schoolId;
 	}
 
 	@Override
 	public void run() {
-		studentService.solveAndSave(student);
+		studentService.solveAndSave(schoolId, student);
 	}
 
 }

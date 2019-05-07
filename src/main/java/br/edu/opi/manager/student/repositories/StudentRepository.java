@@ -18,6 +18,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 	Student findByIdAndSchoolId(Long id, Long schoolId);
 
-	Student findByNameAndDateBirth(String name, LocalDate date);
+	Student findByPersonFullNameAndPersonDateBirth(String fullName, LocalDate dateBirth);
+
+	List<Student> findByPersonAcronymAndPersonFirstNameAndPersonLastName(String acronym, String firsName, String lastName);
 
 }

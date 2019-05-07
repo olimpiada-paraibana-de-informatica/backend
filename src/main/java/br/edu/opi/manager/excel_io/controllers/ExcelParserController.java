@@ -1,11 +1,15 @@
 package br.edu.opi.manager.excel_io.controllers;
 
-import br.edu.opi.manager.excel_io.services.ParserStudentsService;
+import br.edu.opi.manager.excel_io.services.ExcelParserService;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,18 +23,37 @@ import java.time.LocalDate;
 @CrossOrigin
 public class ExcelParserController {
 
-	private ParserStudentsService parserStudentsService;
+	private ExcelParserService excelParserService;
 
 	@Autowired
-	public ExcelParserController(ParserStudentsService parserStudentsService) {
-		this.parserStudentsService = parserStudentsService;
+	public ExcelParserController(ExcelParserService excelParserService) {
+		this.excelParserService = excelParserService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
 	@PostMapping({"/schools/competitors/", "/schools/competitors"})
 	@ApiOperation(value = "Upload excel files to register competitors")
 	public void createCompetitorsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
-		parserStudentsService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
+		excelParserService.createCompetitors(principal.getName(), LocalDate.now().getYear(), multipartFile);
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
+	@PostMapping({"/schools/students/", "/schools/students"})
+	@ApiOperation(value = "Upload excel files to register competitors")
+	public void createStudentsFromSheet(@RequestParam("file") MultipartFile multipartFile, Principal principal) {
+		excelParserService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
+	@GetMapping({"/schools/competitors/download/", "/schools/competitors/download"})
+	@ApiOperation(value = "Download excel competitor model")
+	public ResponseEntity<Resource> downloadSheet() {
+		Resource resource = excelParserService.downloadCompetitorSheet();
+		String contentType =  "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
 	}
 
 }

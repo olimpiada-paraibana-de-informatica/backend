@@ -1,6 +1,4 @@
-package br.edu.opi.manager.student.models;
-
-import br.edu.opi.manager.school.models.Grade;
+package br.edu.opi.manager.person.models;
 
 public enum Genre {
 	MASCULINO("MASCULINO", "Masculino"),

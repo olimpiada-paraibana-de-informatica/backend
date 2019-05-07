@@ -7,15 +7,18 @@ import java.util.List;
 public class ConsolidateChangesInStudents extends Thread {
 
 	private List<StudentTableRow> rows;
+	private Long schoolId;
 
-	public ConsolidateChangesInStudents(List<StudentTableRow> rows) {
+	public ConsolidateChangesInStudents(Long schoolId, List<StudentTableRow> rows) {
 		this.rows = rows;
+		this.schoolId = schoolId;
 	}
 
 	@Override
 	public void run() {
 		for (StudentTableRow student : rows) {
-			new ConsolidateChangeInStudent(student).start();
+//			new ConsolidateChangeInCompetitor(schoolId, student).start();
+			new ConsolidateChangeInStudent(schoolId, student).run();
 		}
 	}
 

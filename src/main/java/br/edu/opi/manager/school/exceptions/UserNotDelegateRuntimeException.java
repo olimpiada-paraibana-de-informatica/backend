@@ -1,6 +1,8 @@
 package br.edu.opi.manager.school.exceptions;
 
-public class UserNotDelegateRuntimeException extends SchoolConflictsRuntimeException {
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+
+public class UserNotDelegateRuntimeException extends ConflictsRuntimeException {
 
 	public UserNotDelegateRuntimeException() {
 		super("Este usuário tem outra função e não está habilitado para ser um Delegado");

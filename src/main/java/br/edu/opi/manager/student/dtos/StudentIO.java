@@ -1,5 +1,6 @@
 package br.edu.opi.manager.student.dtos;
 
+import br.edu.opi.manager.person.models.Person;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.student.models.Student;
 import org.modelmapper.Converter;
@@ -26,9 +27,7 @@ public class StudentIO {
 		public Student convert(MappingContext<StudentInput, Student> context) {
 			StudentInput input = context.getSource();
 			return new Student(
-					input.getName(),
-					input.getDateBirth(),
-					input.getGenre(),
+					new Person(input.getName(), input.getDateBirth(), input.getGenre()),
 					new School(input.getSchoolId()));
 		}
 	};
@@ -56,12 +55,14 @@ public class StudentIO {
 	}
 
 	public List<StudentOutput> toList(List<Student> source) {
-		Type dest = new TypeToken<List<StudentOutput>>() {}.getType();
+		Type dest = new TypeToken<List<StudentOutput>>() {
+		}.getType();
 		return modelMapper.map(source, dest);
 	}
 
 	public List<Student> toStudentList(List<StudentInput> source) {
-		Type dest = new TypeToken<List<Student>>() {}.getType();
+		Type dest = new TypeToken<List<Student>>() {
+		}.getType();
 		return modelMapper.map(source, dest);
 	}
 
@@ -73,9 +74,12 @@ public class StudentIO {
 	private StudentOutput toStudentOutput(Student student) {
 		StudentOutput studentOutput = new StudentOutput();
 		studentOutput.setId(student.getId());
-		studentOutput.setName(student.getName());
-		studentOutput.setDateBirth(student.getDateBirth());
-		studentOutput.setGenre(student.getGenre());
+		if (student.getPerson() != null) {
+			Person person = student.getPerson();
+			studentOutput.setName(person.getFullName());
+			studentOutput.setDateBirth(person.getDateBirth());
+			studentOutput.setGenre(person.getGenre());
+		}
 		studentOutput.setEnabled(student.isEnabled());
 		return studentOutput;
 	}

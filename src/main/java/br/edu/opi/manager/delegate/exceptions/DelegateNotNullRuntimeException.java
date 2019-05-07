@@ -1,6 +1,8 @@
 package br.edu.opi.manager.delegate.exceptions;
 
-public class DelegateNotNullRuntimeException extends DelegateConflictRuntimeException {
+import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
+
+public class DelegateNotNullRuntimeException extends ConflictsRuntimeException {
 
 	private static final long serialVersionUID = -8855688573022904276L;
 

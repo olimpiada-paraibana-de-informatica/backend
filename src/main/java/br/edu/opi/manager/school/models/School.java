@@ -38,6 +38,9 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	@Enumerated(EnumType.STRING)
 	private List<OpiCategory> categories;
 
+	@Column(name = "is_public", nullable = false)
+	private boolean isPublic = false;
+
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled = true; // TODO: modify to false when create funcionality to change it
 
@@ -48,11 +51,12 @@ public class School extends Auditing implements Serializable, Model<Long> {
 		this.id = id;
 	}
 
-	public School(String name, City city, Delegate delegate, List<OpiCategory> categories) {
+	public School(String name, City city, Delegate delegate, List<OpiCategory> categories, boolean isPublic) {
 		this.name = name;
 		this.city = city;
 		this.delegate = delegate;
 		this.categories = categories;
+		this.isPublic = isPublic;
 	}
 
 	@Override
@@ -95,6 +99,14 @@ public class School extends Auditing implements Serializable, Model<Long> {
 
 	public void setCategories(List<OpiCategory> categories) {
 		this.categories = categories;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean aPublic) {
+		isPublic = aPublic;
 	}
 
 	public boolean isEnabled() {
