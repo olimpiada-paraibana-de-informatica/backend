@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,9 @@ public class ExcelParserService {
 
 	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-	private static final int CELLS_LENGTH = 5;
+	private static int CELLS_STUDENTS_LENGTH;
+
+	private static int CELLS_COMPETITORS_LENGTH;
 
 	private SchoolService schoolService;
 
@@ -53,10 +56,14 @@ public class ExcelParserService {
 			CompetitorTableMetadataRepository competitorTableMetadataRepository,
 			CompetitorTableRowRepository competitorTableRowRepository,
 			StudentTableMetadataRepository studentTableMetadataRepository,
-			StudentTableRowRepository studentTableRowRepository) {
+			StudentTableRowRepository studentTableRowRepository,
+			@Value("${xlsx.cells.students}") int cellsStudentsLength,
+			@Value("${xlsx.cells.competitors}") int cellsCompetitorsLength) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
+		this.CELLS_STUDENTS_LENGTH = cellsStudentsLength;
+		this.CELLS_COMPETITORS_LENGTH = cellsCompetitorsLength;
 	}
 
 	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
@@ -87,7 +94,7 @@ public class ExcelParserService {
 			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
 				StudentTableRow tempStudent = new StudentTableRow();
-				if (isCellsWithContent(row)) {
+				if (isCellsWithContent(row, TargetXlsx.STUDENT)) {
 					tempStudent.setName(getNameAttribute(row.getCell(0)));
 					tempStudent.setDateBirth(getDateAttribute(row.getCell(1)));
 					tempStudent.setGenre(getGenreAttribute(row.getCell(2)));
@@ -113,7 +120,7 @@ public class ExcelParserService {
 			for (int i = 1; i <= worksheet.getPhysicalNumberOfRows(); i++) {
 				XSSFRow row = worksheet.getRow(i);
 				CompetitorTableRow tempCompetitor = new CompetitorTableRow();
-				if (isCellsWithContent(row)) {
+				if (isCellsWithContent(row, TargetXlsx.COMPETITOR)) {
 					tempCompetitor.setName(getNameAttribute(row.getCell(0)));
 					tempCompetitor.setDateBirth(getDateAttribute(row.getCell(1)));
 					tempCompetitor.setGenre(getGenreAttribute(row.getCell(2)));
@@ -208,8 +215,11 @@ public class ExcelParserService {
 		}
 	}
 
-	private static boolean isCellsWithContent(XSSFRow row) {
-		if (row == null || row.getCell(0) == null || row.getCell(0).getRawValue() == null || row.getLastCellNum() < CELLS_LENGTH) {
+	private static boolean isCellsWithContent(
+			XSSFRow row,
+			TargetXlsx targetXlsx) {
+		int cellsLength = targetXlsx == TargetXlsx.COMPETITOR ? CELLS_COMPETITORS_LENGTH : CELLS_STUDENTS_LENGTH;
+		if (row == null || row.getCell(0) == null || row.getCell(0).getRawValue() == null || row.getLastCellNum() < cellsLength) {
 			return false;
 		}
 		return true;
