@@ -26,7 +26,8 @@ public class CompetitorIO {
 			Competitor competitor = new Competitor();
 			competitor.setStudent(new Student(input.getStudentId()));
 			competitor.setGrade(input.getStudentGrade());
-			competitor.setScore(input.getScore());
+			competitor.setScoreLevelOne(input.getScoreLevelOne());
+			competitor.setScoreLevelTwo(input.getScoreLevelTwo());
 			return competitor;
 		}
 	};
@@ -80,7 +81,8 @@ public class CompetitorIO {
 	private CompetitorOutput toCompetitorOutput(Competitor competitor) {
 		CompetitorOutput competitorOutput = new CompetitorOutput();
 		competitorOutput.setId(competitor.getId());
-		competitorOutput.setScore(competitor.getScore());
+		competitorOutput.setScoreLevelOne(competitor.getScoreLevelOne());
+		competitorOutput.setScoreLevelTwo(competitor.getScoreLevelTwo());
 		competitorOutput.setGrade(competitor.getGrade());
 		competitorOutput.setCategory(competitor.getCategory());
 		if (competitor.getStudent() != null && competitor.getStudent().getPerson() != null) {

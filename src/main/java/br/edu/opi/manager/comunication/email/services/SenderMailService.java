@@ -32,15 +32,22 @@ public class SenderMailService {
 		this.interestedNewDelegatesRepository = interestedNewDelegatesRepository;
 	}
 
-	public void send(String userEmail, String subject, String text) {
+	public void sendVerificationMailToDelegate(Delegate delegate) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(userEmail);
-		message.setSubject(subject);
+		message.setTo(delegate.getUsername());
+		message.setSubject("[OPI] Bem vindo à Olimpíada Paraíbana de Informática");
+		String text = "Olá " + delegate.getName() + "," +
+				"\n\n\tUma conta foi criada em seu nome.\n" +
+				"\tPara confirmar seus dados basta clicar no link abaixo:\n" +
+				"\t\thttps://opiintern.herokuapp.com/u=asjlkjnlkj3nrlwjw378\n\n" + // TODO: solve link
+				"\tSe não foi você quem criou a conta, favor desconsiderar esse e-mail.\n\n" +
+				"Att,\n" +
+				"Equipe OPI";
 		message.setText(text);
 		senderEmailAsync(message);
 	}
 
-	public void sendToList(Delegate delegate) {
+	public void sendNewAccountToList(Delegate delegate) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		// "rohitgheyi@gmail.com", "raquel.paz@ccc.ufcg.edu.br"
 		message.setTo("eri.silva@ccc.ufcg.edu.br"); // TODO: solve with interested list
@@ -49,6 +56,20 @@ public class SenderMailService {
 				" registrou um conta para o e-mail " +
 				delegate.getUsername() + ".\n\n" +
 				"\tMais detalhes em: https://opiintern.herokuapp.com\n\n" +
+				"Att,\n" +
+				"Equipe OPI";
+		message.setText(text);
+		senderEmailAsync(message);
+	}
+
+	public void sendNewLevelNotificationToList(String delegateName, String schoolName) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		// "rohitgheyi@gmail.com", "raquel.paz@ccc.ufcg.edu.br"
+		message.setTo("eri.silva@ccc.ufcg.edu.br"); // TODO: solve with interested list
+		message.setSubject("[OPI] Novo preenchimento de notas");
+		String text = "Olá,\n\n\t" +
+				delegateName + " pediu para avisar que já postou as notas de todos os alunos da escola " +
+				schoolName + ".\n\n" +
 				"Att,\n" +
 				"Equipe OPI";
 		message.setText(text);
