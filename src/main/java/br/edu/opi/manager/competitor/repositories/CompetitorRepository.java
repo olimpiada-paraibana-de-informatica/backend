@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
@@ -22,5 +23,8 @@ public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
 	Page<Competitor> findAllByStudentSchoolId(Long schoolId, Pageable pageable);
 
 	Competitor findByIdAndStudentSchoolId(Long id, Long schoolId);
+
+	@Query(value = "SELECT c.* FROM tb_competitor c WHERE c.year = ?1 ORDER BY c.score_level_one DESC LIMIT (SELECT CAST(COUNT(*) * ?2 AS INTEGER) AS PERCENTILE FROM tb_competitor)", nativeQuery = true)
+	Set<Competitor> findAllClassifieds(int year, double percentageConsidered);
 
 }

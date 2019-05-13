@@ -11,6 +11,7 @@ import br.edu.opi.manager.student.models.Student;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Year;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_competitor")
@@ -129,6 +130,19 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	public void setYear(Integer year) {
 		this.year = year;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Competitor that = (Competitor) o;
+		return id.equals(that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	public boolean isSchoolPublic() {

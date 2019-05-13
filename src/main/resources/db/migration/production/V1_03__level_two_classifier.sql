@@ -3,9 +3,9 @@
 -- @param percentage_considered as percetile between 0 and 1
 CREATE OR REPLACE FUNCTION levelTwoClassifier(opi_year INTEGER, percentage_considered FLOAT(4)) RETURNS VOID AS $levelTwoClassifier$
 DECLARE
---    SELECT id INTO classifieds FROM tb_competitor
     classifieds CURSOR IS
         SELECT id FROM tb_competitor
+        WHERE year = opi_year
         ORDER BY score_level_one DESC
         LIMIT (SELECT CAST(COUNT(*) * percentage_considered AS INTEGER) AS PERCENTILE FROM tb_competitor);
 BEGIN
