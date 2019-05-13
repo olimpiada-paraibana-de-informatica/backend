@@ -2,6 +2,7 @@ package br.edu.opi.manager.competitor.models;
 
 import br.edu.opi.manager.competitor.exceptions.StudentOrSchoolNotNullRuntimeException;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
+import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import br.edu.opi.manager.school.models.Grade;
@@ -40,6 +41,10 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	@Column(name = "score_level_two")
 	private Double scoreLevelTwo;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "competitor_level", nullable = false)
+	private OpiLevels level = OpiLevels.ONE;
 
 	@Column(name = "year", nullable = false)
 	private Integer year; // TODO: change to competition after talking with Rohit about
@@ -108,6 +113,14 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	public void setScoreLevelTwo(Double scoreLevelTwo) {
 		this.scoreLevelTwo = scoreLevelTwo;
+	}
+
+	public OpiLevels getLevel() {
+		return level;
+	}
+
+	public void setLevel(OpiLevels level) {
+		this.level = level;
 	}
 
 	public Integer getYear() {
