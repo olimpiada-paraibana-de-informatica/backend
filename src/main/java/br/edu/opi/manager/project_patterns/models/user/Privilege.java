@@ -70,7 +70,7 @@ public enum Privilege implements Serializable {
 	U_EM(PrivilegeUtils.U_EM, "UPDATE_EMAILS_LIST", "Atualizar lista de e-mails", PrivilegeUtils.EM),
 	D_EM(PrivilegeUtils.D_EM, "DELETE_EMAILS_LIST", "Deletar listas de e-mails", PrivilegeUtils.EM),
 	//OPI
-	U_OL(PrivilegeUtils.U_OL, "UPDATE_OPI_LEVEL", "Atualizar fase dos Competidores", PrivilegeUtils.OPI),
+	U_OL(PrivilegeUtils.U_OL, "UPDATE_OPI_LEVEL", "Definir fase dos Competidores", PrivilegeUtils.OPI),
 	;
 	// @formatter:on
 
@@ -134,7 +134,8 @@ public enum Privilege implements Serializable {
 	public static final String DELETE_EMAILS_LIST = PrivilegeUtils.D_EM;
 
 	// OPI
-	public static final String OPI_CLASSIFIER = PrivilegeUtils.U_OL;
+	public static final String INDEX_OPI_LEVEL = PrivilegeUtils.I_OL;
+	public static final String UPDATE_OPI_LEVEL = PrivilegeUtils.U_OL;
 
 	private String key;
 	private String name;
@@ -235,5 +236,6 @@ class PrivilegeUtils {
 
 	//OPI
 	static final String U_OL = "U_OL";
+	static final String I_OL = "I_OL";
 
 }

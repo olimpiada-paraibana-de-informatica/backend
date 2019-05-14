@@ -83,14 +83,15 @@ public class CompetitorIO {
 		competitorOutput.setId(competitor.getId());
 		competitorOutput.setScoreLevelOne(competitor.getScoreLevelOne());
 		competitorOutput.setScoreLevelTwo(competitor.getScoreLevelTwo());
-		competitorOutput.setGrade(competitor.getGrade());
-		competitorOutput.setCategory(competitor.getCategory());
+		competitorOutput.setGrade(competitor.getGrade().getName());
+		competitorOutput.setCategory(competitor.getCategory().getName());
+		competitorOutput.setLevel(competitor.getLevel().getFriendlyName());
 		if (competitor.getStudent() != null && competitor.getStudent().getPerson() != null) {
 			Student student = competitor.getStudent();
 			competitorOutput.setStudentId(student.getId());
 			competitorOutput.setName(student.getPerson().getFullName());
 			competitorOutput.setDateBirth(student.getPerson().getDateBirth());
-			competitorOutput.setGenre(student.getPerson().getGenre());
+			competitorOutput.setGenre(student.getPerson().getGenre().getName());
 		}
 		return competitorOutput;
 	}

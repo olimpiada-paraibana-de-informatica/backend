@@ -6,6 +6,7 @@ import br.edu.opi.manager.olympiad.models.OpiLevels;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -19,11 +20,13 @@ public class OpiLevelTwoClassifierService {
 		this.competitorRepository = competitorRepository;
 	}
 
-	public void levelTwoClassifier(Double percentageConsidered) {
+	public void levelTwoClassifier(BigDecimal percentageConsidered) {
 		Set<Competitor> classifieds = competitorRepository.findAllClassifieds(LocalDate.now().getYear(), percentageConsidered);
 		for (Competitor competitor : classifieds) {
-			competitor.setLevel(OpiLevels.TWO);
+			competitor.upLevelTwo();
+//			competitor.setLevel(OpiLevels.TWO);
 		}
+		competitorRepository.saveAll(classifieds);
 	}
 
 }

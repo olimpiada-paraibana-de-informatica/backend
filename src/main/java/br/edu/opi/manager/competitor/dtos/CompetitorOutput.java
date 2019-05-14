@@ -1,8 +1,5 @@
 package br.edu.opi.manager.competitor.dtos;
 
-import br.edu.opi.manager.olympiad.models.OpiCategory;
-import br.edu.opi.manager.person.models.Genre;
-import br.edu.opi.manager.school.models.Grade;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDate;
@@ -19,19 +16,22 @@ public class CompetitorOutput {
 	private LocalDate dateBirth;
 
 	@ApiModelProperty
-	private Genre genre;
+	private String genre;
 
 	@ApiModelProperty
-	private Grade grade;
+	private String grade;
 
 	@ApiModelProperty
-	private OpiCategory category;
+	private String category;
 
 	@ApiModelProperty
 	private Double scoreLevelOne;
 
 	@ApiModelProperty
 	private Double scoreLevelTwo;
+
+	@ApiModelProperty
+	private String level;
 
 	@ApiModelProperty(example = "1")
 	private Long studentId;
@@ -63,27 +63,27 @@ public class CompetitorOutput {
 		this.dateBirth = dateBirth;
 	}
 
-	public Genre getGenre() {
+	public String getGenre() {
 		return genre;
 	}
 
-	public void setGenre(Genre genre) {
+	public void setGenre(String genre) {
 		this.genre = genre;
 	}
 
-	public Grade getGrade() {
+	public String getGrade() {
 		return grade;
 	}
 
-	public void setGrade(Grade grade) {
+	public void setGrade(String grade) {
 		this.grade = grade;
 	}
 
-	public OpiCategory getCategory() {
+	public String getCategory() {
 		return category;
 	}
 
-	public void setCategory(OpiCategory category) {
+	public void setCategory(String category) {
 		this.category = category;
 	}
 
@@ -91,8 +91,8 @@ public class CompetitorOutput {
 		return scoreLevelOne;
 	}
 
-	public void setScoreLevelOne(Double score) {
-		this.scoreLevelOne = score;
+	public void setScoreLevelOne(Double scoreLevelOne) {
+		this.scoreLevelOne = scoreLevelOne;
 	}
 
 	public Double getScoreLevelTwo() {
@@ -101,6 +101,14 @@ public class CompetitorOutput {
 
 	public void setScoreLevelTwo(Double scoreLevelTwo) {
 		this.scoreLevelTwo = scoreLevelTwo;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 	public Long getStudentId() {
