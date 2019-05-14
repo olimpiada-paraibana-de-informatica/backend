@@ -11,16 +11,16 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Service
-public class OpiLevelTwoClassifierService {
+public class OpiLevelService {
 
 	private CompetitorRepository competitorRepository;
 
 	@Autowired
-	public OpiLevelTwoClassifierService(CompetitorRepository competitorRepository) {
+	public OpiLevelService(CompetitorRepository competitorRepository) {
 		this.competitorRepository = competitorRepository;
 	}
 
-	public void levelTwoClassifier(BigDecimal percentageConsidered) {
+	public void levelTwoClassifier(Integer percentageConsidered) {
 		Set<Competitor> classifieds = competitorRepository.findAllClassifieds(LocalDate.now().getYear(), percentageConsidered);
 		for (Competitor competitor : classifieds) {
 			competitor.upLevelTwo();

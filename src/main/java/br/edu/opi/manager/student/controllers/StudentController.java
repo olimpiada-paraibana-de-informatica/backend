@@ -53,19 +53,16 @@ public class StudentController {
 	@PreAuthorize("hasAuthority('" + Privilege.INDEX_STUDENT + "')")
 	@ApiOperation(value = "Get All Students")
 	@GetMapping({"/", ""})
-	// @formatter:off
 	public Page<StudentOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
 			@RequestParam(required = false, name = "size") Integer size) {
 		LOGGER.info("index students");
 		return studentIO.toPage(studentService.index(page, size));
 	}
-	// @formatter:on
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_STUDENT + "')")
 	@ApiOperation(value = "Get a Student")
 	@GetMapping({"/{id}/", "/{id}"})
-	// @formatter:off
 	public StudentOutput show(
 			@PathVariable("id") Long id) {
 		LOGGER.info("show student " + id);
@@ -76,7 +73,6 @@ public class StudentController {
 	@PutMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Updates a student")
 	public ResponseEntity<?> update(
-			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
 			@Valid @RequestBody StudentInput studentInput) {
 		Student student = studentIO.mapTo(studentInput);
@@ -85,8 +81,6 @@ public class StudentController {
 		LOGGER.info("student updated");
 		return ResponseEntity.noContent().build();
 	}
-
-	//@formatter:on
 
 	@PreAuthorize("hasAuthority('" + Privilege.DELETE_STUDENT + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
@@ -97,6 +91,5 @@ public class StudentController {
 		LOGGER.info("student " + id + " deleted");
 		return ResponseEntity.ok().build();
 	}
-	// @formatter:on
 
 }

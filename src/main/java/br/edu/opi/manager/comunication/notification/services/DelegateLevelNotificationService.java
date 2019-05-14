@@ -6,11 +6,13 @@ import br.edu.opi.manager.delegate.models.Delegate;
 import br.edu.opi.manager.delegate.services.DelegateService;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.project_patterns.services.GenericService;
+import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.repositories.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class DelegateLevelNotificationService extends GenericService<Long, DelegateLevelNotification, DelegateLevelNotificationRepository> {
@@ -35,6 +37,10 @@ public class DelegateLevelNotificationService extends GenericService<Long, Deleg
 		Boolean levelTwo = level.equals(OpiLevels.TWO) ? true : null;
 		DelegateLevelNotification notification = new DelegateLevelNotification(delegate, year, levelOne, levelTwo, schoolName);
 		return this.create(notification);
+	}
+
+	public List<School> index(Integer year) {
+		return schoolRepository.findAllWhoPutStudentsScores(year);
 	}
 
 	@Override

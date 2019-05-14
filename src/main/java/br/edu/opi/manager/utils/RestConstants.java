@@ -7,7 +7,7 @@ public class RestConstants {
 	public static final String SCHOOL_URI = API_URI + "/schools";
 	public static final String SCHOOL_DELEGATE_URI = API_URI + "/delegate/schools";
 	public static final String DELEGATE_URI = API_URI + "/delegates";
-	public static final String DELEGATE_PHASE_NOTICE_URI = API_URI + "/delegates/notices/phases";
+	public static final String DELEGATE_LEVELS_NOTICE_URI = API_URI + "/delegates/notices/levels";
 	public static final String OPI_CATEGORY_URI = API_URI + "/categories";
 	public static final String CITY_URI = API_URI + "/cities";
 	public static final String STATE_URI = API_URI + "/states";
