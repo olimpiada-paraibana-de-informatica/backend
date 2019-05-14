@@ -13,8 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping(RestConstants.OPI_LEVEL_URI)
@@ -34,7 +34,7 @@ public class OpiLevelController {
 	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_OPI_LEVEL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Updates all Competitors classifieds to level two")
-	public ResponseEntity<?> classifier(@RequestParam(name = "percentage") @Valid @DecimalMin("0") @DecimalMax("1") Integer percentageConsidered) {
+	public ResponseEntity<?> classifier(@RequestParam(name = "percentage") @Valid @Min(0) @Max(100) Integer percentageConsidered) {
 		LOGGER.info("classifier competitors");
 		opiLevelService.levelTwoClassifier(percentageConsidered);
 		LOGGER.info("classifier competitors done");
