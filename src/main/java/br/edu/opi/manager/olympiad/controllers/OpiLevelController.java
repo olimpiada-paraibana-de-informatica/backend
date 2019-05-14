@@ -18,26 +18,27 @@ import javax.validation.constraints.DecimalMin;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping(RestConstants.OPI_CLASSIFIER_URI)
-@Api(tags = "Classifier")
+@RequestMapping(RestConstants.OPI_LEVEL_URI)
+@Api(tags = "Level")
 @CrossOrigin
-public class OpiLevelTwoClassifierController {
+public class OpiLevelController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OpiLevelTwoClassifierController.class.getSimpleName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(OpiLevelController.class.getSimpleName());
 
 	private OpiLevelTwoClassifierService opiLevelTwoClassifierService;
 
 	@Autowired
-	public OpiLevelTwoClassifierController(OpiLevelTwoClassifierService opiLevelTwoClassifierService) {
+	public OpiLevelController(OpiLevelTwoClassifierService opiLevelTwoClassifierService) {
 		this.opiLevelTwoClassifierService = opiLevelTwoClassifierService;
 	}
 
-	@PreAuthorize("hasAuthority('" + Privilege.OPI_CLASSIFIER + "')")
+	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_OPI_LEVEL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Updates all Competitors classifieds to level two")
 	public ResponseEntity<?> classifier(@RequestParam(name = "percentage") @Valid @DecimalMin("0") @DecimalMax("1") BigDecimal percentageConsidered) {
 		LOGGER.info("classifier competitors");
-		opiLevelTwoClassifierService.levelTwoClassifier(percentageConsidered.doubleValue());
+		opiLevelTwoClassifierService.levelTwoClassifier(percentageConsidered);
+		LOGGER.info("classifier competitors done");
 		return ResponseEntity.noContent().build();
 	}
 
