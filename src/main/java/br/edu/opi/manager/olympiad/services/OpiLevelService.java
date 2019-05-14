@@ -26,6 +26,7 @@ public class OpiLevelService {
 			competitor.upLevelTwo();
 //			competitor.setLevel(OpiLevels.TWO);
 		}
+		// TODO: improve this $@#$&*%*&
 		competitorRepository.saveAll(classifieds);
 	}
 

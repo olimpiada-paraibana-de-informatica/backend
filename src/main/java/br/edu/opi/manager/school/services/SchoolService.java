@@ -12,8 +12,12 @@ import br.edu.opi.manager.school.repositories.SchoolRepository;
 import br.edu.opi.manager.student.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.user.models.UserModel;
 import br.edu.opi.manager.user.repositories.UserRepository;
+import org.hibernate.jpa.QueryHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Service
 public class SchoolService extends GenericService<Long, School, SchoolRepository> {
@@ -23,6 +27,9 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 	private DelegateRepository delegateRepository;
 
 	private UserRepository userRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	public SchoolService(
@@ -100,6 +107,10 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 			delegate = delegateService.create(delegate);
 		}
 		school.setDelegate(new Delegate(delegate.getId()));
+	}
+
+	public void resetFilled() {
+		entityManager.createNativeQuery("UPDATE tb_school SET filled = false").setHint(QueryHints.SPEC_HINT_TIMEOUT, 2000);
 	}
 
 }

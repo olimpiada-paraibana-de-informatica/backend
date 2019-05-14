@@ -12,12 +12,14 @@ import br.edu.opi.manager.excel_io.repositories.StudentTableRowRepository;
 import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.school.models.Grade;
 import br.edu.opi.manager.school.models.School;
+import br.edu.opi.manager.school.repositories.SchoolRepository;
 import br.edu.opi.manager.school.services.SchoolService;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.jpa.QueryHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -26,6 +28,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,9 +50,14 @@ public class ExcelParserService {
 
 	private SchoolService schoolService;
 
+	private SchoolRepository schoolRepository;
+
 	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
 
 	private StudentTableMetadataRepository studentTableMetadataRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	public ExcelParserService(
@@ -58,12 +67,13 @@ public class ExcelParserService {
 			StudentTableMetadataRepository studentTableMetadataRepository,
 			StudentTableRowRepository studentTableRowRepository,
 			@Value("${xlsx.cells.students}") int cellsStudentsLength,
-			@Value("${xlsx.cells.competitors}") int cellsCompetitorsLength) {
+			@Value("${xlsx.cells.competitors}") int cellsCompetitorsLength, SchoolRepository schoolRepository) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
 		this.CELLS_STUDENTS_LENGTH = cellsStudentsLength;
 		this.CELLS_COMPETITORS_LENGTH = cellsCompetitorsLength;
+		this.schoolRepository = schoolRepository;
 	}
 
 	public void createStudents(String delegatePrincipal, int year, MultipartFile multipartFile) {
@@ -131,6 +141,7 @@ public class ExcelParserService {
 				}
 			}
 			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
+			entityManager.createNativeQuery("UPDATE tb_school SET filled = true WHERE id = " + schoolId).setHint(QueryHints.SPEC_HINT_TIMEOUT, 2000); // TODO: improve this !@#$%*
 //			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
 			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {

@@ -106,6 +106,7 @@ public class SchoolIO {
 			schoolOutput.setOpiCategories(this.modelMapper.map(school.getCategories(), type));
 		}
 		schoolOutput.setEnabled(school.isEnabled());
+		schoolOutput.setFilled(school.isFilled());
 		return schoolOutput;
 	}
 

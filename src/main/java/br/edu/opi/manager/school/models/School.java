@@ -44,6 +44,9 @@ public class School extends Auditing implements Serializable, Model<Long> {
 	@Column(name = "enabled", nullable = false)
 	private boolean enabled = true; // TODO: modify to false when create funcionality to change it
 
+	@Column(name = "filled")
+	private boolean filled = false;
+
 	public School() {
 	}
 
@@ -115,6 +118,14 @@ public class School extends Auditing implements Serializable, Model<Long> {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean isFilled() {
+		return filled;
+	}
+
+	public void setFilled(boolean filled) {
+		this.filled = filled;
 	}
 
 }
