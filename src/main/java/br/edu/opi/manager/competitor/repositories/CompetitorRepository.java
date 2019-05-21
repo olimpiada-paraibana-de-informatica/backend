@@ -3,12 +3,12 @@ package br.edu.opi.manager.competitor.repositories;
 import br.edu.opi.manager.competitor.models.Competitor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
@@ -24,7 +24,6 @@ public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
 
 	Competitor findByIdAndStudentSchoolId(Long id, Long schoolId);
 
-	@Query(value = "SELECT c.* FROM tb_competitor c WHERE c.year = ?1 ORDER BY c.score_level_one DESC LIMIT (SELECT CAST((COUNT(*) * ?2 / 100) AS INTEGER) AS percentile FROM tb_competitor)", nativeQuery = true)
-	Set<Competitor> findAllClassifieds(int year, Integer percentageConsidered);
+	List<Competitor> findAllByYear(int year, Sort sort);
 
 }

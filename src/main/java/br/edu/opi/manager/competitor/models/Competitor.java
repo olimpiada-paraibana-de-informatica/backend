@@ -152,6 +152,11 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 		return student.getSchool().isPublic();
 	}
 
+	public boolean downLevelOne() {
+		setLevel(OpiLevels.ONE);
+		return true;
+	}
+
 	public boolean upLevelTwo() {
 		setLevel(OpiLevels.TWO);
 		return true;

@@ -6,6 +6,7 @@ import br.edu.opi.manager.delegate.services.DelegateService;
 import br.edu.opi.manager.project_patterns.services.GenericService;
 import br.edu.opi.manager.school.exceptions.DelegateNotNullRuntimeException;
 import br.edu.opi.manager.school.exceptions.SchoolExistsRuntimeException;
+import br.edu.opi.manager.school.exceptions.SchoolNotFoundRuntimeException;
 import br.edu.opi.manager.school.exceptions.UserNotDelegateRuntimeException;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.repositories.SchoolRepository;
@@ -55,6 +56,12 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 			throw new SchoolNotNullRuntimeException(delegatePrincipal);
 		}
 		return this.update(savedSchool.getId(), school);
+	}
+
+	public School update(Long id, boolean filled) {
+		School savedSchool = repository.findById(id).orElseThrow(SchoolNotFoundRuntimeException::new);
+		savedSchool.setFilled(filled);
+		return this.update(id, savedSchool);
 	}
 
 	@Override
