@@ -10,7 +10,10 @@ import java.util.List;
 public class OpiCategoryService {
 
 	public List<OpiCategory> index() {
-		return Arrays.asList(OpiCategory.values());
+		List<OpiCategory> categories = Arrays.asList(OpiCategory.values());
+		categories.remove(OpiCategory.INICIACAO_1_PUB);
+		categories.remove(OpiCategory.INICIACAO_2_PUB);
+		return categories;
 	}
 
 }
