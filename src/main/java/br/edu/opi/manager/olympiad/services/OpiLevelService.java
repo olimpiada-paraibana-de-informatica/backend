@@ -2,39 +2,76 @@ package br.edu.opi.manager.olympiad.services;
 
 import br.edu.opi.manager.competitor.models.Competitor;
 import br.edu.opi.manager.competitor.repositories.CompetitorRepository;
+import br.edu.opi.manager.olympiad.models.OpiCategory;
+import br.edu.opi.manager.school.models.School;
+import br.edu.opi.manager.school.repositories.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OpiLevelService {
 
+	private SchoolRepository schoolRepository;
 	private CompetitorRepository competitorRepository;
 
 	@Autowired
-	public OpiLevelService(CompetitorRepository competitorRepository) {
+	public OpiLevelService(
+			SchoolRepository schoolRepository,
+			CompetitorRepository competitorRepository) {
+		this.schoolRepository = schoolRepository;
 		this.competitorRepository = competitorRepository;
 	}
 
 	public void levelTwoClassifier(Integer percentageConsidered) {
-		List<Competitor> list = competitorRepository.findAllByYear(LocalDate.now().getYear(), Sort.by(Sort.Order.desc("scoreLevelOne")));
+		Set<School> schools = new HashSet<>(schoolRepository.findAll());
+		if (schools.isEmpty()) {
+			return;
+		}
+		for (School school : schools) {
+			for (OpiCategory category : school.getCategories()) {
+				levelTwoClassifier(school.getId(), category, percentageConsidered);
+			}
+		}
+	}
+
+	private void levelTwoClassifier(Long schoolId, OpiCategory category, Integer percentageConsidered) {
+		List<Competitor> list = competitorRepository.findAllByStudentSchoolIdAndCategoryAndYear(
+				schoolId,
+				category,
+				LocalDate.now().getYear(),
+				Sort.by(Sort.Order.desc("scoreLevelOne")));
 		LinkedHashSet<Competitor> competitors = new LinkedHashSet<>(list);
+		if (competitors.isEmpty()) {
+			return;
+		}
 		int total = competitors.size();
 		int totalLevelTwo = (int) Math.ceil(total * percentageConsidered / 100.0);
-		competitors.stream().limit(totalLevelTwo).forEach(competitor -> {
-			competitor.upLevelTwo();
-//			competitor.setLevel(OpiLevels.TWO);
-		});
-		// TODO: while next last scores equal last, put level two too
-		competitors.stream().skip(totalLevelTwo).forEach(competitor -> {
-			competitor.downLevelOne();
-		});
-		// TODO: improve this $@#$&*%*&
-		competitorRepository.saveAll(competitors);
+		double lastScore = 0.0;
+		long limit = 0;
+		for (Competitor competitor : competitors) {
+			if (limit++ <= totalLevelTwo) {
+				if (competitor.getScoreLevelOne().compareTo(0.0) > 0) {
+					competitor.upLevelTwo();
+					lastScore = competitor.getScoreLevelOne();
+				} else {
+					competitor.downLevelOne();
+				}
+			} else {
+				if (competitor.getScoreLevelOne().compareTo(lastScore) == 0) {
+					competitor.upLevelTwo();
+				} else {
+					competitor.downLevelOne();
+				}
+			}
+		}
+		competitorRepository.saveAll(competitors); // TODO: improve this $@#$&*%*&
 	}
 
 }
