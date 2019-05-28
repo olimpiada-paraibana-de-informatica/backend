@@ -1,6 +1,7 @@
 package br.edu.opi.manager.competitor.repositories;
 
 import br.edu.opi.manager.competitor.models.Competitor;
+import br.edu.opi.manager.olympiad.models.OpiCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,6 @@ public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
 
 	Competitor findByIdAndStudentSchoolId(Long id, Long schoolId);
 
-	List<Competitor> findAllByYear(int year, Sort sort);
+	List<Competitor> findAllByStudentSchoolIdAndCategoryAndYear(Long schoolId, OpiCategory category, int year, Sort sort);
 
 }
