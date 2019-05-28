@@ -22,7 +22,7 @@ public class CompetitorTableRow extends Auditing implements Serializable, Model<
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name")
+	@Column(name = "hash")
 	private String hash;
 
 	@Column(name = "name", nullable = false)
