@@ -8,6 +8,9 @@ import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.services.SchoolService;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -90,7 +93,9 @@ public class ExcelGenerateService {
 			XSSFRow row = sheet.createRow(rowCount++);
 			row.createCell(0).setCellValue(competitor.getId());
 			row.createCell(1).setCellValue(competitor.getFullName());
-			row.createCell(2).setCellValue(competitor.getDateBirth());
+			XSSFCell cell = row.createCell(2);
+			cell.setCellValue(competitor.getDateBirth());
+			cell.setCellStyle(toFriendlyDate(workbook));
 			row.createCell(3).setCellValue(competitor.getGenre());
 			row.createCell(4).setCellValue(competitor.getGrade().getName());
 			row.createCell(5).setCellValue(-1.0);
@@ -101,6 +106,13 @@ public class ExcelGenerateService {
 		} catch (IOException e) {
 			throw new WriteFileRuntimeException();
 		}
+	}
+
+	private CellStyle toFriendlyDate(XSSFWorkbook workbook) {
+		CellStyle cellStyle = workbook.createCellStyle();
+		CreationHelper createHelper = workbook.getCreationHelper();
+		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yyyy"));
+		return cellStyle;
 	}
 
 }
