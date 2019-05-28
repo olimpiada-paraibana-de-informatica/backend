@@ -88,7 +88,7 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		this.delete(id);
 	}
 
-	public void solveAndSave(Long schoolId, CompetitorTableRow competitorTableRow) {
+	public void solveAndSave(School school, CompetitorTableRow competitorTableRow) {
 		PartsPersonName parts = personService.processName(competitorTableRow.getName());
 		List<Student> listSavedStudent = studentRepository
 				.findByPersonAcronymAndPersonFirstNameAndPersonLastNameAndPersonDateBirth(
@@ -103,7 +103,7 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 			String name = competitorTableRow.getName();
 			LocalDate dateBirth = competitorTableRow.getDateBirth();
 			Genre genre = competitorTableRow.getGenre();
-			Student student = new Student(new Person(name, dateBirth, genre), new School(schoolId));
+			Student student = new Student(new Person(name, dateBirth, genre), school);
 			savedStudent = studentRepository.save(student);
 			Competitor competitor = new Competitor(savedStudent, grade, score);
 			create(competitor);

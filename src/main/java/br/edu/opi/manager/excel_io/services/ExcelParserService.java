@@ -78,7 +78,7 @@ public class ExcelParserService {
 	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
 		try {
 			School school = schoolService.show(delegatePrincipal);
-			createCompetitorsTransactional(school.getId(), year, multipartFile.getInputStream());
+			createCompetitorsTransactional(school, year, multipartFile.getInputStream());
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
@@ -111,8 +111,8 @@ public class ExcelParserService {
 	}
 
 	@Transactional
-	void createCompetitorsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
-		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(schoolId));
+	void createCompetitorsTransactional(School school, int year, InputStream excelFileInputStream) {
+		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(school.getId()));
 		CompetitorTableMetadata savedCompetitorTableMetadata = competitorTableMetadataRepository.save(competitorTableMetadata);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
@@ -131,9 +131,9 @@ public class ExcelParserService {
 				}
 			}
 			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
-			schoolService.update(schoolId, true);
+			schoolService.update(school.getId(), true);
 //			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
-			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).run();
+			new ConsolidateChangesInCompetitors(school, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}

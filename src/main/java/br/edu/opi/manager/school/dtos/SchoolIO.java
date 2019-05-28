@@ -38,6 +38,10 @@ public class SchoolIO {
 					auxCategory = OpiCategory.INICIACAO_1_PUB;
 				} else if (input.isPublic() && category.equals(OpiCategory.INICIACAO_2)) {
 					auxCategory = OpiCategory.INICIACAO_2_PUB;
+				} else if (!input.isPublic() && category.equals(OpiCategory.INICIACAO_1_PUB)) {
+					auxCategory = OpiCategory.INICIACAO_1;
+				} else if (!input.isPublic() && category.equals(OpiCategory.INICIACAO_2_PUB)) {
+					auxCategory = OpiCategory.INICIACAO_2;
 				}
 				categories.add(auxCategory);
 			}

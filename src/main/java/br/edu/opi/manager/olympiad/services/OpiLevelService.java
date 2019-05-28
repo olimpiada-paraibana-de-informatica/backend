@@ -31,7 +31,7 @@ public class OpiLevelService {
 
 	public void levelTwoClassifier(Integer percentageConsidered) {
 		Set<School> schools = new HashSet<>(schoolRepository.findAll());
-		if (schools.isEmpty()) {
+		if (schools == null || schools.isEmpty()) {
 			return;
 		}
 		for (School school : schools) {
@@ -42,13 +42,13 @@ public class OpiLevelService {
 	}
 
 	private void levelTwoClassifier(Long schoolId, OpiCategory category, Integer percentageConsidered) {
-		List<Competitor> list = competitorRepository.findAllByStudentSchoolIdAndCategoryAndYear(
-				schoolId,
-				category,
-				LocalDate.now().getYear(),
-				Sort.by(Sort.Order.desc("scoreLevelOne")));
-		LinkedHashSet<Competitor> competitors = new LinkedHashSet<>(list);
-		if (competitors.isEmpty()) {
+		LinkedHashSet<Competitor> competitors = new LinkedHashSet<>(
+				competitorRepository.findAllByStudentSchoolIdAndCategoryAndYear(
+						schoolId,
+						category,
+						LocalDate.now().getYear(),
+						Sort.by(Sort.Order.desc("scoreLevelOne"))));
+		if (competitors == null || competitors.isEmpty()) {
 			return;
 		}
 		int total = competitors.size();
@@ -56,7 +56,7 @@ public class OpiLevelService {
 		double lastScore = 0.0;
 		long limit = 0;
 		for (Competitor competitor : competitors) {
-			if (limit++ <= totalLevelTwo) {
+			if (limit++ < totalLevelTwo) {
 				if (competitor.getScoreLevelOne().compareTo(0.0) > 0) {
 					competitor.upLevelTwo();
 					lastScore = competitor.getScoreLevelOne();
