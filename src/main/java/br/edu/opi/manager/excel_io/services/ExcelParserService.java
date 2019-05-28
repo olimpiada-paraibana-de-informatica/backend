@@ -189,13 +189,13 @@ public class ExcelParserService {
 		}
 	}
 
-	private static String getHashAttribute(XSSFCell cell) {
+	private static Double getHashAttribute(XSSFCell cell) {
 		try {
-			String string = cell.getStringCellValue();
-			if (string.isEmpty()) {
+			Double hash = cell.getNumericCellValue();
+			if (hash == null) {
 				throw new HashNotNullRuntimeException(cell.getColumnIndex(), cell.getRow().getRowNum() + 1);
 			}
-			return string;
+			return hash;
 		} catch (HashNotNullRuntimeException nnnre) {
 			throw nnnre;
 		} catch (Exception e) {

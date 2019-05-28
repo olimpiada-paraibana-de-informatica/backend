@@ -23,7 +23,7 @@ public class CompetitorTableRow extends Auditing implements Serializable, Model<
 	private Long id;
 
 	@Column(name = "hash")
-	private String hash;
+	private Double hash;
 
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -57,11 +57,11 @@ public class CompetitorTableRow extends Auditing implements Serializable, Model<
 		this.id = id;
 	}
 
-	public String getHash() {
+	public Double getHash() {
 		return hash;
 	}
 
-	public void setHash(String hash) {
+	public void setHash(Double hash) {
 		this.hash = hash;
 	}
 

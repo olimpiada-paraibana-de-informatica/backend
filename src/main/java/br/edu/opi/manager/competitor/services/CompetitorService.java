@@ -120,7 +120,7 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 	}
 
 	public void solveAndUpdate(CompetitorTableRow competitor) {
-		Long competitorId = Double.valueOf(competitor.getHash()).longValue();
+		Long competitorId = competitor.getHash().longValue();
 		Double score = competitor.getScore();
 		Competitor savedCompetitor = repository.findById(competitorId).orElseThrow(CompetitorNotFoundRuntimeException::new); // TODO: error
 		savedCompetitor.setScoreLevelTwo(score);
