@@ -10,7 +10,10 @@ import br.edu.opi.manager.student.models.Student;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.Year;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -160,6 +163,19 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 	public boolean upLevelTwo() {
 		setLevel(OpiLevels.TWO);
 		return true;
+	}
+
+	public String getFullName() {
+		return student.getFullName();
+	}
+
+	public Date getDateBirth() {
+		LocalDate dateBirth = student.getDateBirth();
+		return Date.from(dateBirth.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public String getGenre() {
+		return student.getGenre().getName();
 	}
 
 }

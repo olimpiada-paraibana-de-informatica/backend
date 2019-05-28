@@ -9,6 +9,7 @@ import br.edu.opi.manager.project_patterns.models.history.Auditing;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_school")
@@ -126,6 +127,19 @@ public class School extends Auditing implements Serializable, Model<Long> {
 
 	public void setFilled(boolean filled) {
 		this.filled = filled;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		School school = (School) o;
+		return id.equals(school.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 }

@@ -13,4 +13,5 @@ public class InvalidFileRuntimeException extends ConflictsRuntimeException {
 	public String getErrorCode() {
 		return ErrorConstants.INVALID_FILE;
 	}
+
 }

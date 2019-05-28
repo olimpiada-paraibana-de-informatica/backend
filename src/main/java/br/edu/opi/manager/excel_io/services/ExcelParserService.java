@@ -27,9 +27,15 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,14 +46,13 @@ public class ExcelParserService {
 
 	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
+	private static String STUDENTS_FILE_NAME;
+	private static String COMPETITORS_FILE_NAME;
 	private static int CELLS_STUDENTS_LENGTH;
-
 	private static int CELLS_COMPETITORS_LENGTH;
 
 	private SchoolService schoolService;
-
 	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
-
 	private StudentTableMetadataRepository studentTableMetadataRepository;
 
 	@Autowired
@@ -57,11 +62,15 @@ public class ExcelParserService {
 			CompetitorTableRowRepository competitorTableRowRepository,
 			StudentTableMetadataRepository studentTableMetadataRepository,
 			StudentTableRowRepository studentTableRowRepository,
+			@Value("${xlsx.file.students}") String studentsFileName,
+			@Value("${xlsx.file.competitors}") String competitorsFileName,
 			@Value("${xlsx.cells.students}") int cellsStudentsLength,
 			@Value("${xlsx.cells.competitors}") int cellsCompetitorsLength) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
+		this.STUDENTS_FILE_NAME = studentsFileName;
+		this.COMPETITORS_FILE_NAME = competitorsFileName;
 		this.CELLS_STUDENTS_LENGTH = cellsStudentsLength;
 		this.CELLS_COMPETITORS_LENGTH = cellsCompetitorsLength;
 	}
@@ -229,8 +238,19 @@ public class ExcelParserService {
 	public Resource downloadSheet(TargetXlsx targetXlsx) {
 		String fileName = solveFileName(targetXlsx);
 		try {
-			Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
-			Path filePath = resourcesPath.resolve(fileName);
+			Path filePath = null;
+			if (fileName.startsWith("http")) {
+				URL url = new URL(fileName);
+				ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+				Path temp = Files.createTempFile("Renomear_Modelo", ".xlsx");
+				FileOutputStream fileOutputStream = new FileOutputStream(temp.toString());
+				FileChannel fileChannel = fileOutputStream.getChannel();
+				fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE); // TODO: improve this...
+				filePath = temp.toAbsolutePath();
+			} else {
+				Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
+				filePath = resourcesPath.resolve(fileName);
+			}
 			Resource resource = new UrlResource(filePath.toUri());
 			if (resource.exists()) {
 				return resource;
@@ -247,9 +267,9 @@ public class ExcelParserService {
 	private String solveFileName(TargetXlsx targetXlsx) {
 		switch (targetXlsx) {
 			case STUDENT:
-				return "OPI_Modelo_Estudante.xlsx";
+				return STUDENTS_FILE_NAME;
 			default:
-				return "OPI_Modelo_Competidor.xlsx";
+				return COMPETITORS_FILE_NAME;
 		}
 	}
 
