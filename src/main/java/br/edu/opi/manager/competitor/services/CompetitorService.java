@@ -119,6 +119,14 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		}
 	}
 
+	public void solveAndUpdate(CompetitorTableRow competitor) {
+		Long competitorId = Long.valueOf(competitor.getHash());
+		Double score = competitor.getScore();
+		Competitor savedCompetitor = repository.findById(competitorId).orElseThrow(CompetitorNotFoundRuntimeException::new); // TODO: error
+		savedCompetitor.setScoreLevelTwo(score);
+		repository.save(savedCompetitor);
+	}
+
 	@Override
 	public void validateBeforeCreate(Competitor competitor) {
 	}

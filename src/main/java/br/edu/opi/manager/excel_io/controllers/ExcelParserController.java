@@ -50,6 +50,13 @@ public class ExcelParserController {
 		excelParserService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
 	}
 
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_COMPETITOR + "')")
+	@PostMapping({"/schools/{id}/level_two/", "/schools/{id}/level_two"})
+	@ApiOperation(value = "Upload excel files to update score of competitors level two")
+	public void updateCompetitorsLevelTwoFromSheet(@PathVariable("id") Long schoolId, @RequestParam("file") MultipartFile multipartFile) {
+		excelParserService.handleLevelTwo(schoolId, LocalDate.now().getYear(), multipartFile);
+	}
+
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
 	@GetMapping({"/schools/students/download/", "/schools/students/download"})
 	@ApiOperation(value = "Download excel student model")
