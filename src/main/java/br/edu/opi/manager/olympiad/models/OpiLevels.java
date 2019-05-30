@@ -1,7 +1,8 @@
 package br.edu.opi.manager.olympiad.models;
 
 public enum OpiLevels {
-	ONE("ONE", "Primeira Fase"), TWO("TWO", "Segunda Fase");
+	ONE("ONE", "Primeira Fase"),
+	TWO("TWO", "Segunda Fase");
 
 	private String key;
 	private String friendlyName;

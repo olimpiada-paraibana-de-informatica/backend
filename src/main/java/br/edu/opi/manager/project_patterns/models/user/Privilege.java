@@ -69,6 +69,8 @@ public enum Privilege implements Serializable {
 	C_EM(PrivilegeUtils.C_EM, "CREATE_EMAILS_LIST", "Criar lista de e-mails", PrivilegeUtils.EM),
 	U_EM(PrivilegeUtils.U_EM, "UPDATE_EMAILS_LIST", "Atualizar lista de e-mails", PrivilegeUtils.EM),
 	D_EM(PrivilegeUtils.D_EM, "DELETE_EMAILS_LIST", "Deletar listas de e-mails", PrivilegeUtils.EM),
+	//OPI
+	U_OL(PrivilegeUtils.U_OL, "UPDATE_OPI_LEVEL", "Definir fase dos Competidores", PrivilegeUtils.OPI),
 	;
 	// @formatter:on
 
@@ -131,6 +133,10 @@ public enum Privilege implements Serializable {
 	public static final String UPDATE_EMAILS_LIST = PrivilegeUtils.U_EM;
 	public static final String DELETE_EMAILS_LIST = PrivilegeUtils.D_EM;
 
+	// OPI
+	public static final String INDEX_OPI_LEVEL = PrivilegeUtils.I_OL;
+	public static final String UPDATE_OPI_LEVEL = PrivilegeUtils.U_OL;
+
 	private String key;
 	private String name;
 	private String nameFriendly;
@@ -169,6 +175,7 @@ class PrivilegeUtils {
 	static final String ST = "Estudante";
 	static final String CO = "Competidor";
 	static final String EM = "E-mails";
+	public static final String OPI = "OPI";
 
 	// UserModel
 	static final String C_US = "C_US";
@@ -226,5 +233,9 @@ class PrivilegeUtils {
 	static final String C_EM = "C_EM";
 	static final String U_EM = "U_EM";
 	static final String D_EM = "D_EM";
+
+	//OPI
+	static final String U_OL = "U_OL";
+	static final String I_OL = "I_OL";
 
 }

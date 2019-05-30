@@ -103,10 +103,11 @@ public class StudentService extends GenericService<Long, Student, StudentReposit
 	public void solveAndSave(Long schoolId, StudentTableRow studentTableRow) {
 		PartsPersonName parts = personService.processName(studentTableRow.getName());
 		List<Student> listSavedStudent = repository
-				.findByPersonAcronymAndPersonFirstNameAndPersonLastName(
+				.findByPersonAcronymAndPersonFirstNameAndPersonLastNameAndPersonDateBirth(
 						parts.getAcronym(),
 						parts.getFirstName(),
-						parts.getLastName());
+						parts.getLastName(),
+						studentTableRow.getDateBirth());
 		Student savedStudent = !listSavedStudent.isEmpty() ? listSavedStudent.get(0) : null; // TODO: if size > 0?
 		String name = studentTableRow.getName();
 		LocalDate dateBirth = studentTableRow.getDateBirth();

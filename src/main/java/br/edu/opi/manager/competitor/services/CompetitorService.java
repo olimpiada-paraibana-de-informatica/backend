@@ -91,10 +91,11 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 	public void solveAndSave(Long schoolId, CompetitorTableRow competitorTableRow) {
 		PartsPersonName parts = personService.processName(competitorTableRow.getName());
 		List<Student> listSavedStudent = studentRepository
-				.findByPersonAcronymAndPersonFirstNameAndPersonLastName(
+				.findByPersonAcronymAndPersonFirstNameAndPersonLastNameAndPersonDateBirth(
 						parts.getAcronym(),
 						parts.getFirstName(),
-						parts.getLastName());
+						parts.getLastName(),
+						competitorTableRow.getDateBirth());
 		Grade grade = competitorTableRow.getGrade();
 		Double score = competitorTableRow.getScore();
 		Student savedStudent = !listSavedStudent.isEmpty() ? listSavedStudent.get(0) : null; // TODO: if size > 0?

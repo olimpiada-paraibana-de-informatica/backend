@@ -20,6 +20,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
 	Student findByPersonFullNameAndPersonDateBirth(String fullName, LocalDate dateBirth);
 
-	List<Student> findByPersonAcronymAndPersonFirstNameAndPersonLastName(String acronym, String firsName, String lastName);
+	List<Student> findByPersonAcronymAndPersonFirstNameAndPersonLastNameAndPersonDateBirth(String acronym, String firsName, String lastName, LocalDate dateBirth);
 
 }

@@ -1,12 +1,17 @@
 package br.edu.opi.manager.competitor.models;
 
+import br.edu.opi.manager.competitor.repositories.CompetitorRepository;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.school.models.Grade;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 public class CompetitorListener {
+
+	@Autowired
+	CompetitorRepository competitorRepository;
 
 	@PrePersist
 	@PreUpdate
@@ -47,5 +52,7 @@ public class CompetitorListener {
 		}
 		competitor.setCategory(category);
 	}
+
+	// TODO: listener to block level update programatically, permits only by PL/PGSQL
 
 }
