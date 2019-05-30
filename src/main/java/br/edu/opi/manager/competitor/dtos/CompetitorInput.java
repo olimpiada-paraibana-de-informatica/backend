@@ -16,7 +16,10 @@ public class CompetitorInput {
 	private Grade studentGrade;
 
 	@ApiModelProperty(example = "1")
-	private Double score;
+	private Double scoreLevelOne;
+
+	@ApiModelProperty(example = "2")
+	private Double scoreLevelTwo;
 
 	public Long getStudentId() {
 		return studentId;
@@ -34,12 +37,20 @@ public class CompetitorInput {
 		this.studentGrade = studentGrade;
 	}
 
-	public Double getScore() {
-		return score;
+	public Double getScoreLevelOne() {
+		return scoreLevelOne;
 	}
 
-	public void setScore(Double score) {
-		this.score = score;
+	public void setScoreLevelOne(Double scoreLevelOne) {
+		this.scoreLevelOne = scoreLevelOne;
+	}
+
+	public Double getScoreLevelTwo() {
+		return scoreLevelTwo;
+	}
+
+	public void setScoreLevelTwo(Double scoreLevelTwo) {
+		this.scoreLevelTwo = scoreLevelTwo;
 	}
 
 }

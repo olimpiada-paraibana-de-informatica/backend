@@ -28,7 +28,10 @@ public class CompetitorOutput {
 	private OpiCategory category;
 
 	@ApiModelProperty
-	private Double score;
+	private Double scoreLevelOne;
+
+	@ApiModelProperty
+	private Double scoreLevelTwo;
 
 	@ApiModelProperty(example = "1")
 	private Long studentId;
@@ -84,12 +87,20 @@ public class CompetitorOutput {
 		this.category = category;
 	}
 
-	public Double getScore() {
-		return score;
+	public Double getScoreLevelOne() {
+		return scoreLevelOne;
 	}
 
-	public void setScore(Double score) {
-		this.score = score;
+	public void setScoreLevelOne(Double score) {
+		this.scoreLevelOne = score;
+	}
+
+	public Double getScoreLevelTwo() {
+		return scoreLevelTwo;
+	}
+
+	public void setScoreLevelTwo(Double scoreLevelTwo) {
+		this.scoreLevelTwo = scoreLevelTwo;
 	}
 
 	public Long getStudentId() {

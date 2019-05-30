@@ -13,6 +13,7 @@ public class ProfileFactory {
 				// TODO: change to Delegate own privileges
 				add(Privilege.S_US);
 				add(Privilege.U_US);
+				add(Privilege.D_PN);
 				add(Privilege.SA_SC);
 				add(Privilege.UA_SC);
 				add(Privilege.CA_ST);
