@@ -5,6 +5,7 @@ import br.edu.opi.manager.project_patterns.exceptions.DeleteConflictRuntimeExcep
 import br.edu.opi.manager.project_patterns.exceptions.NotFoundRuntimeException;
 import br.edu.opi.manager.project_patterns.exceptions.UpdateConflictRuntimeException;
 import br.edu.opi.manager.project_patterns.models.Model;
+import br.edu.opi.manager.school.models.School;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.domain.Page;

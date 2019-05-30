@@ -6,14 +6,19 @@ import br.edu.opi.manager.delegate.services.DelegateService;
 import br.edu.opi.manager.project_patterns.services.GenericService;
 import br.edu.opi.manager.school.exceptions.DelegateNotNullRuntimeException;
 import br.edu.opi.manager.school.exceptions.SchoolExistsRuntimeException;
+import br.edu.opi.manager.school.exceptions.SchoolNotFoundRuntimeException;
 import br.edu.opi.manager.school.exceptions.UserNotDelegateRuntimeException;
 import br.edu.opi.manager.school.models.School;
 import br.edu.opi.manager.school.repositories.SchoolRepository;
 import br.edu.opi.manager.student.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.user.models.UserModel;
 import br.edu.opi.manager.user.repositories.UserRepository;
+import org.hibernate.jpa.QueryHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Service
 public class SchoolService extends GenericService<Long, School, SchoolRepository> {
@@ -23,6 +28,9 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 	private DelegateRepository delegateRepository;
 
 	private UserRepository userRepository;
+
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Autowired
 	public SchoolService(
@@ -48,6 +56,12 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 			throw new SchoolNotNullRuntimeException(delegatePrincipal);
 		}
 		return this.update(savedSchool.getId(), school);
+	}
+
+	public School update(Long id, boolean filled) {
+		School savedSchool = repository.findById(id).orElseThrow(SchoolNotFoundRuntimeException::new);
+		savedSchool.setFilled(filled);
+		return this.update(id, savedSchool);
 	}
 
 	@Override
@@ -100,6 +114,10 @@ public class SchoolService extends GenericService<Long, School, SchoolRepository
 			delegate = delegateService.create(delegate);
 		}
 		school.setDelegate(new Delegate(delegate.getId()));
+	}
+
+	public void resetFilled() {
+		entityManager.createNativeQuery("UPDATE tb_school SET filled = false").setHint(QueryHints.SPEC_HINT_TIMEOUT, 2000);
 	}
 
 }

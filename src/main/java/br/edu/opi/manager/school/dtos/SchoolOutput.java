@@ -31,6 +31,9 @@ public class SchoolOutput {
 	@ApiModelProperty(example = "true")
 	private boolean enabled;
 
+	@ApiModelProperty(example = "false")
+	private boolean filled;
+
 	public SchoolOutput() {
 	}
 
@@ -96,6 +99,14 @@ public class SchoolOutput {
 
 	public void setOpiCategories(List<OpiCategoryOutput> opiCategories) {
 		this.opiCategories = opiCategories;
+	}
+
+	public boolean isFilled() {
+		return filled;
+	}
+
+	public void setFilled(boolean filled) {
+		this.filled = filled;
 	}
 
 }

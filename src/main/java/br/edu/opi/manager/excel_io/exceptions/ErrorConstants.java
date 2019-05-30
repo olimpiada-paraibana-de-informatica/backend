@@ -14,5 +14,10 @@ public class ErrorConstants {
 	public static final String NAME_NOT_NULL = "NAME_NOT_NULL";
 	public static final String INVALID_SCORE = "INVALID_SCORE";
 	public static final String SCORE_NOT_NULL = "SCORE_NOT_NULL";
+	public static final String CREATE_FILE_ERROR = "CREATE_FILE_ERROR";
+	public static final String WRITE_FILE_ERROR = "WRITE_FILE_ERROR";
+	public static final String SCHOOL_NOT_NULL = "SCHOOL_NOT_NULL";
+	public static final String HASH_NOT_NULL = "HASH_NOT_NULL";
+	public static final String INVALID_HASH = "INVALID_HASH";
 
 }

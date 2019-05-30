@@ -1,5 +1,6 @@
 package br.edu.opi.manager.excel_io.controllers;
 
+import br.edu.opi.manager.excel_io.services.ExcelGenerateService;
 import br.edu.opi.manager.excel_io.services.ExcelParserService;
 import br.edu.opi.manager.excel_io.services.TargetXlsx;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
@@ -25,10 +26,14 @@ import java.time.LocalDate;
 public class ExcelParserController {
 
 	private ExcelParserService excelParserService;
+	private ExcelGenerateService excelGenerateService;
 
 	@Autowired
-	public ExcelParserController(ExcelParserService excelParserService) {
+	public ExcelParserController(
+			ExcelParserService excelParserService,
+			ExcelGenerateService excelGenerateService) {
 		this.excelParserService = excelParserService;
+		this.excelGenerateService = excelGenerateService;
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_COMPETITOR + "')")
@@ -45,12 +50,19 @@ public class ExcelParserController {
 		excelParserService.createStudents(principal.getName(), LocalDate.now().getYear(), multipartFile);
 	}
 
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_COMPETITOR + "')")
+	@PostMapping({"/schools/{id}/level_two/", "/schools/{id}/level_two"})
+	@ApiOperation(value = "Upload excel files to update score of competitors level two")
+	public void updateCompetitorsLevelTwoFromSheet(@PathVariable("id") Long schoolId, @RequestParam("file") MultipartFile multipartFile) {
+		excelParserService.handleLevelTwo(schoolId, LocalDate.now().getYear(), multipartFile);
+	}
+
 	@PreAuthorize("hasAuthority('" + Privilege.CREATE_ASSOCIATED_STUDENT + "')")
 	@GetMapping({"/schools/students/download/", "/schools/students/download"})
 	@ApiOperation(value = "Download excel student model")
 	public ResponseEntity<Resource> downloadStudentSheet() {
 		Resource resource = excelParserService.downloadSheet(TargetXlsx.STUDENT);
-		String contentType =  "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
+		String contentType = "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
@@ -62,7 +74,19 @@ public class ExcelParserController {
 	@ApiOperation(value = "Download excel competitor model")
 	public ResponseEntity<Resource> downloadCompetitorSheet() {
 		Resource resource = excelParserService.downloadSheet(TargetXlsx.COMPETITOR);
-		String contentType =  "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
+		String contentType = "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType(contentType))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_COMPETITOR + "')")
+	@GetMapping({"/schools/{id}/level_two/download/", "/schools/{id}/level_two/download"})
+	@ApiOperation(value = "Download excel school's competitors on level two")
+	public ResponseEntity<Resource> downloadCompetitorLevelTwoSheet(@PathVariable("id") Long schoolId) {
+		Resource resource = excelGenerateService.generateXlsxCompetitorsOnLevelTwo(schoolId);
+		String contentType = "application/octet-stream"; // competitorParserService.XLSX_CONTENT_TYPE;
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

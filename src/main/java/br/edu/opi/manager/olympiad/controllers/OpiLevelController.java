@@ -1,6 +1,6 @@
 package br.edu.opi.manager.olympiad.controllers;
 
-import br.edu.opi.manager.olympiad.services.OpiLevelTwoClassifierService;
+import br.edu.opi.manager.olympiad.services.OpiLevelService;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
@@ -13,9 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import java.math.BigDecimal;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @RestController
 @RequestMapping(RestConstants.OPI_LEVEL_URI)
@@ -25,19 +24,19 @@ public class OpiLevelController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpiLevelController.class.getSimpleName());
 
-	private OpiLevelTwoClassifierService opiLevelTwoClassifierService;
+	private OpiLevelService opiLevelService;
 
 	@Autowired
-	public OpiLevelController(OpiLevelTwoClassifierService opiLevelTwoClassifierService) {
-		this.opiLevelTwoClassifierService = opiLevelTwoClassifierService;
+	public OpiLevelController(OpiLevelService opiLevelTwoClassifierService) {
+		this.opiLevelService = opiLevelTwoClassifierService;
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_OPI_LEVEL + "')")
 	@PostMapping({"/", ""})
 	@ApiOperation(value = "Updates all Competitors classifieds to level two")
-	public ResponseEntity<?> classifier(@RequestParam(name = "percentage") @Valid @DecimalMin("0") @DecimalMax("1") BigDecimal percentageConsidered) {
+	public ResponseEntity<?> classifier(@RequestParam(name = "percentage") @Valid @Min(0) @Max(100) Integer percentageConsidered) {
 		LOGGER.info("classifier competitors");
-		opiLevelTwoClassifierService.levelTwoClassifier(percentageConsidered);
+		opiLevelService.levelTwoClassifier(percentageConsidered);
 		LOGGER.info("classifier competitors done");
 		return ResponseEntity.noContent().build();
 	}

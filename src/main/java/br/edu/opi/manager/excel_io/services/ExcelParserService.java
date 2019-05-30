@@ -27,9 +27,15 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -40,14 +46,13 @@ public class ExcelParserService {
 
 	public static final String XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
+	private static String STUDENTS_FILE_NAME;
+	private static String COMPETITORS_FILE_NAME;
 	private static int CELLS_STUDENTS_LENGTH;
-
 	private static int CELLS_COMPETITORS_LENGTH;
 
 	private SchoolService schoolService;
-
 	private CompetitorTableMetadataRepository competitorTableMetadataRepository;
-
 	private StudentTableMetadataRepository studentTableMetadataRepository;
 
 	@Autowired
@@ -57,11 +62,15 @@ public class ExcelParserService {
 			CompetitorTableRowRepository competitorTableRowRepository,
 			StudentTableMetadataRepository studentTableMetadataRepository,
 			StudentTableRowRepository studentTableRowRepository,
+			@Value("${xlsx.file.students}") String studentsFileName,
+			@Value("${xlsx.file.competitors}") String competitorsFileName,
 			@Value("${xlsx.cells.students}") int cellsStudentsLength,
 			@Value("${xlsx.cells.competitors}") int cellsCompetitorsLength) {
 		this.schoolService = schoolService;
 		this.competitorTableMetadataRepository = competitorTableMetadataRepository;
 		this.studentTableMetadataRepository = studentTableMetadataRepository;
+		this.STUDENTS_FILE_NAME = studentsFileName;
+		this.COMPETITORS_FILE_NAME = competitorsFileName;
 		this.CELLS_STUDENTS_LENGTH = cellsStudentsLength;
 		this.CELLS_COMPETITORS_LENGTH = cellsCompetitorsLength;
 	}
@@ -78,7 +87,16 @@ public class ExcelParserService {
 	public void createCompetitors(String delegatePrincipal, int year, MultipartFile multipartFile) {
 		try {
 			School school = schoolService.show(delegatePrincipal);
-			createCompetitorsTransactional(school.getId(), year, multipartFile.getInputStream());
+			createCompetitorsTransactional(school, year, multipartFile.getInputStream());
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
+	}
+
+	public void handleLevelTwo(Long schoolId, int year, MultipartFile multipartFile) {
+		try {
+			School school = schoolService.show(schoolId);
+			updateCompetitorsTransactional(school, year, multipartFile.getInputStream());
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
 		}
@@ -111,8 +129,8 @@ public class ExcelParserService {
 	}
 
 	@Transactional
-	void createCompetitorsTransactional(Long schoolId, int year, InputStream excelFileInputStream) {
-		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(schoolId));
+	void createCompetitorsTransactional(School school, int year, InputStream excelFileInputStream) {
+		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(school.getId()));
 		CompetitorTableMetadata savedCompetitorTableMetadata = competitorTableMetadataRepository.save(competitorTableMetadata);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
@@ -131,10 +149,57 @@ public class ExcelParserService {
 				}
 			}
 			competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
+			schoolService.update(school.getId(), true);
 //			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
-			new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).run();
+			new ConsolidateChangesInCompetitors(school, savedCompetitorTableMetadata.getRows()).run();
 		} catch (IOException e) {
 			throw new InvalidFileRuntimeException();
+		}
+	}
+
+	@Transactional
+	void updateCompetitorsTransactional(School school, int year, InputStream excelFileInputStream) {
+		CompetitorTableMetadata competitorTableMetadata = new CompetitorTableMetadata(year, new School(school.getId()));
+		CompetitorTableMetadata savedCompetitorTableMetadata = competitorTableMetadataRepository.save(competitorTableMetadata);
+		try {
+			XSSFWorkbook workbook = new XSSFWorkbook(excelFileInputStream);
+			for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
+				XSSFSheet worksheet = workbook.getSheetAt(i);
+				for (int j = 1; j <= worksheet.getPhysicalNumberOfRows(); j++) {
+					XSSFRow row = worksheet.getRow(j);
+					CompetitorTableRow tempCompetitor = new CompetitorTableRow();
+					if (isCellsLevelTwoWithContent(row, TargetXlsx.COMPETITOR)) {
+						tempCompetitor.setHash(getHashAttribute(row.getCell(0)));
+						tempCompetitor.setName(getNameAttribute(row.getCell(1)));
+						tempCompetitor.setDateBirth(getDateAttribute(row.getCell(2)));
+						tempCompetitor.setGenre(getGenreAttribute(row.getCell(3)));
+						tempCompetitor.setGrade(getGradeAttribute(row.getCell(4)));
+						tempCompetitor.setScore(getScoreAttibute(row.getCell(5)));
+						tempCompetitor.setCompetitorTableMetadata(savedCompetitorTableMetadata);
+						savedCompetitorTableMetadata.addRow(tempCompetitor);
+					}
+				}
+				competitorTableMetadataRepository.save(savedCompetitorTableMetadata);
+//				schoolService.update(school.getId(), true);
+//				new ConsolidateChangesInCompetitors(schoolId, savedCompetitorTableMetadata.getRows()).start();
+				new UpdateCompetitorsLevelTwo(savedCompetitorTableMetadata.getRows()).run(); // TODO: thread safe
+			}
+		} catch (IOException e) {
+			throw new InvalidFileRuntimeException();
+		}
+	}
+
+	private static Double getHashAttribute(XSSFCell cell) {
+		try {
+			Double hash = cell.getNumericCellValue();
+			if (hash == null) {
+				throw new HashNotNullRuntimeException(cell.getColumnIndex(), cell.getRow().getRowNum() + 1);
+			}
+			return hash;
+		} catch (HashNotNullRuntimeException nnnre) {
+			throw nnnre;
+		} catch (Exception e) {
+			throw new InvalidHashRuntimeException(cell.getColumnIndex(), cell.getRow().getRowNum() + 1, cell.toString());
 		}
 	}
 
@@ -225,11 +290,32 @@ public class ExcelParserService {
 		return true;
 	}
 
+	private static boolean isCellsLevelTwoWithContent(
+			XSSFRow row,
+			TargetXlsx targetXlsx) {
+		int cellsLength = targetXlsx == TargetXlsx.COMPETITOR ? CELLS_COMPETITORS_LENGTH : CELLS_STUDENTS_LENGTH;
+		if (row == null || row.getCell(0) == null || row.getCell(0).getRawValue() == null || row.getLastCellNum() < cellsLength + 1) {
+			return false;
+		}
+		return true;
+	}
+
 	public Resource downloadSheet(TargetXlsx targetXlsx) {
 		String fileName = solveFileName(targetXlsx);
 		try {
-			Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
-			Path filePath = resourcesPath.resolve(fileName);
+			Path filePath = null;
+			if (fileName.startsWith("http")) {
+				URL url = new URL(fileName);
+				ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+				Path temp = Files.createTempFile("Renomear_Modelo", ".xlsx");
+				FileOutputStream fileOutputStream = new FileOutputStream(temp.toString());
+				FileChannel fileChannel = fileOutputStream.getChannel();
+				fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE); // TODO: improve this...
+				filePath = temp.toAbsolutePath();
+			} else {
+				Path resourcesPath = ResourceUtils.getFile("classpath:files").toPath();
+				filePath = resourcesPath.resolve(fileName);
+			}
 			Resource resource = new UrlResource(filePath.toUri());
 			if (resource.exists()) {
 				return resource;
@@ -246,9 +332,9 @@ public class ExcelParserService {
 	private String solveFileName(TargetXlsx targetXlsx) {
 		switch (targetXlsx) {
 			case STUDENT:
-				return "OPI_Modelo_Estudante.xlsx";
+				return STUDENTS_FILE_NAME;
 			default:
-				return "OPI_Modelo_Competidor.xlsx";
+				return COMPETITORS_FILE_NAME;
 		}
 	}
 

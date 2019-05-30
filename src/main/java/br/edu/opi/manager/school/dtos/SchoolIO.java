@@ -2,6 +2,7 @@ package br.edu.opi.manager.school.dtos;
 
 import br.edu.opi.manager.delegate.models.Delegate;
 import br.edu.opi.manager.olympiad.dtos.OpiCategoryOutput;
+import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.places.models.City;
 import br.edu.opi.manager.school.models.School;
 import org.modelmapper.Converter;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -29,11 +31,25 @@ public class SchoolIO {
 		@Override
 		public School convert(MappingContext<SchoolInput, School> context) {
 			SchoolInput input = context.getSource();
+			List<OpiCategory> categories = new LinkedList<>();
+			for (OpiCategory category : new HashSet<>(input.getOpiCategories())) {
+				OpiCategory auxCategory = category;
+				if (input.isPublic() && category.equals(OpiCategory.INICIACAO_1)) {
+					auxCategory = OpiCategory.INICIACAO_1_PUB;
+				} else if (input.isPublic() && category.equals(OpiCategory.INICIACAO_2)) {
+					auxCategory = OpiCategory.INICIACAO_2_PUB;
+				} else if (!input.isPublic() && category.equals(OpiCategory.INICIACAO_1_PUB)) {
+					auxCategory = OpiCategory.INICIACAO_1;
+				} else if (!input.isPublic() && category.equals(OpiCategory.INICIACAO_2_PUB)) {
+					auxCategory = OpiCategory.INICIACAO_2;
+				}
+				categories.add(auxCategory);
+			}
 			return new School(
 					input.getSchoolName(),
 					new City(input.getSchoolCityCbo()),
 					new Delegate(null, input.getDelegateEmail(), input.getDelegateName(), input.getPassword()),
-					input.getOpiCategories(),
+					categories,
 					input.isPublic());
 		}
 	};
@@ -102,10 +118,12 @@ public class SchoolIO {
 			schoolOutput.setDelegatePhone(delegate.getPhone());
 		}
 		if (school.getCategories() != null) {
-			Type type = new TypeToken<List<OpiCategoryOutput>>() {}.getType();
+			Type type = new TypeToken<List<OpiCategoryOutput>>() {
+			}.getType();
 			schoolOutput.setOpiCategories(this.modelMapper.map(school.getCategories(), type));
 		}
 		schoolOutput.setEnabled(school.isEnabled());
+		schoolOutput.setFilled(school.isFilled());
 		return schoolOutput;
 	}
 

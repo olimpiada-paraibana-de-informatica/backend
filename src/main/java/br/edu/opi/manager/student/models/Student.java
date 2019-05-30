@@ -1,5 +1,6 @@
 package br.edu.opi.manager.student.models;
 
+import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.person.models.Person;
 import br.edu.opi.manager.project_patterns.models.Model;
 import br.edu.opi.manager.project_patterns.models.history.Auditing;
@@ -7,6 +8,7 @@ import br.edu.opi.manager.school.models.School;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_student")
@@ -72,6 +74,18 @@ public class Student extends Auditing implements Serializable, Model<Long> {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public String getFullName() {
+		return person.getFullName();
+	}
+
+	public LocalDate getDateBirth() {
+		return person.getDateBirth();
+	}
+
+	public Genre getGenre() {
+		return person.getGenre();
 	}
 
 }

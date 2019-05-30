@@ -60,14 +60,12 @@ public class SchoolController {
 	@PreAuthorize("hasAuthority('" + Privilege.INDEX_SCHOOL + "')")
 	@ApiOperation(value = "Get All Schools")
 	@GetMapping({"/", ""})
-	// @formatter:off
 	public Page<SchoolOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
 			@RequestParam(required = false, name = "size") Integer size) {
 		LOGGER.info("index schools");
 		return schoolIO.toPage(schoolService.index(page, size));
 	}
-	// @formatter:on
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_SCHOOL + "')")
 	@ApiOperation(value = "Get a School")
@@ -82,7 +80,6 @@ public class SchoolController {
 	@PutMapping({"/{id}/", "/{id}"})
 	@ApiOperation(value = "Updates a School")
 	public ResponseEntity<?> update(
-			//@formatter:off
 			@Min(value = 1) @PathVariable("id") Long id,
 			@Valid @RequestBody SchoolInput schoolInput) {
 		School school = schoolIO.mapTo(schoolInput);
@@ -91,8 +88,6 @@ public class SchoolController {
 		LOGGER.info("school " + school.getName() + " updated");
 		return ResponseEntity.noContent().build();
 	}
-
-	//@formatter:on
 
 	@PreAuthorize("hasAnyAuthority('" + Privilege.DELETE_SCHOOL + "', '" + Privilege.DELETE_DELEGATE + "')")
 	@DeleteMapping({"/{id}/", "/{id}"})
@@ -103,6 +98,15 @@ public class SchoolController {
 		LOGGER.info("school " + id + " deleted");
 		return ResponseEntity.ok().build();
 	}
-	// @formatter:on
+
+	@PreAuthorize("hasAuthority('" + Privilege.UPDATE_SCHOOL + "')")
+	@PatchMapping({"/reset/filled/", "/reset/filled"})
+	@ApiOperation(value = "Reset School filled attribute")
+	public ResponseEntity<?> updateFilled() {
+		LOGGER.info("reset school filled attribute");
+		schoolService.resetFilled();
+		LOGGER.info("reset school filled attribute done");
+		return ResponseEntity.noContent().build();
+	}
 
 }

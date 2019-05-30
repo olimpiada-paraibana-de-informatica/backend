@@ -35,6 +35,15 @@ public enum OpiCategory {
 		return name;
 	}
 
+	public static OpiCategory from(String string) {
+		for (OpiCategory grade : OpiCategory.values()) {
+			if (grade.name.equalsIgnoreCase(string)) {
+				return grade;
+			}
+		}
+		throw new RuntimeException("Category '" + string + "' don't exists");
+	}
+
 	@Override
 	public String toString() {
 		return key;
