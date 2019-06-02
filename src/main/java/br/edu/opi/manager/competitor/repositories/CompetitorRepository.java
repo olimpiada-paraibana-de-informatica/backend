@@ -30,4 +30,10 @@ public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
 
 	List<Competitor> findAllByStudentSchoolIdAndCategoryAndLevelAndYear(Long id, OpiCategory category, OpiLevels level, int year, Sort sort);
 
+	Page<Competitor> findAllByLevelAndCategory(OpiLevels level, OpiCategory category, Pageable pageable);
+
+	Page<Competitor> findAllByLevel(OpiLevels level, Pageable pageable);
+
+	Page<Competitor> findAllByCategory(OpiCategory category, Pageable pageable);
+
 }

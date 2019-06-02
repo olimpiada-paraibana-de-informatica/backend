@@ -56,9 +56,11 @@ public class CompetitorDelegateController {
 	public Page<CompetitorOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
 			@RequestParam(required = false, name = "size") Integer size,
+			@RequestParam(required = false, name = "level") String level,
+			@RequestParam(required = false, name = "category") String category,
 			Principal principal) {
 		LOGGER.info("delegate index associated competitors");
-		return competitorIO.toPage(competitorService.index(page, size, principal.getName()));
+		return competitorIO.toPage(competitorService.index(page, size, level, category, principal.getName()));
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_ASSOCIATED_COMPETITOR + "')")

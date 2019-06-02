@@ -54,9 +54,11 @@ public class CompetitorController {
 	@GetMapping({"/", ""})
 	public Page<CompetitorOutput> index(
 			@RequestParam(required = false, name = "page") Integer page,
-			@RequestParam(required = false, name = "size") Integer size) {
+			@RequestParam(required = false, name = "size") Integer size,
+			@RequestParam(required = false, name = "level") String level,
+			@RequestParam(required = false, name = "category") String category) {
 		LOGGER.info("index competitors");
-		return competitorIO.toPage(competitorService.index(page, size));
+		return competitorIO.toPage(competitorService.index(page, size, level, category));
 	}
 
 	@PreAuthorize("hasAuthority('" + Privilege.SHOW_COMPETITOR + "')")
