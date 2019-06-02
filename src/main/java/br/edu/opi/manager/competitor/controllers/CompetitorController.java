@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.time.Year;
 
 @RestController
 @RequestMapping(RestConstants.COMPETITOR_URI)
@@ -93,6 +94,17 @@ public class CompetitorController {
 		competitorService.delete(id);
 		LOGGER.info("competitor " + id + " deleted");
 		return ResponseEntity.ok().build();
+	}
+
+	@PreAuthorize("hasAuthority('" + Privilege.INDEX_COMPETITOR + "')")
+	@ApiOperation(value = "Get Ranking")
+	@GetMapping({"/ranking/", "ranking"})
+	public Page<CompetitorOutput> ranking(
+			@RequestParam(required = false, name = "page") Integer page,
+			@RequestParam(required = false, name = "size") Integer size,
+			@RequestParam(name = "category") String category) {
+		LOGGER.info("raking competitors");
+		return competitorIO.toPage(competitorService.ranking(category, Year.now().getValue(), page, size));
 	}
 
 }

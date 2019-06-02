@@ -23,13 +23,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
 
 @Service
 public class CompetitorService extends GenericService<Long, Competitor, CompetitorRepository> {
+
+	private static final Integer RANKING_PAGE = 0;
+	private static final Integer RANKING_SIZE = 50;
 
 	private StudentRepository studentRepository;
 
@@ -146,6 +148,30 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		Competitor savedCompetitor = repository.findById(competitorId).orElseThrow(CompetitorNotFoundRuntimeException::new); // TODO: error
 		savedCompetitor.setScoreLevelTwo(score);
 		repository.save(savedCompetitor);
+	}
+
+	public static final Double calculateFinalScore(Competitor competitor) {
+		Double scoreLevelOne = competitor.getScoreLevelOne();
+		Double scoreLevelTwo = competitor.getScoreLevelTwo();
+		if (validateScore(scoreLevelOne) || validateScore(scoreLevelTwo)) {
+			return 0.0;
+		}
+		return scoreLevelOne + 20.0 * scoreLevelTwo; // @see repository.findAllByCategoryAndYear
+	}
+
+	public Page<Competitor> ranking(String category, Integer year, Integer page, Integer size) {
+		if (page == null) {
+			page = RANKING_PAGE;
+		}
+		if (size == null) {
+			size = RANKING_SIZE;
+		}
+		OpiCategory opiCategory = OpiCategory.from(category);
+		return repository.findAllByCategoryAndYear(opiCategory, year, PageRequest.of(page, size));
+	}
+
+	private static final boolean validateScore(Double score) {
+		return score == null || score <= 0.0;
 	}
 
 	@Override

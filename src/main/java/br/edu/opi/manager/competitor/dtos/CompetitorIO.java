@@ -83,6 +83,7 @@ public class CompetitorIO {
 		competitorOutput.setId(competitor.getId());
 		competitorOutput.setScoreLevelOne(competitor.getScoreLevelOne());
 		competitorOutput.setScoreLevelTwo(competitor.getScoreLevelTwo());
+		competitorOutput.setFinalScore(competitor.getFinalScore());
 		competitorOutput.setGrade(competitor.getGrade().getName());
 		competitorOutput.setCategory(competitor.getCategory().getName());
 		competitorOutput.setLevel(competitor.getLevel().getFriendlyName());
