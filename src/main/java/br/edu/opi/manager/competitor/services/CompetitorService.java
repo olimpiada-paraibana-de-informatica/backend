@@ -6,6 +6,8 @@ import br.edu.opi.manager.competitor.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.competitor.models.Competitor;
 import br.edu.opi.manager.competitor.repositories.CompetitorRepository;
 import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
+import br.edu.opi.manager.olympiad.models.OpiCategory;
+import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.person.models.PartsPersonName;
 import br.edu.opi.manager.person.models.Person;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
@@ -44,7 +47,21 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		this.schoolRepository = schoolRepository;
 	}
 
-	public Page<Competitor> index(Integer page, Integer size, String delegatePrincipal) {
+	public Page<Competitor> index(Integer page, Integer size, String level, String category) {
+		if (page == null) {
+			page = DEFAULT_PAGE;
+		}
+		if (size == null) {
+			size = DEFAULT_SIZE;
+		}
+		Page<Competitor> solve = solveFindLevelAndCategory(page, size, level, category);
+		if (solve != null) {
+			return solve;
+		}
+		return repository.findAll(PageRequest.of(page, size, DEFAULT_SORT));
+	}
+
+	public Page<Competitor> index(Integer page, Integer size, String level, String category, String delegatePrincipal) {
 		School school = schoolRepository.findByDelegateUsername(delegatePrincipal);
 		if (school == null) {
 			throw new SchoolNotNullRuntimeException(delegatePrincipal);
@@ -54,6 +71,10 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		}
 		if (size == null) {
 			size = DEFAULT_SIZE;
+		}
+		Page<Competitor> solve = solveFindLevelAndCategory(page, size, level, category);
+		if (solve != null) {
+			return solve;
 		}
 		return repository.findAllByStudentSchoolId(school.getId(), PageRequest.of(page, size, DEFAULT_SORT));
 	}
@@ -137,6 +158,19 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 
 	@Override
 	public void validateBeforeDelete(Long id) {
+	}
+
+	private Page<Competitor> solveFindLevelAndCategory(Integer page, Integer size, String level, String category) {
+		if (level != null && category != null) {
+			return repository.findAllByLevelAndCategory(OpiLevels.from(level), OpiCategory.from(category), PageRequest.of(page, size, DEFAULT_SORT));
+		}
+		if (level != null) {
+			return repository.findAllByLevel(OpiLevels.from(level), PageRequest.of(page, size, DEFAULT_SORT));
+		}
+		if (category != null) {
+			return repository.findAllByCategory(OpiCategory.from(category), PageRequest.of(page, size, DEFAULT_SORT));
+		}
+		return null;
 	}
 
 }

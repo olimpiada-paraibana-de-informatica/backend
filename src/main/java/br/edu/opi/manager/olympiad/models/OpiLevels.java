@@ -20,4 +20,13 @@ public enum OpiLevels {
 		return friendlyName;
 	}
 
+	public static OpiLevels from(String string) {
+		for (OpiLevels level : OpiLevels.values()) {
+			if (level.friendlyName.equalsIgnoreCase(string)) {
+				return level;
+			}
+		}
+		throw new RuntimeException("Level '" + string + "' don't exists");
+	}
+
 }
