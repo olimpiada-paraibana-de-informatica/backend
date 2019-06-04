@@ -36,7 +36,7 @@ public interface CompetitorRepository extends JpaRepository<Competitor, Long> {
 
 	Page<Competitor> findAllByCategory(OpiCategory category, Pageable pageable);
 
-	@Query(value = "SELECT c, (c.scoreLevelOne + 20.0 * c.scoreLevelTwo) AS finalScore FROM Competitor c WHERE c.category = ?1 AND c.year = ?2 ORDER BY finalScore DESC",
+	@Query(value = "SELECT c FROM Competitor c WHERE c.category = ?1 AND c.year = ?2 ORDER BY (c.scoreLevelOne + 20.0 * c.scoreLevelTwo) DESC",
 			countQuery = "SELECT COUNT(c) FROM Competitor c WHERE c.category = ?1 AND c.year = ?2")
 	Page<Competitor> findAllByCategoryAndYear(OpiCategory category, int year, Pageable pageable);
 
