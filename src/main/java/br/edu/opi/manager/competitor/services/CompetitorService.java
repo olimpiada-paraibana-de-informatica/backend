@@ -6,6 +6,7 @@ import br.edu.opi.manager.competitor.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.competitor.models.Competitor;
 import br.edu.opi.manager.competitor.repositories.CompetitorRepository;
 import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
+import br.edu.opi.manager.olympiad.models.OpiAward;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.person.models.Genre;
@@ -31,7 +32,7 @@ import java.util.List;
 public class CompetitorService extends GenericService<Long, Competitor, CompetitorRepository> {
 
 	private static final Integer RANKING_PAGE = 0;
-	private static final Integer RANKING_SIZE = 50;
+	private static final Integer RANKING_SIZE = 60;
 
 	private StudentRepository studentRepository;
 
@@ -150,7 +151,7 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		repository.save(savedCompetitor);
 	}
 
-	public static final Double calculateFinalScore(Competitor competitor) {
+	public static Double calculateFinalScore(Competitor competitor) {
 		Double scoreLevelOne = competitor.getScoreLevelOne();
 		Double scoreLevelTwo = competitor.getScoreLevelTwo();
 		if (validateScore(scoreLevelOne) || validateScore(scoreLevelTwo)) {
@@ -170,7 +171,14 @@ public class CompetitorService extends GenericService<Long, Competitor, Competit
 		return repository.findAllByCategoryAndYear(opiCategory, year, PageRequest.of(page, size));
 	}
 
-	private static final boolean validateScore(Double score) {
+	public void rewarding(Long competitorId, String award) {
+		OpiAward opiAward = OpiAward.from(award);
+		Competitor savedCompetidor = this.show(competitorId);
+		savedCompetidor.setAward(opiAward);
+		repository.save(savedCompetidor);
+	}
+
+	private static boolean validateScore(Double score) {
 		return score == null || score <= 0.0;
 	}
 

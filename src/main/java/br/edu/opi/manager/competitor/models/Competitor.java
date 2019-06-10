@@ -2,6 +2,7 @@ package br.edu.opi.manager.competitor.models;
 
 import br.edu.opi.manager.competitor.exceptions.StudentOrSchoolNotNullRuntimeException;
 import br.edu.opi.manager.competitor.services.CompetitorService;
+import br.edu.opi.manager.olympiad.models.OpiAward;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
 import br.edu.opi.manager.project_patterns.models.Model;
@@ -49,6 +50,9 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	@Transient
 	private Double finalScore;
+
+	@Column(name = "award")
+	private OpiAward award = OpiAward.PARTICIPATION;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "competitor_level", nullable = false)
@@ -121,6 +125,14 @@ public class Competitor extends Auditing implements Serializable, Model<Long> {
 
 	public void setScoreLevelTwo(Double scoreLevelTwo) {
 		this.scoreLevelTwo = scoreLevelTwo;
+	}
+
+	public OpiAward getAward() {
+		return award;
+	}
+
+	public void setAward(OpiAward award) {
+		this.award = award;
 	}
 
 	public OpiLevels getLevel() {
