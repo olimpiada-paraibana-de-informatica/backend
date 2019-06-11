@@ -1,6 +1,6 @@
 package br.edu.opi.manager.competitor.exceptions;
 
-import br.edu.opi.manager.excel_io.exceptions.ErrorConstants;
+import br.edu.opi.manager.office_io.exceptions.ErrorConstants;
 import br.edu.opi.manager.project_patterns.exceptions.ConflictsRuntimeException;
 
 public class WriteFileRuntimeException extends ConflictsRuntimeException {

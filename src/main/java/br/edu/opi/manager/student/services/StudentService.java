@@ -1,6 +1,6 @@
 package br.edu.opi.manager.student.services;
 
-import br.edu.opi.manager.excel_io.models.StudentTableRow;
+import br.edu.opi.manager.office_io.models.StudentTableRow;
 import br.edu.opi.manager.person.models.Genre;
 import br.edu.opi.manager.person.models.PartsPersonName;
 import br.edu.opi.manager.person.models.Person;
