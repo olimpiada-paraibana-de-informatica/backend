@@ -11,7 +11,7 @@ public enum OpiAward {
 	private String key;
 	private String name;
 
-	private OpiAward(String key, String name) {
+	OpiAward(String key, String name) {
 		this.key = key;
 		this.name = name;
 	}

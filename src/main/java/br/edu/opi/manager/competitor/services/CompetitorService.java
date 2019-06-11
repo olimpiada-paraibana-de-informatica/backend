@@ -5,7 +5,7 @@ import br.edu.opi.manager.competitor.exceptions.CompetitorNotFoundRuntimeExcepti
 import br.edu.opi.manager.competitor.exceptions.SchoolNotNullRuntimeException;
 import br.edu.opi.manager.competitor.models.Competitor;
 import br.edu.opi.manager.competitor.repositories.CompetitorRepository;
-import br.edu.opi.manager.excel_io.models.CompetitorTableRow;
+import br.edu.opi.manager.office_io.models.CompetitorTableRow;
 import br.edu.opi.manager.olympiad.models.OpiAward;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
