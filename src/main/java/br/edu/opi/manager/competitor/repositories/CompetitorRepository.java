@@ -1,6 +1,7 @@
 package br.edu.opi.manager.competitor.repositories;
 
 import br.edu.opi.manager.competitor.models.Competitor;
+import br.edu.opi.manager.olympiad.models.OpiAward;
 import br.edu.opi.manager.olympiad.models.OpiCategory;
 import br.edu.opi.manager.olympiad.models.OpiLevels;
 import org.springframework.data.domain.Page;
