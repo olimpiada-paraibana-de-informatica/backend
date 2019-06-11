@@ -107,4 +107,14 @@ public class CompetitorController {
 		return competitorIO.toPage(competitorService.ranking(category, Year.now().getValue(), page, size));
 	}
 
+	@PreAuthorize("hasAuthority('" + Privilege.CREATE_COMPETITOR + "')")
+	@PostMapping({"/{id}/rewarding/", "/{id}/rewarding"})
+	@ApiOperation(value = "Rewarding a Competitor")
+	public ResponseEntity<?> rewarding(@PathVariable("id") Long id, @RequestParam(name = "award") String award) {
+		LOGGER.info("trying rewarding a competitor");
+		competitorService.rewarding(id, award);
+		LOGGER.info("competitor rewarded");
+		return ResponseEntity.noContent().build();
+	}
+
 }

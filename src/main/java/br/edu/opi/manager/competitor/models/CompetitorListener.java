@@ -16,6 +16,12 @@ public class CompetitorListener {
 	@PrePersist
 	@PreUpdate
 	public void executeBeforeSave(Competitor competitor) {
+		OpiCategory category = solveCategory(competitor);
+//		OpiAward award = solveAward(competitor);
+		competitor.setCategory(category);
+	}
+
+	private OpiCategory solveCategory(Competitor competitor) {
 		Grade grade = competitor.getGrade();
 		boolean isPublic = competitor.isSchoolPublic();
 		OpiCategory category = null;
@@ -50,9 +56,18 @@ public class CompetitorListener {
 				// TODO: handle HIGHER
 				category = OpiCategory.AVANCADO_JUNIOR;
 		}
-		competitor.setCategory(category);
+		return category;
 	}
 
-	// TODO: listener to block level update programatically, permits only by PL/PGSQL
+	// TODO: talking with Rohit about
+	/*private OpiAward solveAward(Competitor competitor) {
+		OpiAward award = competitor.getAward();
+		Double scoreLevelOne = competitor.getScoreLevelOne();
+		Double scoreLevelTwo = competitor.getScoreLevelTwo();
+		if (scoreLevelOne.compareTo(-1D) == 0 || scoreLevelTwo.compareTo(-1D) == 0) {
+			award = OpiAward.ABSENCE;
+		}
+		return award;
+	}*/
 
 }
