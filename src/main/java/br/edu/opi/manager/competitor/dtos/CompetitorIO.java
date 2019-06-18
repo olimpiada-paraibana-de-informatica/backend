@@ -87,6 +87,7 @@ public class CompetitorIO {
 		competitorOutput.setGrade(competitor.getGrade().getName());
 		competitorOutput.setCategory(competitor.getCategory().getName());
 		competitorOutput.setLevel(competitor.getLevel().getFriendlyName());
+		competitorOutput.setAward(competitor.getAward().getName());
 		if (competitor.getStudent() != null && competitor.getStudent().getPerson() != null) {
 			Student student = competitor.getStudent();
 			competitorOutput.setStudentId(student.getId());

@@ -34,6 +34,9 @@ public class CompetitorOutput {
 	private Double finalScore;
 
 	@ApiModelProperty
+	private String award;
+
+	@ApiModelProperty
 	private String level;
 
 	@ApiModelProperty(example = "1")
@@ -106,6 +109,22 @@ public class CompetitorOutput {
 		this.scoreLevelTwo = scoreLevelTwo;
 	}
 
+	public Double getFinalScore() {
+		return finalScore;
+	}
+
+	public void setFinalScore(Double finalScore) {
+		this.finalScore = finalScore;
+	}
+
+	public String getAward() {
+		return award;
+	}
+
+	public void setAward(String award) {
+		this.award = award;
+	}
+
 	public String getLevel() {
 		return level;
 	}
@@ -120,14 +139,6 @@ public class CompetitorOutput {
 
 	public void setStudentId(Long studentId) {
 		this.studentId = studentId;
-	}
-
-	public Double getFinalScore() {
-		return finalScore;
-	}
-
-	public void setFinalScore(Double finalScore) {
-		this.finalScore = finalScore;
 	}
 
 }
