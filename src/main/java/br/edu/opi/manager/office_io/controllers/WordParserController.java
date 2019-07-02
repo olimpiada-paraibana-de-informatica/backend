@@ -3,7 +3,6 @@ package br.edu.opi.manager.office_io.controllers;
 import br.edu.opi.manager.office_io.dtos.CompetitorAwardedIO;
 import br.edu.opi.manager.office_io.dtos.CompetitorAwardedInput;
 import br.edu.opi.manager.office_io.services.WordGenerateService;
-import br.edu.opi.manager.olympiad.models.OpiAward;
 import br.edu.opi.manager.project_patterns.models.user.Privilege;
 import br.edu.opi.manager.utils.RestConstants;
 import io.swagger.annotations.Api;
@@ -17,7 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(RestConstants.OFFICE_URI)
@@ -41,8 +40,8 @@ public class WordParserController {
 	@ApiOperation(value = "Download awards")
 	public ResponseEntity<Resource> downloadAwardDocx(
 			@PathVariable("id") Long competidorId,
-			@RequestParam("award") String award) {
-		Resource resource = wordGenerateService.downloadCertified(OpiAward.from(award).getName(), competidorId);
+			@RequestParam(required = false, value = "award", defaultValue = "Participação") String award) { // TODO: remove
+		Resource resource = wordGenerateService.downloadCertified(competidorId);
 		String contentType = "application/octet-stream";
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))
@@ -55,8 +54,8 @@ public class WordParserController {
 	@ApiOperation(value = "Download all awards")
 	public ResponseEntity<Resource> downloadAwardDocx(
 			@RequestBody List<CompetitorAwardedInput> input) {
-		Map<Long, OpiAward> awardMap = competitorsAwardedIO.toAwardedMap(input);
-		Resource resource = wordGenerateService.downloadCertifieds(awardMap);
+		Set<Long> awardSet = competitorsAwardedIO.toAwardedSet(input);
+		Resource resource = wordGenerateService.downloadCertifieds(awardSet);
 		String contentType = "application/octet-stream";
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(contentType))

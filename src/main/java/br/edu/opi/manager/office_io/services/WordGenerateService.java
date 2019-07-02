@@ -30,6 +30,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /*
  * @see https://stackoverflow.com/questions/6201736/javausing-apache-poi-how-to-convert-ms-word-file-to-pdf
@@ -40,9 +41,13 @@ import java.util.Map;
 @Service
 public class WordGenerateService {
 
-	static final String NOME = "NOME_COMPETIDOR";
-	static final String PREMIO = "PREMIO";
-	static final String CATEGORIA = "CATEGORIA";
+	static final String NAME_FIELD = "NOME_COMPETIDOR_";
+	static final String AWARD_FIELD = "PREMIO_";
+	static final String CATEGORY_FIELD = "CATEGORIA_";
+	static final String EDITION_FIELD = "EDICAO_"; // TODO: automatically defined by frontend/competition
+	static final String DAY_FIELD = "DIA_"; // TODO: automatically defined by frontend/competition
+	static final String MONTH_FIELD = "MES_"; // TODO: automatically defined by frontend/competition
+	static final String YEAR_FIELD = "ANO_"; // TODO: automatically defined by frontend/competition
 
 	private CompetitorRepository competitorRepository;
 	private CompetitorService competitorService;
@@ -58,12 +63,12 @@ public class WordGenerateService {
 		this.CERTIFIED_FILE_NAME = certifiedFileName;
 	}
 
-	public Resource downloadCertified(String award, Long competitorId) {
+	public Resource downloadCertified(Long competitorId) {
 		String fileName = this.CERTIFIED_FILE_NAME;
 		try {
 			Path filePath = solveFilePath(fileName);
 			Competitor competitor = competitorService.show(competitorId);
-			Path certifiedPath = solvePathCertified(generateCertified(filePath, competitor.getFullName(), award, competitor.getCategory().getName()));
+			Path certifiedPath = solvePathCertified(generateCertified(filePath, competitor.getFullName(), competitor.getAward().getName(), competitor.getCategory().getName()));
 			Resource resource = new UrlResource(certifiedPath.toUri());
 			if (resource.exists()) {
 				return resource;
@@ -79,12 +84,12 @@ public class WordGenerateService {
 		}
 	}
 
-	public Resource downloadCertifieds(Map<Long, OpiAward> awardMap) {
+	public Resource downloadCertifieds(Set<Long> awardMap) {
 		String fileName = this.CERTIFIED_FILE_NAME;
 		try {
 			Path filePath = solveFilePath(fileName);
-			List<Competitor> competitors = competitorRepository.findAllById(awardMap.keySet());
-			Path certifiedPath = solvePathCertified(filePath, awardMap, competitors);
+			List<Competitor> competitors = competitorRepository.findAllById(awardMap);
+			Path certifiedPath = solvePathCertified(filePath, competitors);
 			Resource resource = new UrlResource(certifiedPath.toUri());
 			if (resource.exists()) {
 				return resource;
@@ -118,9 +123,13 @@ public class WordGenerateService {
 		XWPFDocument document = new XWPFDocument(Files.newInputStream(msWordPath));
 		boolean foundName = false;
 		boolean foundAward = false;
+		boolean foundEdition = false;
 		boolean foundCategory = false;
+		boolean foundDay = false;
+		boolean foundMonth = false;
+		boolean foundYear = false;
 		for (XWPFParagraph paragraph : document.getParagraphs()) {
-			if (foundName && foundAward && foundCategory) break;
+			if (foundName && foundAward && foundEdition && foundCategory && foundDay && foundMonth && foundYear) break;
 			XmlCursor cursor = paragraph.getCTP().newCursor();
 			cursor.selectPath("declare namespace w='http://schemas.openxmlformats.org/wordprocessingml/2006/main' .//w:drawing/*/w:txbxContent/w:p/w:r");
 			List<XmlObject> ctrsintxtbx = new ArrayList<>();
@@ -133,10 +142,14 @@ public class WordGenerateService {
 				CTR ctr = CTR.Factory.parse(obj.xmlText());
 				//CTR ctr = CTR.Factory.parse(obj.newInputStream());
 				XWPFRun bufferrun = new XWPFRun(ctr, (IRunBody) paragraph);
-				foundName = (foundName || solveCertifiedField(obj, bufferrun, NOME, name));
-				foundAward = (foundAward || solveCertifiedField(obj, bufferrun, PREMIO, award));
-				foundCategory = (foundCategory || solveCertifiedField(obj, bufferrun, CATEGORIA, category));
-				if (foundName && foundAward && foundCategory) break;
+				foundName = (foundName || solveCertifiedField(obj, bufferrun, NAME_FIELD, name));
+				foundAward = (foundAward || solveCertifiedField(obj, bufferrun, AWARD_FIELD, award));
+				foundEdition = (foundEdition || solveCertifiedField(obj, bufferrun, EDITION_FIELD, "9")); // TODO: remove hardcode 9
+				foundCategory = (foundCategory || solveCertifiedField(obj, bufferrun, CATEGORY_FIELD, category));
+				foundDay = (foundDay || solveCertifiedField(obj, bufferrun, DAY_FIELD, "2")); // TODO: remove hardcode 2
+				foundMonth = (foundMonth || solveCertifiedField(obj, bufferrun, MONTH_FIELD, "Julho")); // TODO: remove hardcode Julho
+				foundYear = (foundYear || solveCertifiedField(obj, bufferrun, YEAR_FIELD, "2019")); // TODO: remove hardcode 2019
+				if (foundName && foundAward && foundEdition && foundCategory && foundDay && foundMonth && foundYear) break;
 			}
 		}
 		return document;
@@ -149,11 +162,10 @@ public class WordGenerateService {
 		return output;
 	}
 
-	private Path solvePathCertified(Path filePath, Map<Long, OpiAward> awardMap, List<Competitor> competitors) throws IOException, XmlException {
+	private Path solvePathCertified(Path filePath, List<Competitor> competitors) throws IOException, XmlException {
 		WordMerge wordMerge = new WordMerge();
 		for (Competitor competitor : competitors) {
-			final String award = awardMap.get(competitor.getId()).getName();
-			XWPFDocument document = generateCertified(filePath, competitor.getFullName(), award, competitor.getCategory().getName());
+			XWPFDocument document = generateCertified(filePath, competitor.getFullName(), competitor.getAward().getName(), competitor.getCategory().getName());
 			wordMerge.add(document);
 		}
 		Path result = solvePathCertified(wordMerge.doResult());
@@ -162,7 +174,8 @@ public class WordGenerateService {
 
 	private boolean solveCertifiedField(XmlObject obj, XWPFRun bufferrun, String target, String replacement) {
 		String text = bufferrun.getText(0);
-		if (text != null && text.equals(target)) {
+		System.out.println(text);
+		if (text != null && text.contains(target)) {
 			text = text.replace(target, replacement);
 			bufferrun.setText(text, 0);
 			obj.set(bufferrun.getCTR());

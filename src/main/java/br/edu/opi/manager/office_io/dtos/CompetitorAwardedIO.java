@@ -3,17 +3,15 @@ package br.edu.opi.manager.office_io.dtos;
 import br.edu.opi.manager.olympiad.models.OpiAward;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class CompetitorAwardedIO {
 
-	public Map<Long, OpiAward> toAwardedMap(List<CompetitorAwardedInput> input) {
-		Map<Long, OpiAward> output = new HashMap<>();
+	public Set<Long> toAwardedSet(List<CompetitorAwardedInput> input) {
+		Set<Long> output = new HashSet<>();
 		for (CompetitorAwardedInput cai : input) {
-			output.put(cai.getCompetitorId(), OpiAward.from(cai.getAward()));
+			output.add(cai.getCompetitorId());
 		}
 		return output;
 	}
