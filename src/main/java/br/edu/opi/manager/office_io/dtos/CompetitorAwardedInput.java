@@ -11,10 +11,6 @@ public class CompetitorAwardedInput {
 	@NotNull
 	private Long competitorId;
 
-	@ApiModelProperty(example = "Ouro", required = true)
-	@NotBlank
-	private String award;
-
 	public CompetitorAwardedInput() {
 	}
 
@@ -24,14 +20,6 @@ public class CompetitorAwardedInput {
 
 	public void setCompetitorId(Long competitorId) {
 		this.competitorId = competitorId;
-	}
-
-	public String getAward() {
-		return award;
-	}
-
-	public void setAward(String award) {
-		this.award = award;
 	}
 
 }
