@@ -19,6 +19,7 @@ public class RestConstants {
 	public static final String OPI_LEVEL_URI = API_URI + "/competitors/levels";
 	public static final String COMPETITOR_DELEGATE_URI = API_URI + "/delegates/competitors";
 	public static final String EMAILS_LIST_URI = API_URI + "/emails";
+	public static final String OPI_RESULTS_URI = API_URI + "/results";
 
 	public static final String DEFAULT_PASSWORD = "P@ssw0rd";
 }

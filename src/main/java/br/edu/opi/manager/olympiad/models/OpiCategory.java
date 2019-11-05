@@ -11,20 +11,22 @@ package br.edu.opi.manager.olympiad.models;
  * - Avançado Sênior <br>
  */
 public enum OpiCategory {
-	INICIACAO_1("INICIACAO_1", "Iniciação 1"),
-	INICIACAO_1_PUB("INICIACAO_1_PUB", "Iniciação 1 Escolas Públicas"),
-	INICIACAO_2("INICIACAO_2", "Iniciação 2"),
-	INICIACAO_2_PUB("INICIACAO_2_PUB", "Iniciação 2 Escolas Públicas"),
-	PROGRAMACAO("PROGRAMACAO", "Programação"),
-	AVANCADO_JUNIOR("AVANCADO_JUNIOR", "Avançado Júnior"),
-	AVANCADO_SENIOR("AVANCADO_SENIOR", "Avançado Sênior");
+	INICIACAO_1("INICIACAO_1", "Iniciação 1", 2015),
+	INICIACAO_1_PUB("INICIACAO_1_PUB", "Iniciação 1 Escolas Públicas", 2017),
+	INICIACAO_2("INICIACAO_2", "Iniciação 2", 2008),
+	INICIACAO_2_PUB("INICIACAO_2_PUB", "Iniciação 2 Escolas Públicas", 2013),
+	PROGRAMACAO("PROGRAMACAO", "Programação", 2008),
+	AVANCADO_JUNIOR("AVANCADO_JUNIOR", "Avançado Júnior", 2010),
+	AVANCADO_SENIOR("AVANCADO_SENIOR", "Avançado Sênior", 2010);
 
 	private String key;
 	private String name;
+	private Integer beginYear;
 
-	private OpiCategory(String key, String name) {
+	private OpiCategory(String key, String name, Integer beginYear) {
 		this.key = key;
 		this.name = name;
+		this.beginYear = beginYear;
 	}
 
 	public String getKey() {
@@ -33,6 +35,10 @@ public enum OpiCategory {
 
 	public String getName() {
 		return name;
+	}
+
+	public Integer getBeginYear() {
+		return beginYear;
 	}
 
 	public static OpiCategory from(String string) {

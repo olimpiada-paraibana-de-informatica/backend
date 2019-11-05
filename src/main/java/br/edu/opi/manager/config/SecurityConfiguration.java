@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, RestConstants.OPI_CATEGORY_URI).permitAll()
 				.antMatchers(HttpMethod.GET, RestConstants.CITY_URI).permitAll()
 				.antMatchers(HttpMethod.GET, RestConstants.STATE_URI).permitAll()
+				.antMatchers(HttpMethod.GET, RestConstants.OPI_RESULTS_URI + "/**").permitAll()
 				.antMatchers(HttpMethod.POST, RestConstants.SCHOOL_URI).permitAll()
 				.antMatchers(HttpMethod.GET, "/v2/api-docs").permitAll()
 				.antMatchers(HttpMethod.GET, "/configuration/ui/**").permitAll()
