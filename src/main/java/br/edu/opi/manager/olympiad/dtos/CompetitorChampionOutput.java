@@ -8,7 +8,7 @@ public class CompetitorChampionOutput {
 	private Integer studentId = 1; // TODO: change to personId
 
 	@ApiModelProperty
-	private String name;
+	private String[] name;
 
 	@ApiModelProperty
 	private String school;
@@ -19,7 +19,7 @@ public class CompetitorChampionOutput {
 	public CompetitorChampionOutput() {
 	}
 
-	public CompetitorChampionOutput(Integer studentId, String name, String school, String cityName) {
+	public CompetitorChampionOutput(Integer studentId, String school, String cityName, String... name) {
 		this.studentId = studentId;
 		this.name = name;
 		this.school = school;
@@ -34,11 +34,11 @@ public class CompetitorChampionOutput {
 		this.studentId = studentId;
 	}
 
-	public String getName() {
+	public String[] getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String[] name) {
 		this.name = name;
 	}
 

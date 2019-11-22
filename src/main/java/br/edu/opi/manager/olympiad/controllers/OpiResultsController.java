@@ -36,10 +36,11 @@ public class OpiResultsController {
 		return opiResultsService.resultsYears();
 	}
 
-	@GetMapping({"/champions/{category}/", "/champions/{category}"})
+	@GetMapping({"/champions/", "/champions"})
 	@ApiOperation(value = "Year's table of results by categories")
-	public List<ResultCategoryOutput> resultsCategoriesAndYears(
-			@PathVariable("category") String category) {
+	public ResultCategoryOutput resultsCategoriesAndYears(
+			@RequestParam(name = "ano") Integer year,
+			@RequestParam(name = "tipo") String category) {
 		LOGGER.info("all champions in category" + category);
 		OpiCategory opiCategory = null;
 		switch (category) {
@@ -66,7 +67,7 @@ public class OpiResultsController {
 				break;
 		}
 		assert opiCategory != null;
-		return opiResultsService.resultCategory(opiCategory);
+		return opiResultsService.resultCategory(opiCategory, year);
 	}
 
 }

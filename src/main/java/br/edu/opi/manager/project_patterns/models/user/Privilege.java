@@ -44,13 +44,13 @@ public enum Privilege implements Serializable {
 	//Student
 	C_ST(PrivilegeUtils.C_ST, "CREATE_STUDENT", "Criar estudante", PrivilegeUtils.ST),
 	I_ST(PrivilegeUtils.I_ST, "INDEX_STUDENT", "Visualizar todos os Estudantes", PrivilegeUtils.ST),
-	S_ST(PrivilegeUtils.S_ST,"SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.ST),
-	U_ST(PrivilegeUtils.U_ST,"UPDATE_STUDENT","Editar Estudante", PrivilegeUtils.ST),
+	S_ST(PrivilegeUtils.S_ST, "SHOW_STUDENT", "Detalhes do Estudante", PrivilegeUtils.ST),
+	U_ST(PrivilegeUtils.U_ST, "UPDATE_STUDENT", "Editar Estudante", PrivilegeUtils.ST),
 	D_ST(PrivilegeUtils.D_ST, "DELETE_STUDENT", "Deletar Estudante", PrivilegeUtils.ST),
 	CA_ST(PrivilegeUtils.CA_ST, "CREATE_ASSOCIATED_STUDENT", "Criar estudante associado", PrivilegeUtils.ST),
 	IA_ST(PrivilegeUtils.IA_ST, "INDEX_ASSOCIATED_STUDENT", "Visualizar todos os Estudantes associados", PrivilegeUtils.ST),
-	SA_ST(PrivilegeUtils.SA_ST,"SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.ST),
-	UA_ST(PrivilegeUtils.UA_ST,"UPDATE_ASSOCIATED_STUDENT","Editar Estudante associado", PrivilegeUtils.ST),
+	SA_ST(PrivilegeUtils.SA_ST, "SHOW_ASSOCIATED_STUDENT", "Detalhes do Estudante associado", PrivilegeUtils.ST),
+	UA_ST(PrivilegeUtils.UA_ST, "UPDATE_ASSOCIATED_STUDENT", "Editar Estudante associado", PrivilegeUtils.ST),
 	DA_ST(PrivilegeUtils.DA_ST, "DELETE_ASSOCIATED_STUDENT", "Deletar Estudante associado", PrivilegeUtils.ST),
 	//Competitor
 	C_CO(PrivilegeUtils.C_CO, "CREATE_COMPETITOR", "Criar Competidor", PrivilegeUtils.CO),
@@ -71,6 +71,11 @@ public enum Privilege implements Serializable {
 	D_EM(PrivilegeUtils.D_EM, "DELETE_EMAILS_LIST", "Deletar listas de e-mails", PrivilegeUtils.EM),
 	//OPI
 	U_OL(PrivilegeUtils.U_OL, "UPDATE_OPI_LEVEL", "Definir fase dos Competidores", PrivilegeUtils.OPI),
+	//HTML
+	I_HT(PrivilegeUtils.I_HT, "INDEX_HTML", "Visualizar todos os fragmentos HTML", PrivilegeUtils.HTML),
+	S_HT(PrivilegeUtils.S_HT, "SHOW_HTML", "Detalhes de um fragmento HTML", PrivilegeUtils.HTML),
+	C_HT(PrivilegeUtils.C_HT, "CREATE_HTML", "Criar um fragmento HTML", PrivilegeUtils.HTML),
+	U_HT(PrivilegeUtils.U_HT, "UPDATE_HTML", "Atualizar um fragmento HTML", PrivilegeUtils.HTML),
 	;
 	// @formatter:on
 
@@ -137,6 +142,12 @@ public enum Privilege implements Serializable {
 	public static final String INDEX_OPI_LEVEL = PrivilegeUtils.I_OL;
 	public static final String UPDATE_OPI_LEVEL = PrivilegeUtils.U_OL;
 
+	// HTML
+	public static final String INDEX_HTML = PrivilegeUtils.I_HT;
+	public static final String SHOW_HTML = PrivilegeUtils.S_HT;
+	public static final String CREATE_HTML = PrivilegeUtils.C_HT;
+	public static final String UPDATE_HTML = PrivilegeUtils.U_HT;
+
 	private String key;
 	private String name;
 	private String nameFriendly;
@@ -176,6 +187,7 @@ class PrivilegeUtils {
 	static final String CO = "Competidor";
 	static final String EM = "E-mails";
 	public static final String OPI = "OPI";
+	public static final String HTML = "HTML";
 
 	// UserModel
 	static final String C_US = "C_US";
@@ -237,5 +249,11 @@ class PrivilegeUtils {
 	//OPI
 	static final String U_OL = "U_OL";
 	static final String I_OL = "I_OL";
+
+	//HTML
+	static final String I_HT = "I_HT";
+	static final String S_HT = "S_HT";
+	static final String C_HT = "C_HT";
+	static final String U_HT = "U_HT";
 
 }
