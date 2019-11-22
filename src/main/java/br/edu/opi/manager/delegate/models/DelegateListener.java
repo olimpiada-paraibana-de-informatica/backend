@@ -14,7 +14,7 @@ public class DelegateListener {
 	@PostPersist
 	public void methodAfterCreate(Delegate delegate) {
 		BeanUtil.autowire(this, this.senderMailService);
-		senderMailService.sendVerificationMailToDelegate(delegate);
+		senderMailService.sendWelcomeMailToDelegate(delegate);
 		senderMailService.sendNewAccountToList(delegate);
 	}
 
